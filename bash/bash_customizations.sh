@@ -13,20 +13,29 @@ export EDITOR='emacs -nw'
 
 # binds
 bind 'set completion-ignore-case on'
-bind '"\eS"':"\"source ~/.bashrc\C-m\"" # alt-S loads source
-bind '"\ej"':"\"\eb\"";                 # alt-j moves cursor back word
-bind '"\ek"':"\"\ef\""                  # alt-k moves cursor forward word
-bind '"\eJ"':"\"\C-w\"";                # alt-J cuts word behind cursor
-bind '"\eK"':"\"\ed\""                  # alt-K cuts word in front of cursor
-bind '"\e<"':"\"\C-u__move-up-directory\C-m\""       # alt-U Move up the directory. same as cd ../
-bind '"\e>"':"\"\C-u__move-down-directory\C-m\""       # alt-f Move down the directory.
-bind '"\eL"':"\"\C-u__ls-type\C-m\""      # alt-L same as ls
+# alt-S loads source
+bind '"\eS"':"\"source ~/.bashrc\C-m\""
+# alt-j moves cursor back word
+bind '"\ej"':"\"\eb\""
+# alt-k moves cursor forward word
+bind '"\ek"':"\"\ef\""
+# alt-J cuts word behind cursor
+bind '"\eJ"':"\"\C-w\""
+# alt-K cuts word in front of cursor
+bind '"\eK"':"\"\ed\""
+# alt-< Move up the directory. same as cd ../
+bind '"\e<"':"\"\C-u__move-up-directory\C-m\""
+# alt-> Move down the directory.
+bind '"\e>"':"\"\C-u__move-down-directory\C-m\""
+# alt-L same as __ls-type
+bind '"\eL"':"\"\C-u__ls-type\C-m\""      
 bind '"\ew"':kill-region
-
-# grep -opts $search . searches recursively from PWD whatever string is on the prompt.  So, /some/dir> jason, then the binding, will execute "grep -rn jason ."  Doesnt work if you use single quotes
-bind '"\eXf"':"\"\C-a__find-in-files \C-e . rn \C-j\""      # case sensitive
-bind '"\eXi"':"\"\C-a__find-in-files \C-e . rni \C-j\""     # case insensitive
-bind '"\eXr"':"\"\C-a__find-in-files \C-e . rniP \C-j\""    # case insensitive, Uses Perl regex.  Encase this with some quotes
+# case sensitive file grep
+bind '"\eXf"':"\"\C-a__find-in-files \C-e . rn \C-j\""
+# case insensitive file grep
+bind '"\eXi"':"\"\C-a__find-in-files \C-e . rni \C-j\""
+# case insensitive regex file grep, Uses Perl regex.  Encase this with some quotes
+bind '"\eXr"':"\"\C-a__find-in-files \C-e . rniP \C-j\""    
 
 # aliases
 alias ll='ls -AlF'
@@ -60,7 +69,8 @@ HISTFILESIZE=2000
 
 ####################################################################
 # "useful" functions that are called with the binds from above
-# consider these private
+# consider these private methods.  It doesn't make a lot of sense
+# to use these from the command line
 ####################################################################
 function __move-up-directory {
     pushd . >> /dev/null
@@ -76,26 +86,26 @@ function __ls-type {
     read -n 1 -s _type
     ls_cmd='ls -glhBAF --ignore=#* --ignore=.git --color=always'
     case $_type in
-        "h" )
-        ;;
-        "t" ) # sort by modification time
-            ls_cmd="$ls_cmd -t"
-        ;;
-        "s" ) # sort by file size
-            ls_cmd="$ls_cmd -S"
-        ;;
-        *)
-            ls_cmd="ls --color=always"
-        ;;
+	"h" )
+	    ;;
+	"t" ) # sort by modification time
+	    ls_cmd="$ls_cmd -t"
+	    ;;
+	"s" ) # sort by file size
+	    ls_cmd="$ls_cmd -S"
+	    ;;
+	*)
+	    ls_cmd="ls --color=always"
+	    ;;
     esac
     $ls_cmd
 }
 
 function __find-in-files {
     usage=$(cat <<FIND_IN_FILES_USAGE
-__find-in-files [needle] [grep_arguments] [haystack_dir] 
+  __find-in-files [needle] [grep_arguments] [haystack_dir]
 FIND_IN_FILES_USAGE
-)
+    )
 
     local needle=${1}
     local haystack_dir=${2}
@@ -113,12 +123,10 @@ FIND_IN_FILES_USAGE
     fi
     if [ -z ${haystack_dir} ]; then
 	haystack_dir="."
-    else
-	if ! [ -e ${haystack_dir} ]; then
-	    echo -e "haystack_dir: '${haystack_dir}' DNE"
-	    echo -e $usage
-	    return 1
-	fi
+    elif ! [ -e ${haystack_dir} ]; then
+	echo -e "haystack_dir: '${haystack_dir}' DNE"
+	echo -e $usage
+	return 1
     fi
     if [ -z ${grep_arguments} ]; then
 	grep_arguments=rni
@@ -129,3 +137,35 @@ FIND_IN_FILES_USAGE
     $command
 }
 
+function copy-files-matching-pattern-to {
+    local file_match_pattern=${1}
+    local destination_dir=${2}
+    
+    local files=$(ls | grep -P "${file_match_pattern}")
+    echo $files
+
+    mkdir -p ${destination_dir}
+    
+    for file in $files; do
+	echo "copying file $PWD/${file} to ${destination_dir}/${file}"
+	cp ${file} ${destination_dir}/.
+    done
+}
+
+function copy-files-matching-pattern-contains-string-pattern-to {
+    local file_match_pattern=${1}
+    local destination_dir=${2}
+    local string_pattern=${3}
+    
+    local filepaths=$(grep -rPo "${string_pattern}" | grep -P "$file_match_pattern")
+    echo $filepaths
+
+    mkdir -p ${destination_dir}
+    
+    for filepath in $filepaths; do
+	local file=$(echo ${filepath} | grep -oP ".*(?=:${string})")
+	echo "copying file $PWD/${file} to ${destination_dir}/${file}"
+	cp ${file} ${destination_dir}/.
+    done
+}
+#string="\|graham"; grep -rPo ${string} | grep -oP ".*(?=:${string})"
