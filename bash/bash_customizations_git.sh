@@ -1,27 +1,28 @@
 #!/bin/bash
 
 function do-git {
-    local GIT_BIN=$(which git)
+    local GIT_BIN=git
 
     local dir='.'
     if [[ "$1" ]]; then
-	    dir=$1
+	dir=$1
     fi
     local _type
     read -n 1 -s _type
 
+    local CMD=
     case $_type in
-        "d" ) CMD="${GIT_BIN} diff" ;;
-        "c" ) CMD="${GIT_BIN} commit" ;;
+        "d" ) CMD="diff" ;;
+        "c" ) CMD="commit" ;;
         "<" )
-            CMD="${GIT_BIN} pull origin master"
+            CMD="pull origin master"
             dir=''
             ;;
         ">" )
-            CMD="${GIT_BIN} push origin master"
+            CMD="push origin master"
             dir=''
             ;;
-        "s" ) CMD="${GIT_BIN} status" ;;
+        "s" ) CMD="status" ;;
         "h" )
             do-git-usage
             return 0
@@ -31,10 +32,8 @@ function do-git {
             ;;
     esac
 
-    $CMD $dir
-    #local full_command="$CMD $dir"
-    #echo $full_command
-    #$full_command
+    
+    ${GIT_BIN} $CMD $dir
 }
 
 function do-git-usage {
