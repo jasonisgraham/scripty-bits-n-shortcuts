@@ -1,6 +1,7 @@
 #!/bin/bash
 
-export SVN_LOCATIONS_TO_IGNORE=
+export SVN_LOCATIONS_TO_IGNORE="svn-commit.tmp"
+
 function svn-st-ignoring-specified-locations {
     local _dir="."
     if [[ "$1" ]]; then
@@ -16,11 +17,20 @@ function svn-ci-ignoring-specified-locations {
     if [[ "$_svn_st_result" ]]; then
 	_ci_args=$_svn_st_result
     fi		
-       
+    
     svn ci $_ci_args
 }
 
-
+function svn-diff-ignoring-specified-locations {
+    local _diff_args=$@
+    local _svn_st_result=$(svn-st-ignoring-specified-locations $@)
+    
+    if [[ "$_svn_st_result" ]]; then
+	_diff_args=$_svn_st_result
+    fi		
+    
+    svn diff -x -w $_diff_args
+}
 
 function do-svn {
     local args='.'
@@ -42,7 +52,7 @@ function do-svn {
 	"u" )
 	    svn_cmd="$svn_cmd up"
 	    ;;
-	"s" )
+	"s" )	    
 	    svn_cmd="$svn_cmd st"
 	    ;;
 	"r" )
@@ -97,23 +107,24 @@ function do-svn {
 	    return
 	    ;;
 	* )
-svn_cmd="$svn_cmd st"
-esac
-svn_cmd="$svn_cmd $args"
-echo $svn_cmd
-if [[ $_type == "R" ]]; then
-    svn st $args
-    echo -e "\nYou sure you wanna revert everything?"
-    read -n 1 _you_sure
-    if [[ $_you_sure == "y" ]]; then
-	$svn_cmd
+	    svn-st-ignoring-specified-locations
+	    return
+    esac
+    svn_cmd="$svn_cmd $args"
+    echo $svn_cmd
+    if [[ $_type == "R" ]]; then
+	svn st $args
+	echo -e "\nYou sure you wanna revert everything?"
+	read -n 1 _you_sure
+	if [[ $_you_sure == "y" ]]; then
+	    $svn_cmd
+	else
+	    echo -e "\ndirtnapping\n"
+	    return
+	fi
     else
-	echo -e "\ndirtnapping\n"
-	return
+	$svn_cmd
     fi
-else
-    $svn_cmd
-fi
 }
 
 function make-local-mod-tarball-name {
@@ -125,7 +136,6 @@ function make-local-mod-tarball-name {
 }
 
 function tar-local-mods {
-    set +e
     make-local-mod-tarball-name
     local tarball_name=$LOCAL_MOD_TARBALL_NAME
     local args="$*"
@@ -151,7 +161,7 @@ function tar-local-mods {
 	    return 0
 	fi
 	for file in $all_files; do
-            if [[ ! `echo $file | grep -oP "$previous_tarball_pattern"` ]]; then
+            if [[ ! $(echo $file | grep -oP $previous_tarball_pattern) ]]; then
 		files="$files $file"
 	    fi
 	done
@@ -160,8 +170,5 @@ function tar-local-mods {
 	echo $tar_cmd
 
 	$tar_cmd
-
-
     fi
-    set -e
 }

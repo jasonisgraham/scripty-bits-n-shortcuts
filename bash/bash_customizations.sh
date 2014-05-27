@@ -4,6 +4,9 @@
 # ./source/ui/admin/business/target/classes/other-sql.xml
 # find . -regextype sed -iregex ".*/[a-z\-]*sql\.xml"
 
+# split
+# IFS='/'; read -a array <<< "$p"; for element in "${array[@]}"; do echo $element; done
+
 # BASH_FILES_DIR will be equal to the dir holding this file
 BASH_FILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -124,8 +127,16 @@ function __ls-type {
     $ls_cmd
 }
 
-function open-resource {
+function apply-to-resource {
     local resources=$(find-resource $1 $2)
+
+    if [[ ! "$resources" ]]; then
+	echo "Couldn't find resource matching $1 in haystack $2"
+	return 0
+    fi     
+    local command_to_apply="$3"       
+    local args_line=""
+        
     if [[ $(echo $resources | wc -w) -ge 2 ]]; then
 	count=0;
 	for r in $resources
@@ -137,11 +148,10 @@ function open-resource {
 	do
 	    echo -n "$key "
 	    echo ${r_arr[$key]}
-	done
-	echo -e "\nSelect files to open by number(s).  If multiple, separate by space. If all, enter nothing or enter *.\n Which files(s): "
+	done	
+	echo -e "\nSelect files to run command \"$command_to_apply\" on by number(s).  If multiple, separate by space. If all, enter nothing or enter *.\n Which files(s): "
 	read _file_numbers
-	
-	local args_line=""
+		
 	if [[ -z "$_file_numbers" ]]; then
 	    _file_numbers="*"
 	fi
@@ -153,21 +163,42 @@ function open-resource {
 		args_line="${args_line} ${r_arr[$_file_number]}"
 	    done
 	fi
-    else	
+    else
+	echo $resources
 	args_line=$resources
-    fi	
-    $EDITOR $args_line
+    fi
+
+    if [[ ! "$command_to_apply" ]]; then
+	echo -e "\n Enter command to apply to found resource(s): "
+	read command_to_apply
+	if [[ ! "$command_to_apply" ]]; then
+	    echo -e "\n Unknown command. exiting"
+	    return 1
+	fi	
+    fi
+    
+    $command_to_apply $args_line
+}
+
+function open-resource {
+    local resource_pattern="$1"
+    local haystack="$2"
+    apply-to-resource "$resource_pattern" "$haystack" "$EDITOR"
 }
 
 function find-resource {
     local _file_search_string=$(_wildcard-camelcase-file-search-string $1)
     local _search_result_filter_string=$(_wildcard-camelcase-file-search-result-filter-string $1)   
     local _haystack_dir=${2:-"."}    
-    find . -name $_file_search_string | grep -v target | grep -v bin | grep -v \~ | grep -P $_search_result_filter_string
+    find $_haystack_dir -name $_file_search_string | grep -v target | grep -v .svn | grep -v bin | grep -v \~ | grep -P $_search_result_filter_string
 }
 
 function _wildcard-camelcase-file-search-string {
-   echo $(echo $1 | sed -E 's/([A-Z])/*\1/g' | sed 's/^\**//g' | sed 's/\*{2}/*/g')*
+    local _begins_with_wildcard=
+    if [[ $(echo $1 | grep ^*) ]]; then
+	_begins_with_wildcard="*"
+    fi	
+    echo $_begins_with_wildcard$(echo $1 | sed -E 's/([A-Z])/*\1/g' | sed 's/^\**//g' | sed 's/\*{2}/*/g')*
 }
 
 function _wildcard-camelcase-file-search-result-filter-string {
@@ -181,6 +212,28 @@ function str-contains {
 	echo 1
     fi	
 }
+
+function get-path-to-dir {
+    local array=""
+    IFS='/'
+    read -a array <<< "$1"
+    local l=""
+    for element in "${array[@]}"
+    do
+	l=$element
+    done
+    unset IFS
+    echo $1 | sed "s@$l@@g"
+}
+
+function cd-above {
+    if [ -d "$1" ]; then
+	cd $1
+    else
+	cd $(get-path-to-dir $1)
+    fi	
+}
+
 function grep-includes {
     local _args=$1
     if [[ "$2" ]]; then
