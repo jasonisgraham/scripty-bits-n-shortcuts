@@ -2,23 +2,35 @@
 
 export SVN_LOCATIONS_TO_IGNORE="svn-commit.tmp"
 
-function svn-st-ignoring-specified-locations {
+function __print-ignored-locations {
     echo "Ignoring the following locations/patterns: " 
     for loc in $SVN_LOCATIONS_TO_IGNORE; do
 	echo " - $loc"
     done
     echo ""
-    
+}
+
+function __define-svn-st-ignoring-specified-locations {
     local _dir="."
     if [[ "$1" ]]; then
 	_dir="$1"
     fi		
-    svn st $_dir | grep -vP $(echo $SVN_LOCATIONS_TO_IGNORE | sed "s/\s/|/g") | grep -oP "[^\s]+$"
+    __GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS=$(svn st $_dir | grep -vP $(echo $SVN_LOCATIONS_TO_IGNORE | sed "s/\s/|/g") | grep -oP "[^\s]+$")
+}
+
+function svn-st-ignoring-specified-locations {
+    __print-ignored-locations
+    __define-svn-st-ignoring-specified-locations
+    echo $__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS | tr ' ' '\n'
+    echo ""
 }
 
 function svn-ci-ignoring-specified-locations {
     local _ci_args=$@
-    local _svn_st_result=$(svn-st-ignoring-specified-locations $@)
+    __print-ignored-locations
+    __define-svn-st-ignoring-specified-locations $_ci_args
+        
+    local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
     
     if [[ "$_svn_st_result" ]]; then
 	_ci_args=$_svn_st_result
@@ -29,8 +41,11 @@ function svn-ci-ignoring-specified-locations {
 
 function svn-diff-ignoring-specified-locations {
     local _diff_args=$@
-    local _svn_st_result=$(svn-st-ignoring-specified-locations $@)
-    
+    __print-ignored-locations
+    __define-svn-st-ignoring-specified-locations $_ci_args
+        
+    local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
+           
     if [[ "$_svn_st_result" ]]; then
 	_diff_args=$_svn_st_result
     fi		
