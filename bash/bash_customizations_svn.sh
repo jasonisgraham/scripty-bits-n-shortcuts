@@ -3,6 +3,12 @@
 export SVN_LOCATIONS_TO_IGNORE="svn-commit.tmp"
 
 function svn-st-ignoring-specified-locations {
+    echo "Ignoring the following locations/patterns: " 
+    for loc in $SVN_LOCATIONS_TO_IGNORE; do
+	echo " - $loc"
+    done
+    echo ""
+    
     local _dir="."
     if [[ "$1" ]]; then
 	_dir="$1"
