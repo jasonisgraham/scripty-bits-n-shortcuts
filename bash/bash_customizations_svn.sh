@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SVN_LOCATIONS_TO_IGNORE="svn-commit.tmp"
+export SVN_LOCATIONS_TO_IGNORE="${SVN_LOCATIONS_TO_IGNORE} svn-commit.tmp"
 
 function __print-ignored-locations {
     echo "Ignoring the following locations/patterns: " 
@@ -29,28 +29,43 @@ function svn-ci-ignoring-specified-locations {
     local _ci_args=$@
     __print-ignored-locations
     __define-svn-st-ignoring-specified-locations $_ci_args
-        
+    
     local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
-    
-    if [[ "$_svn_st_result" ]]; then
-	_ci_args=$_svn_st_result
-    fi		
-    
-    svn ci $_ci_args
+
+    if [ ! "$_svn_st_result" ]; then
+	echo ""
+	echo " no changes to commit"
+	echo ""
+    else	
+	if [[ "$_svn_st_result" ]]; then
+	    _ci_args=$_svn_st_result
+	fi		
+	
+	svn ci $_ci_args
+    fi
 }
 
 function svn-diff-ignoring-specified-locations {
     local _diff_args=$@
     __print-ignored-locations
-    __define-svn-st-ignoring-specified-locations $_ci_args
-        
-    local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
-           
-    if [[ "$_svn_st_result" ]]; then
-	_diff_args=$_svn_st_result
-    fi		
+    __define-svn-st-ignoring-specified-locations $_diff_args
     
-    svn diff -x -w $_diff_args
+    local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
+
+    if [ ! "$_svn_st_result" ]; then
+	echo ""
+	echo " no changes to diff"
+	echo ""
+    else	
+	echo $_svn_st_result | tr ' ' '\n'
+	echo ""
+	
+	if [[ "$_svn_st_result" ]]; then
+	    _diff_args=$_svn_st_result
+	fi		
+	
+	svn diff -x -w $_diff_args
+    fi
 }
 
 function do-svn {
@@ -90,9 +105,9 @@ function do-svn {
 		tar-local-mods
 	  	return
 	    fi
-	    
-	    make-local-mod-tarball-name
-	    local tar_cmd="tar -cvf ${LOCAL_MOD_TARBALL_NAME} ${args}"
+
+	    local local_MOD_TARBALL_NAME=$(make-local-mod-tarball-name)	    
+	    local tar_cmd="tar -cvf ${local_MOD_TARBALL_NAME} ${args}"
 	    echo $tar_cmd
 	    $tar_cmd
 	    return
@@ -153,12 +168,12 @@ function make-local-mod-tarball-name {
     local revision=$(svn info | grep -oP "(?<=Revision:\s)\d*")
     local timestamp=$(date +%s)
     local separator=__
-    LOCAL_MOD_TARBALL_NAME=$(whoami)${separator}r${revision}${separator}${timestamp}.tar
+    echo $(whoami)${separator}r${revision}${separator}${timestamp}.tar
 }
 
-function tar-local-mods {
-    make-local-mod-tarball-name
-    local tarball_name=$LOCAL_MOD_TARBALL_NAME
+
+function tar-local-mods {    
+    local tarball_name=$(make-local-mod-tarball-name)
     local args="$*"
 
     for arg in $args; do

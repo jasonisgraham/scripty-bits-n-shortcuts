@@ -7,6 +7,9 @@
 # split
 # IFS='/'; read -a array <<< "$p"; for element in "${array[@]}"; do echo $element; done
 
+# exclude a string regex
+# echo "select sjiofjeifoej from DOG jfidofjdfoidjf select fjdisofjoidfj from CAT " | grep -oiP 'select(.(?!from))*\s+from\s+\w+' ; prints DOG, CAT
+
 # BASH_FILES_DIR will be equal to the dir holding this file
 BASH_FILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -54,11 +57,14 @@ bind '"\eX\ey"':'"echo \C-y | xclip -selection clipboard\C-j"'
 bind '"\eX("':'"$()\C-b"'
 
 # aliases
-alias to-clipboard='xclip -selection clipboard'
-alias ll='ls -AlF'
-alias la='ls -A'
-alias l='ls -CF'
+__BASE_LS_COMMAND='ls -lhBF --ignore=#* --ignore=.git --color=always --group-directories-first'
+alias l=$__BASE_LS_COMMAND
+alias lst="${__BASE_LS_COMMAND} -t"
+alias lss="${__BASE_LS_COMMAND} -s"
+alias lsa="${__BASE_LS_COMMAND} -A"
 alias lah='ls -lAh'
+# echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
+alias to-clipboard='xclip -selection clipboard'
 alias emacs='emacs -nw'
 alias irb='irb --simple-prompt'
 alias lah='ls -lAh'
@@ -80,6 +86,9 @@ fi
 # THUMB BALL MOUSE ES 2 FASTO! SLOW IT DOWN
 #logitech=$(xinput --list --short | grep -m1 "Logitech" | cut -f2 | cut -d= -f2) # mouse ID
 #xinput --set-prop "$logitech" "Device Accel Constant Deceleration" 2 # It defaults to 1
+
+# stupid delay on keypress too slow, dawg when coming out of "suspend".  stupid xubuntu.  
+xset r rate 180
 
 ##################################
 #HISTORY_CUSTOMIZATIONS
@@ -109,22 +118,21 @@ function __move-down-directory {
 
 function __ls-type {
     local _type
-    read -n 1 -s _type
-    ls_cmd='ls -glhBAF --ignore=#* --ignore=.git --color=always'
+    read -n 1 -s _type    
     case $_type in
-	"h")
+	t) # sort by modification time
+            lst
 	    ;;
-	"t") # sort by modification time
-	    ls_cmd="$ls_cmd -t"
+	s) # sort by file size
+	    lss
 	    ;;
-	"s") # sort by file size
-	    ls_cmd="$ls_cmd -S"
-	    ;;
+        [aA])
+            lsa
+            ;;
 	*)
-	    ls_cmd="ls --color=always"
+            l
 	    ;;
     esac
-    $ls_cmd
 }
 
 function apply-to-resource {
@@ -325,3 +333,4 @@ function copy-files-matching-pattern-contains-string-pattern-to {
     cp ${file} ${destination_dir}/.
   done
 }
+
