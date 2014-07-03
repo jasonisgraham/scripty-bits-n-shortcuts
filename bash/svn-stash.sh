@@ -18,13 +18,11 @@
 ################################################
 
 export SVN_LOCATIONS_TO_IGNORE="${SVN_LOCATIONS_TO_IGNORE} svn-commit.tmp"
-export __BASH_CUSTOMIZATIONS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $__BASH_CUSTOMIZATIONS_DIR/bash_customizations.sh
 
 __file_number_separator="->"
 
 # do tab-completion stuff
-complete -W "save stash list apply help init" svn-stash
+complete -W "save stash list pop help init" svn-stash
 
 usage()
 {
@@ -40,7 +38,7 @@ usage()
 	Lists all stash names, If -v option is used, stashed files & delete, add manifest details & stash message (if available) are printed
 	TODO: it would be nice to do an SVN diff of the changes, yeah?
 
-    apply
+    pop
 	"Merges" most recent stash on top of current working tree state.
 EOF
 }
@@ -60,9 +58,9 @@ function svn-stash {
             __stash-local-mods_init            
             __stash-local-mods_list $(for opt in $*; do if [ "list" != $opt ]; then echo $opt; fi; done)
             ;;
-        apply)
+        pop)
             __stash-local-mods_init
-            __stash-local-mods_apply
+            __stash-local-mods_pop
             ;;
         init)
             __stash-local-mods_init
@@ -75,9 +73,12 @@ function svn-stash {
 }
 
 ####################################
-# As of now, this just pops the most recent "stash"
+# pops the most recent "stash"
+# double-quotes are important b/c the following two are not equivalent
+## "num string"  
+## num string
 ####################################
-function __stash-local-mods_apply {
+function __stash-local-mods_pop {
     local most_recent_dir=$(__echo-svn-stashes-dir)/$(ls -t $(__echo-svn-stashes-dir) | sed -n 1p)
     local adds_dir=$most_recent_dir/adds
     local deletes_dir=$most_recent_dir/deletes
@@ -89,17 +90,15 @@ function __stash-local-mods_apply {
             local filepath_to_be_added=$(__echo-filepath-from-filespaths-list-item "$filepath_list_item")
             local file_number=$(__echo-file-number-from-filepaths-list-item "$filepath_list_item")
             cp -nv $adds_dir/files/$file_number $filepath_to_be_added
-	    svn add $filepath_to_be_added
+            svn add $filepath_to_be_added
         done
     fi
 
     if [ -a $untrackeds_dir/filepaths.list ]; then
         for filepath_list_item in $(cat $untrackeds_dir/filepaths.list); do
-            echo "filepath_list_item: $filepath_list_item"
             local filepath_to_be_added=$(__echo-filepath-from-filespaths-list-item "$filepath_list_item")
             local file_number=$(__echo-file-number-from-filepaths-list-item "$filepath_list_item")
-            echo "cp -nv $untrackeds_dir/files/$file_number $filepath_to_be_added"
-	    cp -nv $untrackeds_dir/files/$file_number $filepath_to_be_added
+            cp -nv $untrackeds_dir/files/$file_number $filepath_to_be_added
         done
     fi
 
@@ -117,6 +116,28 @@ function __stash-local-mods_apply {
             svn delete $filepath_to_be_deleted
         done
     fi
+
+    __remove-stash $most_recent_dir
+}
+
+function __remove-stash {
+    local path_to_most_recent_stash=$1
+    
+    # just tarring up whatever's in this folder, b/c yknow, one of the developers working on this
+    #  code doesn't really know what he's doing (intentially using "he" instead of "he/she" because
+    #  the developer is me, Jason, and I'm pretty much a male dude).  I don't trust that developer 
+    #  to just delete some directory of some changes that might not have been "correctly unstashed"
+    # Creating the backups dir is here b/c it's sort of a safety net.  It could be removed when 
+    #  the handsome girls and guys doing the trapese won't paint the ground red if it were removed
+    local backups_dir=$(__echo-svn-stash-dir)/backups    
+    mkdir -p $backups_dir
+
+    local backup_tar_name=$(echo $path_to_most_recent_stash | grep -oP '[^\/]*$')
+    local tar_cmd="tar -cf ${backups_dir}/${backup_tar_name}.tar $path_to_most_recent_stash"
+    echo $tar_cmd
+    $tar_cmd
+
+    rm -rf $path_to_most_recent_stash
 }
 
 function __echo-filepath-from-filespaths-list-item {
@@ -209,8 +230,6 @@ function __stash-local-mods_init {
 ### Invoked with svn-stash 
 ################################################
 function __stash-local-mods {
-    #set -x
-
     local cwd=$(pwd)
     
     # e.g. 2014-07-01_18-06-00
@@ -295,31 +314,8 @@ function __stash-local-mods {
     for untracked_file in $untracked_files; do
         rm -fv $untracked_file;
     done
-    
-    #set +x    
+    for f in "$(svn st | grep '?')"; do
+        rm -fv $(echo $f | sed -E 's@.\s@@g')
+    done
 }
-
-
-
-not-implemented() {
-    cat <<EOF
-
-NOT IMPLEMENTED - BEGIN ###
-info
-    Executes "svn info" on current directory.  Also displays path to "svn-stash" stashes dir
-NOT IMPLEMENTED - END  ####
-EOF
-}
-
-
-# function __get_svn-stash_constant {
-#     case "$1" in
-# 	FILEPATHS_DIR_NAME)
-# 	    echo "filepaths"
-#             ;;
-#         FILES_DIR_NAME)
-# 	    echo "files"
-#             ;;        
-#     esac
-# }
 
