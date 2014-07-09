@@ -22,7 +22,7 @@ export SVN_LOCATIONS_TO_IGNORE="${SVN_LOCATIONS_TO_IGNORE} svn-commit.tmp"
 __file_number_separator="->"
 
 # do tab-completion stuff
-complete -W "save stash list pop help init" svn-stash
+complete -W "stash list pop help init" svn-stash
 
 usage()
 {
@@ -31,7 +31,7 @@ usage()
     usage: $0 options
     
     OPTIONS:
-    save|stash [-m|--message]
+    stash [-m|--message]
 	Save your local modifications to a new stash. If you wish to git a message to your stash use -m or --message to create one.  This will be displayed when doing "svn-stash list -v"
 
     list [-v]
@@ -50,9 +50,9 @@ function svn-stash {
     local _1stArg=$1
 
     case "$_1stArg" in
-        save|stash)
+        stash)
             __stash-local-mods_init
-            __stash-local-mods
+            __stash-local-mods $(for opt in $*; do if [ "stash" != $opt ]; then echo $opt; fi; done)
             ;;
         list)
             __stash-local-mods_init            
@@ -230,6 +230,16 @@ function __stash-local-mods_init {
 ### Invoked with svn-stash 
 ################################################
 function __stash-local-mods {
+    local verbose=
+    local OPTIND    
+    while getopts ":v" arg; do
+        case $arg in
+            v)
+                verbose="v"
+                ;;
+        esac	
+    done
+
     local cwd=$(pwd)
     
     # e.g. 2014-07-01_18-06-00
@@ -238,21 +248,21 @@ function __stash-local-mods {
     
     # create stash directory    
     local stashes_dir="$(__echo-svn-stashes-dir)"
-    mkdir -pv $stashes_dir
+    mkdir -p${verbose} $stashes_dir
 
     # define directories    
     local stash_dir="${stashes_dir}/${timestamp}"
-    mkdir -pv $stash_dir
+    mkdir -p${verbose} $stash_dir
     local adds_dir=$stash_dir/adds
     local deletes_dir=$stash_dir/deletes
     local untrackeds_dir=$stash_dir/untrackeds
     local mods_dir=$stash_dir/mods
 
     # create directories 
-    mkdir -vp $adds_dir/files
-    mkdir -vp $untrackeds_dir/files
-    mkdir -v $deletes_dir
-    mkdir -vp $mods_dir/files
+    mkdir -p${verbose} $adds_dir/files
+    mkdir -p${verbose} $untrackeds_dir/files
+    mkdir -p${verbose} $deletes_dir
+    mkdir -p${verbose} $mods_dir/files
     
     # note svn url 
     local svn_info_url=$(svn info | grep -oP "(?<=URL:\s).*$")
@@ -310,12 +320,18 @@ function __stash-local-mods {
     done
     
     unset IFS
-    svn revert -R $cwd
+
+    if [ "$verbose" ]; then
+        svn revert -R $cwd
+    else
+        svn revert -R $cwd >> /dev/null
+    fi
+    
     for untracked_file in $untracked_files; do
-        rm -fv $untracked_file;
+        rm -f${verbose} $untracked_file
     done
     for f in "$(svn st | grep '?')"; do
-        rm -fv $(echo $f | sed -E 's@.\s@@g')
+        rm -f${verbose} $(echo $f | sed -E 's@.\s@@g')
     done
 }
 
