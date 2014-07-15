@@ -144,7 +144,7 @@ function apply-to-resource {
     fi     
     local command_to_apply="$3"       
     local args_line=""
-        
+    
     if [[ $(echo $resources | wc -w) -ge 2 ]]; then
 	count=0;
 	for r in $resources
@@ -159,7 +159,7 @@ function apply-to-resource {
 	done	
 	echo -e "\nSelect files to run command \"$command_to_apply\" on by number(s).  If multiple, separate by space. If all, enter nothing or enter *.\n Which files(s): "
 	read _file_numbers
-		
+	
 	if [[ -z "$_file_numbers" ]]; then
 	    _file_numbers="*"
 	fi
@@ -197,7 +197,7 @@ function open-resource {
 function find-resource {
     local _file_search_string=$(_wildcard-camelcase-file-search-string $1)
     local _search_result_filter_string=$(_wildcard-camelcase-file-search-result-filter-string $1)   
-    local _haystack_dir=${2:-"."}    
+    local _haystack_dir=${2:-"."}
     find $_haystack_dir -name $_file_search_string | grep -v target | grep -v .svn | grep -v bin | grep -v \~ | grep -P $_search_result_filter_string
 }
 
@@ -209,6 +209,9 @@ function _wildcard-camelcase-file-search-string {
     echo $_begins_with_wildcard$(echo $1 | sed -E 's/([A-Z])/*\1/g' | sed 's/^\**//g' | sed 's/\*{2}/*/g')*
 }
 
+###
+# This turns something like HashSet.java into Hash[^A-Z]*Set.java* to prevent things like HashAttributeSet.java being returned
+###
 function _wildcard-camelcase-file-search-result-filter-string {
     echo $(_wildcard-camelcase-file-search-string $1 | sed 's/\*$//' | sed 's/\*/[^A-Z]*/g')
 }    
