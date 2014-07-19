@@ -17,3 +17,13 @@
       (delete-other-windows)
       (set-window-buffer (split-window-horizontally) (cadr buffers)))))
 (add-hook 'emacs-startup-hook '2-windows-vertical-to-horizontal)
+
+;; if >1 window with same name, uniquify then with something better than <2>,<3>, ... etc
+(require 'uniquify)
+(setq uniquify-buffer-name-style (quote forward))
+
+
+
+
+
+
