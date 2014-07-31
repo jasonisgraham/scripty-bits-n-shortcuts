@@ -19,7 +19,14 @@ set completion-ignore-case on
 # xports
 export IGNOREEOF=1
 export PS1="\u \w> "
+#PS1='$(echo -ne "\033[$(reset_username_background_after_N_seconds)m")\u$(echo -ne "\033[0m") \w> '
 export EDITOR="emacs -nw"
+
+# reset color of cursor to White
+echo -ne "\033]12;White\007"
+
+# tell SCREEN to back off when setting TERM to "screen"
+export TERM=xterm
 
 # binds
 bind 'set completion-ignore-case on'
@@ -55,6 +62,8 @@ bind '"\eX\ew"':'"\C-a echo \"\C-e\" | xclip -selection clipboard\C-j\"'
 bind '"\eX\ey"':'"echo \C-y | xclip -selection clipboard\C-j"'
 # inserts $() and moves cursor inside parens
 bind '"\eX("':'"$()\C-b"'
+bind '"\ep"':'"\C-p"'
+bind '"\en"':'"\C-n"'
 
 # aliases
 __BASE_LS_COMMAND='ls -lhBF --ignore=#* --ignore=.git --color=always --group-directories-first'
@@ -87,7 +96,7 @@ fi
 #logitech=$(xinput --list --short | grep -m1 "Logitech" | cut -f2 | cut -d= -f2) # mouse ID
 #xinput --set-prop "$logitech" "Device Accel Constant Deceleration" 2 # It defaults to 1
 
-# stupid delay on keypress too slow, dawg when coming out of "suspend".  stupid xubuntu.  
+# stupid delay on keypress too slow, dawg when coming out of "suspend".  stupid xubuntu.
 xset r rate 180
 
 ##################################
@@ -103,7 +112,22 @@ HISTFILESIZE=2000
 # consider these private methods.  It doesn't make a lot of sense
 # to use these from the command line
 ####################################################################
-function convert-dos-filepath-to-cygwin-filepath {    
+
+# removes all temp files given a directory
+function remove-all-temp-files {
+    local haystack_dir=$1
+
+    # removes all files ending with a tilde
+    find $haystack_dir -name "*~"  -exec rm {} \;
+
+    # beginnging with hash
+    find $haystack_dir -name "#*" -exec rm {} \;
+
+    # all .~ directories
+    find $haystack_dir -name .~ -type d -exec rm -r {} \;
+}
+
+function convert-dos-filepath-to-cygwin-filepath {
     _CYGWIN_FILEPATH=$(echo "$1" | sed 's@\\@/@g' | sed 's@C:@/cygdrive/c@g')
     echo ${_CYGWIN_FILEPATH}
 }
@@ -118,7 +142,7 @@ function __move-down-directory {
 
 function __ls-type {
     local _type
-    read -n 1 -s _type    
+    read -n 1 -s _type
     case $_type in
 	t) # sort by modification time
             lst
@@ -141,10 +165,10 @@ function apply-to-resource {
     if [[ ! "$resources" ]]; then
 	echo "Couldn't find resource matching $1 in haystack $2"
 	return 0
-    fi     
-    local command_to_apply="$3"       
+    fi
+    local command_to_apply="$3"
     local args_line=""
-    
+
     if [[ $(echo $resources | wc -w) -ge 2 ]]; then
 	count=0;
 	for r in $resources
@@ -156,16 +180,16 @@ function apply-to-resource {
 	do
 	    echo -n "$key "
 	    echo ${r_arr[$key]}
-	done	
+	done
 	echo -e "\nSelect files to run command \"$command_to_apply\" on by number(s).  If multiple, separate by space. If all, enter nothing or enter *.\n Which files(s): "
 	read _file_numbers
-	
+
 	if [[ -z "$_file_numbers" ]]; then
 	    _file_numbers="*"
 	fi
 	if [[ "$_file_numbers" = "*" ]]; then
 	    args_line=$resources
-	else	
+	else
 	    for _file_number in $_file_numbers
 	    do
 		args_line="${args_line} ${r_arr[$_file_number]}"
@@ -182,9 +206,9 @@ function apply-to-resource {
 	if [[ ! "$command_to_apply" ]]; then
 	    echo -e "\n Unknown command. exiting"
 	    return 1
-	fi	
+	fi
     fi
-    
+
     $command_to_apply $args_line
 }
 
@@ -196,7 +220,7 @@ function open-resource {
 
 function find-resource {
     local _file_search_string=$(_wildcard-camelcase-file-search-string $1)
-    local _search_result_filter_string=$(_wildcard-camelcase-file-search-result-filter-string $1)   
+    local _search_result_filter_string=$(_wildcard-camelcase-file-search-result-filter-string $1)
     local _haystack_dir=${2:-"."}
     find $_haystack_dir -name $_file_search_string | grep -v target | grep -v .svn | grep -v bin | grep -v \~ | grep -P $_search_result_filter_string
 }
@@ -205,7 +229,7 @@ function _wildcard-camelcase-file-search-string {
     local _begins_with_wildcard=
     if [[ $(echo $1 | grep ^*) ]]; then
 	_begins_with_wildcard="*"
-    fi	
+    fi
     echo $_begins_with_wildcard$(echo $1 | sed -E 's/([A-Z])/*\1/g' | sed 's/^\**//g' | sed 's/\*{2}/*/g')*
 }
 
@@ -214,14 +238,13 @@ function _wildcard-camelcase-file-search-string {
 ###
 function _wildcard-camelcase-file-search-result-filter-string {
     echo $(_wildcard-camelcase-file-search-string $1 | sed 's/\*$//' | sed 's/\*/[^A-Z]*/g')
-}    
+}
 
 function str-contains {
     local _haystack=$1
     local _needle=$2
-    if [[ $(echo $_haystack | grep -P $_needle) ]]; then
-	echo 1
-    fi	
+    if [[ $(echo $_haystack | grep -P $_needle) ]]; then echo 1
+    fi
 }
 
 function get-path-to-dir {
@@ -242,7 +265,7 @@ function cd-above {
 	cd $1
     else
 	cd $(get-path-to-dir $1)
-    fi	
+    fi
 }
 
 function grep-includes {
@@ -336,4 +359,3 @@ function copy-files-matching-pattern-contains-string-pattern-to {
     cp ${file} ${destination_dir}/.
   done
 }
-
