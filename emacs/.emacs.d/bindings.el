@@ -16,6 +16,17 @@
 (global-set-key "\C-x-" 'hs-hide-block)
 (global-set-key "\C-x\C-c" nil)
 
+;; use this when emacs shell gets out of sync with autocomplete
+(global-set-key "\M-G\M-S" 'shell-resync-dirs)
+
+(global-set-key "\C-o" (lambda()
+                         (interactive)
+                         (newline-and-indent)
+			 (previous-line)
+                         (move-end-of-line nil)
+                         (newline-and-indent)
+                         ))
+
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
 
@@ -29,7 +40,7 @@
   ;; save this point so it can be reset
   (setq originalpoint (point))
   (delete-trailing-whitespace)
-  (indent-buffer)
+  ;;(indent-buffer)
   (single-lines-only)
   (save-buffer)
 
@@ -42,4 +53,6 @@
 
   ;; return cursor to original point
   (goto-char originalpoint)
+  (shell-resync-dirs)
   )
+

@@ -1,8 +1,4 @@
 ;; window number stuff (used to jump between windows easily)
-(load "~/.emacs.d/window-number.el")
-(require 'window-number)
-(window-number-mode)
-(global-set-key (kbd "<f9>") 'window-number-switch)
 (global-set-key "\M-(" (lambda () (interactive) (windmove-left)))
 (global-set-key "\M-)" (lambda () (interactive) (windmove-right)))
 (global-set-key "\M-N" (lambda () (interactive) (windmove-down)))

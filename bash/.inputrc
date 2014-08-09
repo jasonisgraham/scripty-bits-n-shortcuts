@@ -1,0 +1,35 @@
+# $include /etc/inputrc
+
+# # for vi mode
+# set editing-mode vi
+# $if mode=vi
+
+# set keymap vi-commandq
+# # these are for vi-command mode
+# "\C-e": end-of-line
+# "\C-a": beginning-of-line
+# "\C-j": accept-line
+# "\C-h": backward-delete-char
+# "\C-f": forward-char
+# "\C-b": backward-char
+# "\ej": backward-word
+# "\ek": forward-word
+# "\eb": backward-word
+# "\ef": forward-word
+# "\ew": kill-region
+# "\C-n": next-history
+# "\C-p": previous-history
+# "\C-s": forward-search-history
+# "\C-l": clear-screen
+# "\C-w": kill-word
+# "\C-k": kill-line
+# "\C-@": set-mark
+
+
+# set keymap vi-insert
+# "\C-e": end-of-line
+# "\C-a": beginning-of-line
+# "\C-j": accept-line
+# "\C-h": backward-delete-char
+
+#$endif

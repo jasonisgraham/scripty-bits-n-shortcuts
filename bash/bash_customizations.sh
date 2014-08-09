@@ -15,6 +15,7 @@ BASH_FILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # I do not need to be bothered with the shift key
 set completion-ignore-case on
+set show-mode-in-prompt on
 
 # xports
 export IGNOREEOF=1
@@ -23,10 +24,10 @@ export PS1="\u \w> "
 export EDITOR="emacs -nw"
 
 # reset color of cursor to White
-echo -ne "\033]12;White\007"
+# echo -ne "\033]12;White\007"
 
 # tell SCREEN to back off when setting TERM to "screen"
-export TERM=xterm
+#export TERM=xterm
 
 # binds
 bind 'set completion-ignore-case on'
@@ -81,6 +82,7 @@ alias rm='rm -i'
 alias df='df -h'
 alias du='du -sh'
 alias h='history | tail'
+alias sr='screen -r'
 
 # sources
 if [ -a $BASH_FILES_DIR/bash_customizations_git.sh ]; then
