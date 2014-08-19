@@ -67,17 +67,25 @@ bind '"\ep"':'"\C-p"'
 bind '"\en"':'"\C-n"'
 
 # aliases
-__BASE_LS_COMMAND='ls -lhBF --ignore=#* --ignore=.git --color=always --group-directories-first'
+#  human readable, all files minus . and .., append indicator, ignore backups
+__BASE_LS_COMMAND='ls -hBFA --ignore=#* --ignore=.svn --ignore=.git --color=always --group-directories-first'
 alias l=$__BASE_LS_COMMAND
+
+# order by mod date
 alias lst="${__BASE_LS_COMMAND} -t"
+
+# order by size
 alias lss="${__BASE_LS_COMMAND} -s"
-alias lsa="${__BASE_LS_COMMAND} -A"
+
+# order by extension
+
+alias lsx="${__BASE_LS_COMMAND} -X"
 alias lah='ls -lAh'
+
 # echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
 alias to-clipboard='xclip -selection clipboard'
 alias emacs='emacs -nw'
 alias irb='irb --simple-prompt'
-alias lah='ls -lAh'
 alias rm='rm -i'
 alias df='df -h'
 alias du='du -sh'

@@ -1,8 +1,10 @@
 ;; hide-show stuff
 ;(setq-default hs-minor-mode t)
 (add-hook 'c-mode-common-hook (lambda() (hs-minor-mode 1)))
-(global-set-key (kbd "\C-x\\") 'hs-hide-all-comments)
-(global-set-key (kbd "\C-x*") 'hs-show-all)
+(global-set-key "\M-GhC" 'hs-hide-all-comments)
+(global-set-key "\M-GsB" 'hs-show-all)
+(global-set-key "\M-Gsb" 'hs-show-block)
+(global-set-key "\M-Ghb" 'hs-hide-block)
 ;; (setq hs-hide-comments nil)
 (defun hs-hide-all-comments ()
   "Hide all top level blocks, if they are comments, displaying only first line.

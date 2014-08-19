@@ -2,3 +2,4 @@
 (setq backup-directory-alist '(("." . ".~")))
 
 (desktop-save-mode 1)
+(setq history-delete-duplicates t)

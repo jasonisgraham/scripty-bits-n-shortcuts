@@ -12,9 +12,10 @@
 (global-set-key (kbd "\C-cm") 'menu-bar-open)
 (global-set-key (kbd "TAB") 'self-insert-command) ; insert a TAB when I say tab, yo
 (global-set-key "\M-Gr" 'open-resource)
-(global-set-key "\C-x+" 'hs-show-block)
-(global-set-key "\C-x-" 'hs-hide-block)
-(global-set-key "\C-x\C-c" nil)
+(global-set-key "\C-x\C-b" 'buffer-menu)
+
+;; remapping kill-emacs.  default \C-x\C-c is too easy to hit accidentally
+(global-set-key "\M-Gke" 'kill-emacs)
 
 ;; use this when emacs shell gets out of sync with autocomplete
 (global-set-key "\M-G\M-S" 'shell-resync-dirs)
@@ -56,3 +57,18 @@
   (shell-resync-dirs)
   )
 
+;; print directory of file
+(defun get-dir-of-file ()
+  (interactive)
+  (if (buffer-file-name)
+      (replace-regexp-in-string "/[^/]+$" "" (buffer-file-name))))
+
+;; print dir of file
+(global-set-key "\M-Gdd" (lambda() (interactive) (message (get-dir-of-file))))
+;; print dir of file and copy it to kill-ring
+(global-set-key "\M-Gdw" (lambda()
+                           (interactive)
+                           (setq dir (get-dir-of-file))
+                           (if dir
+                               (kill-new dir))
+                           (message dir)))

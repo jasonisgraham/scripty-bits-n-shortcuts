@@ -3,7 +3,6 @@
 (require 'viper)
 (setq-default viper-want-emacs-keys-in-insert t)
 
-(viper-record-kbd-macro "qq" 'insert-state [(meta x) v i p e r - e x i t - i n s e r t - s t a t e return] 't)
 (viper-record-kbd-macro "$" 'vi-state [ (control e) ] 't)
 (setq viper-case-fold-search 't) ; viper search - case insensitive
 
@@ -44,3 +43,8 @@
 	(indent-relative)
     )
 )
+
+(set 'viper-fast-keyseq-timeout 0)
+(set 'viper-no-multiple-ESC t)
+(defun viper-translate-all-ESC-keysequences () t)
+(set 'viper-ESC-keyseq-timeout 0)
