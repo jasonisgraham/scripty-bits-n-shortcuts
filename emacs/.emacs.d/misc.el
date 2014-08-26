@@ -3,3 +3,30 @@
 
 (desktop-save-mode 1)
 (setq history-delete-duplicates t)
+(global-linum-mode 1)
+
+;; print directory of file
+(defun get-dir-of-file ()
+  (interactive)
+  (if (buffer-file-name)
+      (replace-regexp-in-string "/[^/]+$" "" (buffer-file-name))))
+
+;; prints dir of file and puts dir of file in kill ring
+(defun copy-dir-of-file ()
+  (interactive)
+  (setq dir (get-dir-of-file))
+  (if dir
+      (kill-new dir))
+  (message dir))
+
+;;
+(defun copy-region-to-scratch ()
+  "opens up *scratch* and appends region to it"
+  (interactive)
+  (kill-ring-save (region-beginning) (region-end))
+  (switch-to-buffer-other-window "*scratch*")
+  (end-of-buffer)
+  (yank)
+  (newline)
+  (other-window -1)
+  )

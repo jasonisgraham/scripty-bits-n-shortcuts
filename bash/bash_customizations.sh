@@ -28,6 +28,7 @@ export EDITOR="emacs -nw"
 
 # tell SCREEN to back off when setting TERM to "screen"
 #export TERM=xterm
+export TERM='xterm-color'
 
 # binds
 bind 'set completion-ignore-case on'
@@ -241,6 +242,18 @@ function _wildcard-camelcase-file-search-string {
 	_begins_with_wildcard="*"
     fi
     echo $_begins_with_wildcard$(echo $1 | sed -E 's/([A-Z])/*\1/g' | sed 's/^\**//g' | sed 's/\*{2}/*/g')*
+}
+
+#############################
+# Tries to cd to $1.  if fails, removes last piece of $1's path, and tries to cd there
+#############################
+function cdu {
+    local dir="$1"
+    local op=$(cd $dir 2>&1 > /dev/null)
+    if [[ "$op" && $op =~ 'Not a directory' ]]; then
+        dir=$(echo $dir | sed -E 's@/[^/]+$@@g')
+    fi
+    cd $dir
 }
 
 ###

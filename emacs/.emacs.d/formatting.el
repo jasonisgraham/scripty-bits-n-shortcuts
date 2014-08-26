@@ -27,3 +27,26 @@
   (goto-char (point-min))
   (replace-regexp "^\n\n+" "\n")
   )
+
+(defun format-save-and-reset-cursor ()
+
+  "applies some formatting to a file then saves it"
+  (interactive)
+  ;; save this point so it can be reset
+  (setq originalpoint (point))
+  (delete-trailing-whitespace)
+  ;;(indent-buffer)
+  (single-lines-only)
+  (save-buffer)
+
+  ;; if viper mode is enabled, reset to "vi-state"
+  (if (boundp 'viper-current-state)
+      (viper-exit-insert-state)
+    (cond
+     ((eq viper-current-state 'insert-state) (viper-exit-insert-state))
+     ))
+
+  ;; return cursor to original point
+  (goto-char originalpoint)
+  (shell-resync-dirs)
+  )

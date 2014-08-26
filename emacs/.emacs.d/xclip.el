@@ -14,5 +14,3 @@
       )
     )
   )
-
-(global-set-key "\M-G\M-w" (lambda() (interactive) (xclip-set-region-to-clipboard)))
