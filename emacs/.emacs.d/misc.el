@@ -3,7 +3,7 @@
 
 (desktop-save-mode 1)
 (setq history-delete-duplicates t)
-(global-linum-mode 1)
+;(global-linum-mode 1)
 
 ;; print directory of file
 (defun get-dir-of-file ()
@@ -30,3 +30,11 @@
   (newline)
   (other-window -1)
   )
+
+;; Write backup files to own directory
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name
+                 (concat user-emacs-directory "backups")))))
+
+;; Make backups of files, even when they're in version control
+(setq vc-make-backup-files t)

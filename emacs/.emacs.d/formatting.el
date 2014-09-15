@@ -50,3 +50,27 @@
   (goto-char originalpoint)
   (shell-resync-dirs)
   )
+
+
+;; diff mode
+(eval-after-load 'diff-mode
+	'(progn
+           (set-face-foreground 'diff-added "green4")
+           (set-face-foreground 'diff-added "red3")))
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:background "white" :foreground "black"))))
+ '(mode-line-inactive ((t (:inherit mode-line :inverse-video t)))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-startup-truncated nil)
+ '(read-buffer-completion-ignore-case t)
+ '(safe-local-variable-values (quote ((require-final-newline)))))

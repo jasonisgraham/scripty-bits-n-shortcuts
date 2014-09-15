@@ -1,9 +1,9 @@
 # $include /etc/inputrc
-
+#
 # # for vi mode
 # set editing-mode vi
 # $if mode=vi
-
+#
 # set keymap vi-commandq
 # # these are for vi-command mode
 # "\C-e": end-of-line
@@ -26,11 +26,11 @@
 # "\C-@": set-mark
 # "\e.": yank-last-arg
 # "\C-d": delete-char
-
+#
 # set keymap vi-insert
 # "\C-e": end-of-line
 # "\C-a": beginning-of-line
 # "\C-j": accept-line
 # "\C-h": backward-delete-char
-
+#
 # $endif

@@ -16,6 +16,7 @@ BASH_FILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # I do not need to be bothered with the shift key
 set completion-ignore-case on
 set show-mode-in-prompt on
+shopt -s cdspell
 
 # xports
 export IGNOREEOF=1
@@ -108,15 +109,16 @@ fi
 #xinput --set-prop "$logitech" "Device Accel Constant Deceleration" 2 # It defaults to 1
 
 # stupid delay on keypress too slow, dawg when coming out of "suspend".  stupid xubuntu.
-xset r rate 180
+source $BASH_FILES_DIR/reset-cursor-blink-speed.sh
 
 ##################################
 #HISTORY_CUSTOMIZATIONS
 ##################################
 HISTCONTROL=ignoredups:ignorespace # don't put duplicate lines in the history.
+HISTIGNORE="pwd:ls:cd:fg:top:source *:"
 shopt -s histappend # append to the history file, don't overwrite it
-HISTSIZE=1000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTFILESIZE=2000
+HISTSIZE=5000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTFILESIZE=10000
 
 ####################################################################
 # "useful" functions that are called with the binds from above

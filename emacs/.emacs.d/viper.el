@@ -23,26 +23,14 @@
 (define-key viper-insert-basic-map (kbd "C-t") nil)
 (define-key viper-insert-basic-map (kbd "TAB") nil)
 (define-key viper-insert-basic-map (kbd "<tab>") nil)
+(define-key viper-insert-basic-map (kbd "<tab>") nil)
 
 ;; reset cursor color to white on exit of emacs
 (add-hook 'kill-emacs-hook (lambda () (send-string-to-terminal "\033]12;White\007")))
 
-(define-key viper-vi-global-user-map
-  "o"
-  (lambda()
-    (interactive)
-	(viper-open-line nil)
-	(indent-relative)
-    )
-)
-(define-key viper-vi-global-user-map
-  "O"
-  (lambda()
-    (interactive)
-	(viper-Open-line nil)
-	(indent-relative)
-    )
-)
+(define-key viper-vi-global-user-map "o" (lambda() (interactive) (viper-open-line nil) (indent-relative)))
+
+(define-key viper-vi-global-user-map "O" (lambda() (interactive) (viper-Open-line nil) (indent-relative)))
 
 (set 'viper-fast-keyseq-timeout 0)
 (set 'viper-no-multiple-ESC t)

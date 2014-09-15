@@ -1,9 +1,3 @@
-;; window number stuff (used to jump between windows easily)
-(global-set-key "\M-(" (lambda () (interactive) (windmove-left)))
-(global-set-key "\M-)" (lambda () (interactive) (windmove-right)))
-(global-set-key "\M-N" (lambda () (interactive) (windmove-down)))
-(global-set-key "\M-P" (lambda () (interactive) (windmove-up)))
-
 ;; open 2 files as side-by-side windows
 (defun 2-windows-vertical-to-horizontal ()
   (let ((buffers (mapcar 'window-buffer (window-list))))
@@ -19,3 +13,21 @@
 ; modeline customization
 (setq column-number-mode 't)
 (menu-bar-mode -1)
+
+;;
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
