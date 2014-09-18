@@ -54,6 +54,11 @@
 (require 'key-chord)
 (key-chord-mode 1)
 (key-chord-define-global "qb"	'save-buffer)
+;; (key-chord-define-global "q9"	'windmove-left)
+;; (key-chord-define-global "q0"	'windmove-right)
+;; (key-chord-define-global "qn"	'windmove-down)
+;; (key-chord-define-global "qp"	'windmove-up)
+(key-chord-define-global "qo"	(lambda() (interactive) (save-buffer) (other-window -1)))
 
 ;; move lines up
 (key-chord-define-global "ql" (lambda () (interactive) (join-line -1)))

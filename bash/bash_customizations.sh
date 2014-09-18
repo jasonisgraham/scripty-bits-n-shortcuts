@@ -20,7 +20,7 @@ shopt -s cdspell
 
 # xports
 export IGNOREEOF=1
-export PS1="\u \w> "
+export PS1="\u \W> "
 #PS1='$(echo -ne "\033[$(reset_username_background_after_N_seconds)m")\u$(echo -ne "\033[0m") \w> '
 export EDITOR="emacs -nw"
 

@@ -38,3 +38,5 @@
 
 ;; Make backups of files, even when they're in version control
 (setq vc-make-backup-files t)
+
+(setq column-number-mode t)

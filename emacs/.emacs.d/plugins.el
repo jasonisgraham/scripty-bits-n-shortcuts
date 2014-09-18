@@ -3,7 +3,6 @@
 (add-to-list 'load-path "~/.emacs.d/recentf.el")
 (require 'recentf)
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "open-resource.el"))
-(setq  open-resource-repository-directory "~/Downloads/jdk1.6.0_45/src ~/CMU/s3/grahamj-batch ~/WebstormProjects/shart-finder/ ~/CMU/s3/Source/source/")
 (setq open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn")))
 
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
