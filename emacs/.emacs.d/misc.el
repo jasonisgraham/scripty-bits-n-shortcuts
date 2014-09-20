@@ -40,3 +40,6 @@
 (setq vc-make-backup-files t)
 
 (setq column-number-mode t)
+
+;; when pasting from x clipboard strings that contained double quotes, funkiness would happen.  this fixes that (i think)
+(setq x-select-enable-clipboard t)
