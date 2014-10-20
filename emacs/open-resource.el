@@ -1,10 +1,10 @@
 ;;; open-resource.el -- finds resources in a project directory
 ;;
 ;; Copyright (C) 2008 by Alexandru Nedelcu
-;; 
+;;
 ;; Author:      Alexandru Nedelcu
 ;; Status:      Tested with GNU Emacs 22.1.91.2
-;; Keywords:    open-resorce, find, convenience 
+;; Keywords:    open-resorce, find, convenience
 ;; X-URL:       http://lexoft.eu/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Getting started:
@@ -26,8 +26,8 @@
 ;;
 ;; Alternatively, if you dislike emacs's customization facility, you can
 ;; use these commands in your .emacs:
-;; 
-;;   (setq 
+;;
+;;   (setq
 ;;     open-resource-repository-directory
 ;;     "~/Projects")
 ;;   (setq
@@ -40,9 +40,9 @@
 ;;    /target/
 ;;    ~$
 ;;    .old$
-;; 
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; History 
+;;; History
 ;;
 ;; Revision 0.1  Sat May 10 18:40:16 EEST 2008 anedelcu
 ;; First version of open-resource.
@@ -68,7 +68,7 @@
   "Finding resources (files, directories) with glob patterns."
   :group 'open-resource)
 
-(defcustom open-resource-repository-directory "~/CMU/s3/Source/source/"
+(defcustom open-resource-repository-directory "~/.emacs.d"
   "*Set this to your repository to find files in, without prompt."
   :group 'open-resource
   :type 'string)
@@ -79,13 +79,22 @@
   :type '(repeat string))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun open-resource-form-find-command (directory filepattern)
+    (defun ignore-command (ignorelist)
+      (if ignorelist
+          (concat " | grep -v " (car ignorelist)
+                  (ignore-command (cdr ignorelist)))
+        ""))
+    (setq filepattern-with-asterisks (prefix-uppercase-letters-with-asterisk filepattern))
+    (concat "find " directory " -name '" filepattern-with-asterisks "*'"
+            (ignore-command open-resource-ignore-patterns)
+            " | grep -P '" (replace-asterisks-in-filename-with-pattern-to-ignore-uppercase-letters filepattern-with-asterisks) "'"
+            " | awk '{gsub(\"'`pwd`'\",\".\", $0); gsub(\"'$HOME'\",\"~\",$0); print $0}'")
+    )
 
-(defun find-file-in-directory (directory filepattern)
-  (interactive "DDirectory: \nMFile pattern: ")
-
-  (defun prefix-uppercase-letters-with-asterisk (filename)
+(defun prefix-uppercase-letters-with-asterisk (filename)
     (let ((case-fold-search nil))
-      (replace-regexp-in-string "^\**" "" 
+      (replace-regexp-in-string "^\**" ""
                                 (replace-regexp-in-string "\*+" "\*"
                                                           (replace-regexp-in-string "\\([A-Z]\\)" "*\\1" filename)))))
 
@@ -93,28 +102,17 @@
     (let ((case-fold-search nil))
       (replace-regexp-in-string "\*" "[^A-Z]*"
                                 (replace-regexp-in-string "\*$" "" filename))))
-  
-  (defun open-resource-form-find-command (directory filepattern)
-    (defun ignore-command (ignorelist)
-      (if ignorelist      
-          (concat " | grep -v " (car ignorelist)
-                  (ignore-command (cdr ignorelist)))
-        ""))
-    (setq filepattern-with-asterisks (prefix-uppercase-letters-with-asterisk filepattern))
-    (concat "find " directory " -name '" filepattern-with-asterisks "*'" 
-            (ignore-command open-resource-ignore-patterns)
-            " | grep -P '" (replace-asterisks-in-filename-with-pattern-to-ignore-uppercase-letters filepattern-with-asterisks) "'" 
-            " | awk '{gsub(\"'`pwd`'\",\".\", $0); gsub(\"'$HOME'\",\"~\",$0); print $0}'")
-    )
-  
+
+(defun find-file-in-directory (directory filepattern)
+  (interactive "DDirectory: \nMFile pattern: ")
+
   (let ((b (switch-to-buffer "*find-files*")))
     (erase-buffer)
-    (shell-command 
-     (message
-      (open-resource-form-find-command directory filepattern))
+    (shell-command
+     (message (open-resource-form-find-command directory filepattern))
      b)
-    (recentf-open-files
-     (split-string (buffer-string) "\n"))))
+    (recentf-open-files (split-string (buffer-string) "\n"))
+    ))
 
 (defun open-resource (filepattern)
   (interactive "MFile pattern: ")

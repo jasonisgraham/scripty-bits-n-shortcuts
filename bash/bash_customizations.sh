@@ -20,7 +20,7 @@ shopt -s cdspell
 
 # xports
 export IGNOREEOF=1
-export PS1="\u \W> "
+export PS1="\u \w> "
 #PS1='$(echo -ne "\033[$(reset_username_background_after_N_seconds)m")\u$(echo -ne "\033[0m") \w> '
 export EDITOR="emacs -nw"
 
@@ -45,10 +45,10 @@ bind '"\eJ"':"\"\C-w\""
 bind '"\eK"':"\"\ed\""
 # alt-< Move up the directory. same as cd ../
 bind '"\e<"':"\"\C-u__move-up-directory\C-m\""
-# alt-> Move down the directory.
-bind '"\e>"':"\"\C-u__move-down-directory\C-m\""
 # alt-L same as __ls-type
 bind '"\eL"':"\"\C-u__ls-type\C-m\""
+# alt-> Move down the directory.
+bind '"\e>"':"\"\C-u__move-down-directory\C-m\""
 bind '"\ew"':kill-region
 # case sensitive file grep
 bind '"\eXf"':"\"\C-a__find-in-files \C-e . rn \C-j\""
@@ -70,29 +70,22 @@ bind '"\en"':'"\C-n"'
 
 # aliases
 #  human readable, all files minus . and .., append indicator, ignore backups
-__BASE_LS_COMMAND='ls -hBFA --ignore=#* --ignore=.svn --ignore=.git --color=always --group-directories-first'
+__BASE_LS_COMMAND='ls -hBF --ignore=#* --ignore=.svn --ignore=.git --color=always --group-directories-first'
 alias l=$__BASE_LS_COMMAND
-
-# order by mod date
-alias lst="${__BASE_LS_COMMAND} -t"
-
-# order by size
-alias lss="${__BASE_LS_COMMAND} -s"
-
-# order by extension
-
-alias lsx="${__BASE_LS_COMMAND} -X"
-alias lah='ls -lAh'
 
 # echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
 alias to-clipboard='xclip -selection clipboard'
 alias emacs='emacs -nw'
 alias irb='irb --simple-prompt'
 alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
 alias df='df -h'
 alias du='du -sh'
 alias h='history | tail'
 alias sr='screen -r'
+alias c='cd-above'
+alias run-junit="java -cp .:/usr/share/java/junit4.jar org.junit.runner.JUnitCore"
 
 # sources
 if [ -a $BASH_FILES_DIR/bash_customizations_git.sh ]; then
@@ -125,7 +118,6 @@ HISTFILESIZE=10000
 # consider these private methods.  It doesn't make a lot of sense
 # to use these from the command line
 ####################################################################
-
 # removes all temp files given a directory
 function remove-all-temp-files {
     local haystack_dir=$1
@@ -156,18 +148,23 @@ function __move-down-directory {
 function __ls-type {
     local _type
     read -n 1 -s _type
+
+    local _args="$*"
     case $_type in
 	t) # sort by modification time
-            lst
+	    l -t $_args
 	    ;;
 	s) # sort by file size
-	    lss
+            l -s $_args
 	    ;;
         [aA])
-            lsa
+            l -A $_args
+            ;;
+        [Xx])
+            l -X $_args
             ;;
 	*)
-            l
+            l $_args
 	    ;;
     esac
 }

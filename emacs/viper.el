@@ -1,6 +1,8 @@
 ;; viper-mode
 (setq viper-mode t)
+(setq viper-ESC-moves-cursor-back nil)
 (require 'viper)
+
 (setq-default viper-want-emacs-keys-in-insert t)
 
 (viper-record-kbd-macro "$" 'vi-state [ (control e) ] 't)
@@ -35,3 +37,8 @@
 (set 'viper-no-multiple-ESC t)
 (defun viper-translate-all-ESC-keysequences () t)
 (set 'viper-ESC-keyseq-timeout 0)
+
+(defun viper-exit-insert-state-if-in-insert-state ()
+  (interactive)
+  (if (boundp 'viper-current-state) (viper-exit-insert-state)
+    (cond ((eq viper-current-state 'insert-state) (viper-exit-insert-state)))))

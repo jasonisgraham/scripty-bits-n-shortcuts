@@ -32,5 +32,5 @@
 # "\C-a": beginning-of-line
 # "\C-j": accept-line
 # "\C-h": backward-delete-char
-#
+# "\e^H": backward-kill-word
 # $endif

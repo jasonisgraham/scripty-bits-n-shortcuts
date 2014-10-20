@@ -40,11 +40,7 @@
   (save-buffer)
 
   ;; if viper mode is enabled, reset to "vi-state"
-  (if (boundp 'viper-current-state)
-      (viper-exit-insert-state)
-    (cond
-     ((eq viper-current-state 'insert-state) (viper-exit-insert-state))
-     ))
+  (viper-exit-insert-state-if-in-insert-state)
 
   ;; return cursor to original point
   (goto-char originalpoint)

@@ -1,4 +1,3 @@
-(setq version-controlled-stuff-dir "~/.emacs.d/version-controlled-stuff-dir")
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "xclip.el"))
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "formatting.el"))
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "misc.el"))
@@ -8,9 +7,9 @@
 (global-set-key "\M-k"	'forward-word)
 (global-set-key "\M-K"	'kill-word)
 (global-set-key "\C-c\C-r"	'rgrep)
-(global-set-key (kbd "C-<f12>")	'enlarge-window-horizontally)
-(global-set-key (kbd "C-<f11>")	'shrink-window-horizontally)
-(global-set-key (kbd "C-<f10>")	'enlarge-window)
+(global-set-key (kbd "C-<f12>")	'enlarge-window-horizontally) ; C-x }
+(global-set-key (kbd "C-<f11>")	'shrink-window-horizontally) ; C-x {
+(global-set-key (kbd "C-<f10>")	'enlarge-window) ; C-x ^
 (global-set-key (kbd "C-<f9>")	'shrink-window)
 (global-set-key (kbd "\C-h")	'delete-backward-char)
 (global-set-key (kbd "TAB")	'self-insert-command) ; insert a TAB when I say tab, yo
@@ -54,14 +53,8 @@
 (require 'key-chord)
 (key-chord-mode 1)
 (key-chord-define-global "qb"	'save-buffer)
-;; (key-chord-define-global "q9"	'windmove-left)
-;; (key-chord-define-global "q0"	'windmove-right)
-;; (key-chord-define-global "qn"	'windmove-down)
-;; (key-chord-define-global "qp"	'windmove-up)
 (key-chord-define-global "qo"	(lambda() (interactive) (save-buffer) (other-window -1)))
-
-;; move lines up
-(key-chord-define-global "ql" (lambda () (interactive) (join-line -1)))
+(key-chord-define-global "ql" (lambda () (interactive) (join-line -1))) ;; move lines up
 
 ;; window number stuff (used to jump between windows easily)
 (global-set-key "\M-(" 'windmove-left)
@@ -70,7 +63,11 @@
 (global-set-key "\M-P" 'windmove-up)
 
 ;; buffer-move
-(global-set-key "\C-x\M-("  'buf-move-left)
-(global-set-key "\C-x\M-)"  'buf-move-right)
-(global-set-key "\C-x\M-N"  'buf-move-down)
-(global-set-key "\C-x\M-P"  'buf-move-up)
+(global-set-key "\C-c\M-("  'buf-move-left)
+(global-set-key "\C-c\M-)"  'buf-move-right)
+(global-set-key "\C-c\M-N"  'buf-move-down)
+(global-set-key "\C-c\M-P"  'buf-move-up)
+
+;; winner-mode
+(global-set-key "\C-cwu"  'winner-undo)
+(global-set-key "\C-cwr"  'winner-redo)
