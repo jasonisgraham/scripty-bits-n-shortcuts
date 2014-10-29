@@ -17,6 +17,7 @@
 (define-key viper-vi-basic-map (kbd "C-e") nil)
 (define-key viper-vi-basic-map (kbd "C-f") nil)
 (define-key viper-vi-basic-map (kbd "C-b") nil)
+(define-key viper-vi-basic-map (kbd "C-m") 'newline)
 
 ;; Override annoying stuff when in "insert mode"
 (define-key viper-insert-basic-map (kbd "C-w") nil)
@@ -25,20 +26,19 @@
 (define-key viper-insert-basic-map (kbd "C-t") nil)
 (define-key viper-insert-basic-map (kbd "TAB") nil)
 (define-key viper-insert-basic-map (kbd "<tab>") nil)
+(define-key viper-insert-basic-map (kbd "C-m") 'newline)
 
 ;; reset cursor color to white on exit of emacs
-;(add-hook 'kill-emacs-hook (lambda () (send-string-to-terminal "\033]12;White\007")))
+                                        ;(add-hook 'kill-emacs-hook (lambda () (send-string-to-terminal "\033]12;White\007")))
 
-(define-key viper-vi-global-user-map "o" (lambda() (interactive) (viper-open-line nil) (indent-relative)))
+;; (define-key viper-vi-global-user-map "o" (lambda() (interactive) (viper-open-line nil) (indent-relative)))
 
-(define-key viper-vi-global-user-map "O" (lambda() (interactive) (viper-Open-line nil) (indent-relative)))
+;; (define-key viper-vi-global-user-map "O" (lambda() (interactive) (viper-Open-line nil) (indent-relative)))
 
 (set 'viper-fast-keyseq-timeout 0)
 (set 'viper-no-multiple-ESC t)
 (defun viper-translate-all-ESC-keysequences () t)
 (set 'viper-ESC-keyseq-timeout 0)
 
-(defun viper-exit-insert-state-if-in-insert-state ()
-  (interactive)
-  (if (boundp 'viper-current-state) (viper-exit-insert-state)
-    (cond ((eq viper-current-state 'insert-state) (viper-exit-insert-state)))))
+(key-chord-define-global "-=" (lambda() (interactive) (viper-intercept-ESC-key)
+                                (when buffer-file-name (save-buffer))))

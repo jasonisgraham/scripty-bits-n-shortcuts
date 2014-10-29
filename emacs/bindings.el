@@ -23,13 +23,15 @@
 (global-set-key (kbd "M-G M-w M-x") (lambda() (interactive) (xclip-set-region-to-clipboard)))
 
 ;;
-(global-set-key "\C-o" (lambda()
-                         (interactive)
-                         (newline-and-indent)
-			 (previous-line)
-                         (move-end-of-line nil)
-                         (newline-and-indent)
-                         ))
+;; (global-set-key "\C-o" (lambda()
+;;                          (interactive)
+;;                          (newline-and-indent)
+;; 			 (previous-line)
+;;                          (move-end-of-line nil)
+;;                          (newline-and-indent)
+;;                          ))
+
+(global-set-key (kbd "<f4>") 'save-buffer)
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
@@ -52,9 +54,10 @@
 ;; key-chord stuff
 (require 'key-chord)
 (key-chord-mode 1)
-(key-chord-define-global "qs"	(lambda() (interactive) (save-buffer) (viper-intercept-ESC-key)))
-(key-chord-define-global "qo"	(lambda() (interactive) (save-buffer) (other-window -1)))
+(key-chord-define-global "qs" (lambda() (interactive) (save-buffer) (viper-intercept-ESC-key)))
 (key-chord-define-global "ql" (lambda () (interactive) (join-line -1))) ;; move lines up
+(key-chord-define-global "jl" 'set-mark-command)
+(key-chord-define-global "qb" 'switch-to-buffer)
 
 ;; window number stuff (used to jump between windows easily)
 (global-set-key "\M-(" 'windmove-left)

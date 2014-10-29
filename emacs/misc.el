@@ -47,3 +47,6 @@
 (require 'dired-x)
 (setq dired-omit-files (concat dired-omit-files "^\\...+$" "\\|^\\..+$"))
 (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
+
+;; add matching parens, braces, etc
+(setq electric-pair-mode t)

@@ -36,4 +36,12 @@
 ;; winner mode. allows returning to previous window configuration with 'C-c left' and 'C-c right'
 (winner-mode 1)
 
+;; window-number
+;; (require 'window-number)
+;; (window-number-mode 1)
 
+;;
+(add-hook 'clojure-mode-hook (lambda()
+                               (interactive)
+                               (global-set-key "\M-i" "(")
+                               (global-set-key "\M-o" ")")))

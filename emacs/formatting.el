@@ -39,8 +39,7 @@
   (single-lines-only)
   (save-buffer)
 
-  ;; if viper mode is enabled, reset to "vi-state"
-  (viper-exit-insert-state-if-in-insert-state)
+  (viper-intercept-ESC-key)
 
   ;; return cursor to original point
   (goto-char originalpoint)

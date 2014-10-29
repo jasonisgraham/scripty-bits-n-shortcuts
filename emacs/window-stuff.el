@@ -10,7 +10,7 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style (quote forward))
 
-; modeline customization
+                                        ; modeline customization
 (setq column-number-mode 't)
 (menu-bar-mode -1)
 
@@ -31,3 +31,23 @@
           (set-buffer-modified-p nil)
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
+
+;; do things when switching out of a buffer that edits a file
+(defun on-window-switch ()
+  (viper-intercept-ESC-key)
+  (when buffer-file-name (save-buffer)))
+
+;; automatically save buffers associated with files on buffer switch
+;; and on windows switch
+(defadvice switch-to-buffer (before save-buffer-now activate)
+  (on-window-switch))
+(defadvice other-window (before other-window-now activate)
+  (on-window-switch))
+(defadvice windmove-up (before other-window-now activate)
+  (on-window-switch))
+(defadvice windmove-down (before other-window-now activate)
+  (on-window-switch))
+(defadvice windmove-left (before other-window-now activate)
+  (on-window-switch))
+(defadvice windmove-right (before other-window-now activate)
+  (on-window-switch))
