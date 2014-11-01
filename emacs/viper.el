@@ -7,11 +7,9 @@
 
 (viper-record-kbd-macro "$" 'vi-state [ (control e) ] 't)
 (setq viper-case-fold-search 't) ; viper search - case insensitive
+(setq viper-insert-state-cursor-color "Green")
+(setq viper-emacs-state-cursor-color "Blue")
 
-(global-set-key (kbd "<f36>") 'enlarge-window-horizontally) ; f12
-(global-set-key (kbd "<f35>") 'shrink-window-horizontally)  ; f11
-(global-set-key (kbd "<f34>") 'enlarge-window) ; f10
-(global-set-key (kbd "<f33>") 'shrink-window) ; f9
 
 ;; Override annoying stuff when in vi mode
 (define-key viper-vi-basic-map (kbd "C-e") nil)
@@ -28,17 +26,11 @@
 (define-key viper-insert-basic-map (kbd "<tab>") nil)
 (define-key viper-insert-basic-map (kbd "C-m") 'newline)
 
-;; reset cursor color to white on exit of emacs
-                                        ;(add-hook 'kill-emacs-hook (lambda () (send-string-to-terminal "\033]12;White\007")))
-
-;; (define-key viper-vi-global-user-map "o" (lambda() (interactive) (viper-open-line nil) (indent-relative)))
-
-;; (define-key viper-vi-global-user-map "O" (lambda() (interactive) (viper-Open-line nil) (indent-relative)))
-
 (set 'viper-fast-keyseq-timeout 0)
 (set 'viper-no-multiple-ESC t)
 (defun viper-translate-all-ESC-keysequences () t)
 (set 'viper-ESC-keyseq-timeout 0)
 
-(key-chord-define-global "-=" (lambda() (interactive) (viper-intercept-ESC-key)
+
+(key-chord-define-global "m," (lambda() (interactive) (viper-intercept-ESC-key)
                                 (when buffer-file-name (save-buffer))))

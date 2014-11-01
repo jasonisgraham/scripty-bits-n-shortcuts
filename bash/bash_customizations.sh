@@ -18,6 +18,10 @@ set completion-ignore-case on
 set show-mode-in-prompt on
 shopt -s cdspell
 
+# swap " and ' characters
+# xmodmap -e "keycode 48 = quotedbl apostrophe"
+xmodmap -e "keycode 48 = apostrophe quotedbl"
+
 # xports
 export IGNOREEOF=1
 export PS1="\u \w> "
@@ -28,8 +32,8 @@ export EDITOR="emacs -nw"
 # echo -ne "\033]12;White\007"
 
 # tell SCREEN to back off when setting TERM to "screen"
-#export TERM=xterm
-export TERM='xterm-color'
+export TERM=xterm
+#export TERM=xterm-256color
 
 # binds
 bind 'set completion-ignore-case on'

@@ -22,15 +22,6 @@
 
 (global-set-key (kbd "M-G M-w M-x") (lambda() (interactive) (xclip-set-region-to-clipboard)))
 
-;;
-;; (global-set-key "\C-o" (lambda()
-;;                          (interactive)
-;;                          (newline-and-indent)
-;; 			 (previous-line)
-;;                          (move-end-of-line nil)
-;;                          (newline-and-indent)
-;;                          ))
-
 (global-set-key (kbd "<f4>") 'save-buffer)
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
@@ -42,14 +33,14 @@
 (global-set-key (kbd "M-G M-w M-s") 'copy-region-to-scratch)
 
 (defun goto-line-with-feedback ()
-  "Show line numbers temporarily, while prompting for the line number input"
+  "If line numbers aren't displayed, show line numbers temporarily, while prompting for the line number input"
   (interactive)
+  (if linum-mode (goto-line (read-number "Goto line: "))
   (unwind-protect
       (progn
         (linum-mode 1)
         (goto-line (read-number "Goto line: ")))
-    (linum-mode -1)))
-(global-set-key [remap goto-line] 'goto-line-with-feedback)
+    (linum-mode -1))))
 
 ;; key-chord stuff
 (require 'key-chord)

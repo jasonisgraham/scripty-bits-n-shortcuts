@@ -10,7 +10,7 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style (quote forward))
 
-                                        ; modeline customization
+; modeline customization
 (setq column-number-mode 't)
 (menu-bar-mode -1)
 
@@ -34,8 +34,7 @@
 
 ;; do things when switching out of a buffer that edits a file
 (defun on-window-switch ()
-  (viper-intercept-ESC-key)
-  (when buffer-file-name (save-buffer)))
+  (when buffer-file-name (viper-intercept-ESC-key) (save-buffer)))
 
 ;; automatically save buffers associated with files on buffer switch
 ;; and on windows switch

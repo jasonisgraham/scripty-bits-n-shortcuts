@@ -5,20 +5,30 @@
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "open-resource.el"))
 (setq open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn")))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; start- taken from http://www.masteringemacs.org/article/find-files-faster-recent-files-package
+;; get rid of `find-file-read-only' and replace it with something
+;; more useful.
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+
+;; enable recent files mode.
+(recentf-mode t)
+
+; 50 files ought to be enough.
+(setq recentf-max-saved-items 50)
+
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to \\[find-file] a recent file"
+  (interactive)
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
+;;; end
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
 (yas-global-mode 1)
-
-;; (add-to-list 'load-path "~/.emacs.d/icicles/")
-;;  (require 'icicles)
-;; (icy-mode 1)
-
-;; ;;
-;; (add-to-list 'load-path "~/.emacs.d/elisp-slime-nav")
-;; (require 'elisp-slime-nav)
-;; (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-;;   (add-hook hook 'elisp-slime-nav-mode))
-
 
 ;; melba
 (require 'package)
@@ -40,8 +50,8 @@
 ;; (require 'window-number)
 ;; (window-number-mode 1)
 
-;;
-(add-hook 'clojure-mode-hook (lambda()
-                               (interactive)
-                               (global-set-key "\M-i" "(")
-                               (global-set-key "\M-o" ")")))
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+
+
