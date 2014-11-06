@@ -36,8 +36,8 @@
 (key-chord-define-global "qt" 'toggle-truncate-lines)
 (key-chord-define-global "qq" (lambda()
                                 (interactive)
-                                (save-and-format-buffer)
-                                (viper-intercept-ESC-key)))
+                                (viper-intercept-ESC-key)
+                                (save-and-format-buffer)))
 (key-chord-define-global "qj" (lambda ()
                                 "move lines up"
                                 (interactive)

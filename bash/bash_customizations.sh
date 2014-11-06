@@ -26,7 +26,7 @@ xmodmap -e "keycode 48 = apostrophe quotedbl"
 export IGNOREEOF=1
 export PS1="\u \w> "
 #PS1='$(echo -ne "\033[$(reset_username_background_after_N_seconds)m")\u$(echo -ne "\033[0m") \w> '
-export EDITOR="emacs -nw"
+export EDITOR="emacs"
 
 # reset color of cursor to White
 # echo -ne "\033]12;White\007"
@@ -79,7 +79,6 @@ alias l=$__BASE_LS_COMMAND
 
 # echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
 alias to-clipboard='xclip -selection clipboard'
-alias emacs='emacs -nw'
 alias irb='irb --simple-prompt'
 alias rm='rm -i'
 alias mv='mv -i'

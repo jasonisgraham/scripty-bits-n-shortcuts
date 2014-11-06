@@ -172,3 +172,5 @@ Move point to the beginning of the line, and run the normal hook
    (run-hooks 'hs-hide-hook)))
 
 (set-frame-parameter (selected-frame) 'alpha '(98 95))
+
+(global-auto-highlight-symbol-mode 1)
