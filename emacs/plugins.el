@@ -1,5 +1,7 @@
+(setq package-enable-at-startup nil)
+(package-initialize)
 
-; open resource
+;; open resource
 (add-to-list 'load-path "~/.emacs.d/recentf.el")
 (require 'recentf)
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "open-resource.el"))
@@ -14,7 +16,7 @@
 ;; enable recent files mode.
 (recentf-mode t)
 
-; 50 files ought to be enough.
+;; 50 files ought to be enough.
 (setq recentf-max-saved-items 50)
 
 (defun ido-recentf-open ()
@@ -25,10 +27,6 @@
     (message "Aborting")))
 ;;; end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
 
 ;; melba
 (require 'package)
@@ -46,12 +44,40 @@
 ;; winner mode. allows returning to previous window configuration with 'C-c left' and 'C-c right'
 (winner-mode 1)
 
-;; window-number
-;; (require 'window-number)
-;; (window-number-mode 1)
-
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
 
+;;; auto complete mod
+;;; should be loaded after yasnippet so that they can work together
+(require 'auto-complete-config)
+(auto-complete-mode 1)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(ac-config-default)
+;;; set the trigger key so that it can work together with yasnippet on tab key,
+;;; if the word exists in yasnippet, pressing tab will cause yasnippet to
+;;; activate, otherwise, auto-complete will
+(ac-set-trigger-key "TAB")
+(ac-set-trigger-key "<tab>")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; lisp stuff
+(defun lisp-hooks ()
+  (interactive)
+  (paredit-mode t)
+  (rainbow-delimiters-mode t))
+
+;; Override this paredit keybindings
+(eval-after-load 'paredit
+  '(progn
+     (define-key paredit-mode-map (kbd "M-J") nil)))
+
+;; clojure stuff
+(add-hook 'clojure-mode-hook 'lisp-hooks)
+(add-hook 'emacs-lisp-mode-hook 'lisp-hooks)
+(add-hook 'cider-list-mode 'lisp-hooks)

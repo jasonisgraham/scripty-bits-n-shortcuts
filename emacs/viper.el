@@ -10,7 +10,6 @@
 (setq viper-insert-state-cursor-color "Green")
 (setq viper-emacs-state-cursor-color "Blue")
 
-
 ;; Override annoying stuff when in vi mode
 (define-key viper-vi-basic-map (kbd "C-e") nil)
 (define-key viper-vi-basic-map (kbd "C-f") nil)
@@ -30,7 +29,3 @@
 (set 'viper-no-multiple-ESC t)
 (defun viper-translate-all-ESC-keysequences () t)
 (set 'viper-ESC-keyseq-timeout 0)
-
-
-(key-chord-define-global "m," (lambda() (interactive) (viper-intercept-ESC-key)
-                                (when buffer-file-name (save-buffer))))
