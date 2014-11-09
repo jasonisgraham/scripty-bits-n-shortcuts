@@ -28,6 +28,7 @@
 ;;; end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 ;; melba
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -72,12 +73,8 @@
   (paredit-mode t)
   (rainbow-delimiters-mode t))
 
-;; Override this paredit keybindings
-(eval-after-load 'paredit
-  '(progn
-     (define-key paredit-mode-map (kbd "M-J") nil)))
 
 ;; clojure stuff
 (add-hook 'clojure-mode-hook 'lisp-hooks)
 (add-hook 'emacs-lisp-mode-hook 'lisp-hooks)
-(add-hook 'cider-list-mode 'lisp-hooks)
+(add-hook 'cider-repl-mode 'lisp-hooks)

@@ -16,14 +16,14 @@
 (global-set-key "\C-x\C-b"	'buffer-menu)
 (global-set-key "\C-x\C-c" 	'nil) ;; default \C-x\C-c is too easy to hit accidentally
 (global-set-key "\M-Gke"	'kill-emacs) ;; remapping kill-emacs.
-(global-set-key "\M-Gg"		'goto-line)
+(global-set-key "\M-Gg"		'goto-line-with-feedback)
 (global-set-key (kbd "<f4>") 'save-buffer)
 (global-set-key "\M-;" 'comment-dwim-line)
+(global-set-key (kbd "M-G M-R") 'ahs-edit-mode)
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
 
-(global-set-key "\C-xs" 'format-save-and-reset-cursor)
 (global-set-key "\M-Gdd" (lambda() (interactive) (message (get-dir-of-file))))
 (global-set-key "\M-Gdw" 'copy-dir-of-file)
 (global-set-key (kbd "M-G M-w M-s") 'copy-region-to-scratch)
@@ -63,3 +63,13 @@
 (global-set-key "\M-GsB" 'hs-show-all)
 (global-set-key "\M-Gsb" 'hs-show-block)
 (global-set-key "\M-Ghb" 'hs-hide-block)
+
+;; Override this paredit keybindings
+(eval-after-load 'paredit
+  '(progn
+     (define-key paredit-mode-map (kbd "M-J") nil)
+     (define-key paredit-mode-map (kbd "M-;") nil)))
+
+;; remap CAPSLOCK to some weird symbol.  make that symbol the beginning point of a key-chord or some ivper key combo
+
+;; viper exit replace mode w/o spitting out "q"

@@ -15,6 +15,7 @@
 (define-key viper-vi-basic-map (kbd "C-f") nil)
 (define-key viper-vi-basic-map (kbd "C-b") nil)
 (define-key viper-vi-basic-map (kbd "C-m") 'newline)
+(define-key viper-vi-basic-map (kbd "C-d") nil)
 
 ;; Override annoying stuff when in "insert mode"
 (define-key viper-insert-basic-map (kbd "C-w") nil)
