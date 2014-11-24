@@ -1,0 +1,78 @@
+* Themes
+** ToAcquire
+*** lush
+*** monokai
+** ToDelete
+*** adwaita
+*** dichromacy
+*** leuven
+*** light-blue
+*** tango
+*** tsdh-light
+*** whiteboard
+** ToEdit
+*** euphoria - lighten dark blue
+*** wombat - darken background
+* Bookmarks
+** automatic bookmarks
+** line nums only in file buffers
+* dictionary
+* swap symbols and numbers
+* Snippets
+** snippet to kill ring C-x j M-w
+* tags
+** tagged files
+* autocomplete yasnippets
+* viper exit replace mode w/o spitting out "q"
+* i'd like to be able to copy a region (kill-ring-save) and the region still be selected
+* remap the useless/redundant mouse buttons to Ctrl or something?
+* Caps_Lock and hyper key stuff
+** instead of the key-chord stuff, use maybe vi macros?
+** replace L-Alt with Hyper
+** The following claims to turn Caps_Lock into CTRL and LeftControl into Hyper, I want Caps_Lock to be Hyper
+***
+clear      lock
+clear   control
+clear      mod1
+clear      mod2
+clear      mod3
+clear      mod4
+clear      mod5
+keycode      37 = Hyper_L
+keycode      66 = Control_L
+add     control = Control_L Control_R
+add        mod1 = Alt_L Alt_R Meta_L
+add        mod2 = Num_Lock
+add        mod3 = Hyper_L
+add        mod4 = Super_L Super_R
+add        mod5 = Mode_switch ISO_Level3_Shift
+*** Trying to make Caps_Lock Hyper
+clear      lock
+clear   control
+clear      mod1
+clear      mod2
+clear      mod3
+clear      mod4
+clear      mod5
+keycode      37 = Hyper_L
+keycode      66 = Control_L
+add     control = Control_L Control_R
+add        mod1 = Alt_L Alt_R Meta_L
+add        mod2 = Num_Lock
+add        mod3 = Hyper_L
+add        mod4 = Super_L Super_R
+add        mod5 = Mode_switch ISO_Level3_Shift
+** keys
+*** Caps_Lock 66
+*** Control_L 37 0xffe3
+*** XF86Calculator 148
+*** Katakana 98
+*** XF86AudioPrev 173
+*** Escape 9
+*** keycode 108 (keysym 0xffea, Alt_R)
+** other ideas
+*** turn caps lock into start of a vi-macro.
+*** caps caps - Caps Lock*
+*** caps v - switch to vi-mode
+*** remap CAPSLOCK to some weird symbol.  make that symbol the beginning point of a key-chord or some ivper key combo
+*** give "Calc" key CapsLock function, make CapsLock Ctrl

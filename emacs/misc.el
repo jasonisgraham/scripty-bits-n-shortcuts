@@ -1,4 +1,4 @@
-; This pushes the backup files into an invisible directory named .~ in the directory of the corresponding file
+;; This pushes the backup files into an invisible directory named .~ in the directory of the corresponding file
 (setq backup-directory-alist '(("." . ".~")))
 
 (desktop-save-mode 1)
@@ -59,3 +59,21 @@
       (comment-or-uncomment-region (line-beginning-position) (line-end-position))
     (comment-dwim arg)))
 
+;; disable mouse clicks
+(dolist (k '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
+             [mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
+             [mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]
+             [mouse-4] [down-mouse-4] [drag-mouse-4] [double-mouse-4] [triple-mouse-4]
+             [mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
+  (global-unset-key k))
+
+(defun revert-buffer-no-confirm ()
+  "revert buffer without confirmation"
+  (interactive)
+  (revert-buffer t t))
+
+(defun save-and-save-actions ()
+  "do some stuff and save.  formatting, changing input method back to VIPER command mode, etc etc"
+  (interactive)
+  (viper-intercept-ESC-key)
+  (save-and-format-buffer))

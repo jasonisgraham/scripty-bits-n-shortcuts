@@ -11,6 +11,7 @@
 (add-to-list 'auto-mode-alist '("\\.cp\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.sc\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.log\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.rw\\'" . sql-mode))
 
 (defun indent-buffer ()
   "indents entire buffer"
@@ -27,7 +28,7 @@
   "applies some formatting to a file then saves it"
   (interactive)
   (delete-trailing-whitespace)
-  (indent-buffer)
+  ;; (indent-buffer)
   (set-cursor-color "#ffffff")
   (when buffer-file-name (save-buffer)))
 
@@ -171,6 +172,6 @@ Move point to the beginning of the line, and run the normal hook
    (beginning-of-line)
    (run-hooks 'hs-hide-hook)))
 
-(set-frame-parameter (selected-frame) 'alpha '(98 95))
+(set-frame-parameter (selected-frame) 'alpha '(98 90))
 
 (global-auto-highlight-symbol-mode 1)

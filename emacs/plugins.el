@@ -28,7 +28,6 @@
 ;;; end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 ;; melba
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -48,6 +47,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+(add-to-list 'ido-work-directory-list-ignore-regexps tramp-file-name-regexp)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
@@ -73,6 +73,7 @@
   (paredit-mode t)
   (rainbow-delimiters-mode t))
 
+;; (add-to-list 'auto-mode-alist '("\\.R\\'" . inferior-ess-mode))
 
 ;; clojure stuff
 (add-hook 'clojure-mode-hook 'lisp-hooks)

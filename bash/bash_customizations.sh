@@ -18,10 +18,6 @@ set completion-ignore-case on
 set show-mode-in-prompt on
 shopt -s cdspell
 
-# swap " and ' characters
-# xmodmap -e "keycode 48 = quotedbl apostrophe"
-xmodmap -e "keycode 48 = apostrophe quotedbl"
-
 # xports
 export IGNOREEOF=1
 export PS1="\u \w> "
