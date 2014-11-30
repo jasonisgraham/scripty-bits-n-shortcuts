@@ -6,8 +6,8 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-;; (electric-pair-mode t)
-;; (setq electric-pair-mode t) ;; add matching parens, braces, etc
+(electric-pair-mode t)
+(setq electric-pair-mode t) ;; add matching parens, braces, etc
 
 ;; print directory of file
 (defun get-dir-of-file ()
@@ -72,8 +72,23 @@
   (interactive)
   (revert-buffer t t))
 
-(defun save-and-save-actions ()
-  "do some stuff and save.  formatting, changing input method back to VIPER command mode, etc etc"
+(defun vi-mode-exit-insert-mode-with-hooks ()
+  "this is here in case I want things to happen when I exit vi-command mode.  I used to want a lot of things to happen, now it looks like all i want is to go back to vi-command mode.  BUT, this is here in case I change my mind one day."
   (interactive)
   (viper-intercept-ESC-key)
-  (save-and-format-buffer))
+  ;; (save-and-format-buffer)
+  )
+
+;; http://unix.stackexchange.com/questions/20849/emacs-how-to-copy-region-and-leave-it-highlighted
+(defun kill-ring-save-keep-highlight (beg end)
+  "Keep the region active after the kill"
+  (interactive "r")
+  (prog1 (kill-ring-save beg end)
+    (setq deactivate-mark nil)))
+
+(defun set-mark-switch-to-vi-command-mode ()
+  "When setting mark, get out of vi-insert mode if there"
+  (interactive "r")
+  (quote set-mark-command))
+
+(add-hook 'activate-mark-hook 'viper-intercept-ESC-key)

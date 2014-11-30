@@ -7,27 +7,26 @@
 ;; (global-set-key (kbd "TAB")	'self-insert-command) ; insert a TAB when I say tab, yo
 (global-set-key (kbd "M-G r")	'open-resource)
 (global-set-key (kbd "C-x C-b")	'buffer-menu)
-(global-set-key (kbd "H-b")	'buffer-menu)
+(global-set-key (kbd "H-M-8")	'buffer-menu)
+(global-set-key (kbd "H-8")	'ido-switch-buffer)
 (global-set-key (kbd "C-x C-c")	'nil) ;; default \C-x\C-c is too easy to hit accidentally
 (global-set-key (kbd "M-G k e")	'kill-emacs) ;; remapping kill-emacs.
 (global-set-key (kbd "M-G g")	'goto-line-with-feedback)
 (global-set-key (kbd "M-;") 	'comment-dwim-line)
 (global-set-key (kbd "C-c r") 	'revert-buffer-no-confirm)
-(global-set-key (kbd "<f4>") 	'save-buffer)
 
+(global-set-key (kbd "H-w")	'kill-ring-save-keep-highlight)
+(global-set-key (kbd "H-j") 	'newline)
 (global-set-key (kbd "H-SPC") 	'set-mark-command)
 (global-set-key (kbd "H-c t t") 'toggle-truncate-lines)
 
-(global-set-key (kbd "H-;") 	'save-and-save-actions)
-(global-set-key (kbd "C-;") 	'save-and-save-actions)
+(global-set-key (kbd "H-i") 	'vi-mode-exit-insert-mode-with-hooks)
+(global-set-key (kbd "H-;") 	'vi-mode-exit-insert-mode-with-hooks)
+(global-set-key (kbd "C-;") 	'vi-mode-exit-insert-mode-with-hooks)
 
-(global-set-key (kbd "H-j") (lambda ()
-                              "move lines up"
-                              (interactive)
-                              (join-line -1)))
-
-(global-set-key (kbd "H-p") 'mode-line-other-buffer)
-(global-set-key (kbd "H-k") 'kill-buffer)
+(global-set-key (kbd "H-p") 	'mode-line-other-buffer)
+(global-set-key (kbd "H-k") 	'kill-buffer)
+(global-set-key (kbd "H-M-k") 	'kill-this-buffer)
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
@@ -35,7 +34,6 @@
 (global-set-key (kbd "M-G d d") (lambda() (interactive) (message (get-dir-of-file))))
 (global-set-key (kbd "M-G d w") 'copy-dir-of-file)
 (global-set-key (kbd "M-G M-w M-s") 'copy-region-to-scratch)
-
 
 ;; key-chord stuff
 ;; (require 'key-chord)
@@ -67,3 +65,4 @@
   '(progn
      (define-key paredit-mode-map (kbd "M-J") nil)
      (define-key paredit-mode-map (kbd "M-;") nil )))
+

@@ -1,3 +1,6 @@
+* have tabs of open buffers under header like in Eclipse
+* in addition to H-p to toggle previous buffer, do something like H-M-p & H-M-n to cycle up and down ALL active buffers, or H-M-h & H-M-p
+* if H-<key> doesn't exist, fallback to C-<key>
 * Themes
 ** ToAcquire
 *** lush
@@ -23,45 +26,12 @@
 * tags
 ** tagged files
 * autocomplete yasnippets
-* viper exit replace mode w/o spitting out "q"
-* i'd like to be able to copy a region (kill-ring-save) and the region still be selected
 * remap the useless/redundant mouse buttons to Ctrl or something?
+* try to consolidate all these shit .el files  
+* gives unsaved lines a different background
 * Caps_Lock and hyper key stuff
+
 ** instead of the key-chord stuff, use maybe vi macros?
-** replace L-Alt with Hyper
-** The following claims to turn Caps_Lock into CTRL and LeftControl into Hyper, I want Caps_Lock to be Hyper
-***
-clear      lock
-clear   control
-clear      mod1
-clear      mod2
-clear      mod3
-clear      mod4
-clear      mod5
-keycode      37 = Hyper_L
-keycode      66 = Control_L
-add     control = Control_L Control_R
-add        mod1 = Alt_L Alt_R Meta_L
-add        mod2 = Num_Lock
-add        mod3 = Hyper_L
-add        mod4 = Super_L Super_R
-add        mod5 = Mode_switch ISO_Level3_Shift
-*** Trying to make Caps_Lock Hyper
-clear      lock
-clear   control
-clear      mod1
-clear      mod2
-clear      mod3
-clear      mod4
-clear      mod5
-keycode      37 = Hyper_L
-keycode      66 = Control_L
-add     control = Control_L Control_R
-add        mod1 = Alt_L Alt_R Meta_L
-add        mod2 = Num_Lock
-add        mod3 = Hyper_L
-add        mod4 = Super_L Super_R
-add        mod5 = Mode_switch ISO_Level3_Shift
 ** keys
 *** Caps_Lock 66
 *** Control_L 37 0xffe3
@@ -76,3 +46,29 @@ add        mod5 = Mode_switch ISO_Level3_Shift
 *** caps v - switch to vi-mode
 *** remap CAPSLOCK to some weird symbol.  make that symbol the beginning point of a key-chord or some ivper key combo
 *** give "Calc" key CapsLock function, make CapsLock Ctrl
+* Fixed
+** viper exit replace mode w/o spitting out "q"
+*** stopped using key-chord.  this is bound to H-i & C-; now
+** I don't like H-b & H-m-b for the switch buffer thing.  maybe H-8 & H-m-8?  that seems a LOT easier to hit on both keyboards.
+** when set-mark happens, go back to vi-command mode.  b/c pretty sure movement is going to happen right after
+** i'd like to be able to copy a region (kill-ring-save) and the region still be selected
+*** http://unix.stackexchange.com/questions/20849/emacs-how-to-copy-region-and-leave-it-highlighted
+
+** Trying to make Caps_Lock Hyper
+clear      lock
+clear   control
+clear      mod1
+clear      mod2
+clear      mod3
+clear      mod4
+clear      mod5
+keycode      37 = Hyper_L
+keycode      66 = Control_L
+add     control = Control_L Control_R
+add        mod1 = Alt_L Alt_R Meta_L
+add        mod2 = Num_Lock
+add        mod3 = Hyper_L
+add        mod4 = Super_L Super_R
+add        mod5 = Mode_switch ISO_Level3_Shift
+* H-k does kill-buffer, H-M-k could do kill-buffer without confirmation?
+** 'kill-this-buffer does what I want

@@ -11,7 +11,7 @@
 ;; start- taken from http://www.masteringemacs.org/article/find-files-faster-recent-files-package
 ;; get rid of `find-file-read-only' and replace it with something
 ;; more useful.
-(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+(global-set-key (kbd "C-c C-r") 'ido-recentf-open)
 
 ;; enable recent files mode.
 (recentf-mode t)
@@ -75,7 +75,45 @@
 
 ;; (add-to-list 'auto-mode-alist '("\\.R\\'" . inferior-ess-mode))
 
-;; clojure stuff
-(add-hook 'clojure-mode-hook 'lisp-hooks)
-(add-hook 'emacs-lisp-mode-hook 'lisp-hooks)
-(add-hook 'cider-repl-mode 'lisp-hooks)
+;; clojure/lispy stuff
+(dolist (hook '(clojure-mode-hook emacs-lisp-mode-hook ielm-mode-hook cider-repl-mode))
+  (add-hook hook 'lisp-hooks))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; viper-mode
+(setq viper-mode t)
+(setq viper-ESC-moves-cursor-back nil)
+(require 'viper)
+
+(setq-default viper-want-emacs-keys-in-insert t)
+
+(viper-record-kbd-macro "$" 'vi-state [ (control e) ] 't)
+(setq viper-case-fold-search 't) ; viper search - case insensitive
+(setq viper-insert-state-cursor-color "Green")
+(setq viper-emacs-state-cursor-color "Blue")
+
+;; Override annoying stuff when in vi mode
+(define-key viper-vi-basic-map (kbd "C-e") nil)
+(define-key viper-vi-basic-map (kbd "C-f") nil)
+(define-key viper-vi-basic-map (kbd "C-b") nil)
+(define-key viper-vi-basic-map (kbd "C-m") 'newline)
+(define-key viper-vi-basic-map (kbd "C-d") nil)
+
+;; Override annoying stuff when in "insert mode"
+(define-key viper-insert-basic-map (kbd "C-w") nil)
+(define-key viper-insert-basic-map (kbd "C-d") nil)
+(define-key viper-insert-basic-map (kbd "C-y") nil)
+(define-key viper-insert-basic-map (kbd "C-t") nil)
+(define-key viper-insert-basic-map (kbd "TAB") nil)
+(define-key viper-insert-basic-map (kbd "<tab>") nil)
+(define-key viper-insert-basic-map (kbd "C-m") 'newline)
+
+(set 'viper-fast-keyseq-timeout 0)
+(set 'viper-no-multiple-ESC t)
+(defun viper-translate-all-ESC-keysequences () t)
+(set 'viper-ESC-keyseq-timeout 0)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
