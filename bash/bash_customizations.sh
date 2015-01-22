@@ -24,9 +24,6 @@ export PS1="\u \w> "
 #PS1='$(echo -ne "\033[$(reset_username_background_after_N_seconds)m")\u$(echo -ne "\033[0m") \w> '
 export EDITOR="emacs"
 
-# reset color of cursor to White
-# echo -ne "\033]12;White\007"
-
 # tell SCREEN to back off when setting TERM to "screen"
 export TERM=xterm
 #export TERM=xterm-256color
@@ -70,11 +67,20 @@ bind '"\en"':'"\C-n"'
 
 # aliases
 #  human readable, all files minus . and .., append indicator, ignore backups
+alias ls="ls -h"
 __BASE_LS_COMMAND='ls -hBF --ignore=#* --ignore=.svn --ignore=.git --color=always --group-directories-first'
 alias l=$__BASE_LS_COMMAND
+alias la="${__BASE_LS_COMMAND} -A"
+alias lah="${__BASE_LS_COMMAND} -Ahg"
+alias ll="ls -AlF"
+alias lt="${__BASE_LS_COMMAND} -t"
+function ls-only-hidden-dirs {
+    local _dir="$1"
+    l -A --color=never $_dir | grep \/$ | grep '^\.'
+}
 
 # echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
-alias to-clipboard='xclip -selection clipboard'
+# alias to-clipboard='xclip -selection clipboard'
 alias irb='irb --simple-prompt'
 alias rm='rm -i'
 alias mv='mv -i'
@@ -107,7 +113,7 @@ source $BASH_FILES_DIR/reset-cursor-blink-speed.sh
 #HISTORY_CUSTOMIZATIONS
 ##################################
 HISTCONTROL=ignoredups:ignorespace # don't put duplicate lines in the history.
-HISTIGNORE="pwd:ls:cd:fg:top:source *:"
+HISTIGNORE="__move-down-directory:__move-up-directory:__ls-type:pwd:ls:cd:fg:top:source *:"
 shopt -s histappend # append to the history file, don't overwrite it
 HISTSIZE=5000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTFILESIZE=10000
@@ -117,6 +123,11 @@ HISTFILESIZE=10000
 # consider these private methods.  It doesn't make a lot of sense
 # to use these from the command line
 ####################################################################
+# sorts single csv line asc
+function sort-csv-line {
+    echo $1 | tr ',' '\n' | sort -u | tr '\n' ','
+}
+
 # removes all temp files given a directory
 function remove-all-temp-files {
     local haystack_dir=$1
@@ -282,10 +293,16 @@ function get-path-to-dir {
 }
 
 function cd-above {
-    if [ -d "$1" ]; then
-	cd $1
+    # cd "$1" >> /dev/null
+    # if [ "$?" != "0" ]; then
+    #     cd $(get-path-to-dir $1)
+    # fi
+    if [ ! "$1" ]; then
+        cd
+    elif [ -d "$1" -o "$1" == "-" ]; then
+        cd "$1"
     else
-	cd $(get-path-to-dir $1)
+        cd $(get-path-to-dir $1)
     fi
 }
 
@@ -315,68 +332,66 @@ function grep-includes {
 }
 
 function __find-in-files {
-    usage=$(cat << FIND_IN_FILES_USAGE
-  __find-in-files [needle] [grep_arguments] [haystack_dir]
-FIND_IN_FILES_USAGE)
+    usage="__find-in-files [needle] [grep_arguments] [haystack_dir]"
 
-  local needle=${1}
-  local haystack_dir=${2}
-  local grep_arguments=${3}
+    local needle=${1}
+    local haystack_dir=${2}
+    local grep_arguments=${3}
 
-  if [ -z ${needle} ]; then
-    echo "needle is not populated"
-    echo -e $usage
-    return 1;
-  fi
-  if [ -n "${4}" ]; then
-    echo "there is an extra parameter at position 4: '${4}'"
-    echo -e $usage
-    return 1;
-  fi
-  if [ -z ${haystack_dir} ]; then
-    haystack_dir="."
-  elif ! [ -e ${haystack_dir} ]; then
-    echo -e "haystack_dir: '${haystack_dir}' DNE"
-    echo -e $usage
-    return 1
-  fi
-  if [ -z ${grep_arguments} ]; then
-    grep_arguments=rni
-  fi
+    if [ -z ${needle} ]; then
+        echo "needle is not populated"
+        echo -e $usage
+        return 1;
+    fi
+    if [ -n "${4}" ]; then
+        echo "there is an extra parameter at position 4: '${4}'"
+        echo -e $usage
+        return 1;
+    fi
+    if [ -z ${haystack_dir} ]; then
+        haystack_dir="."
+    elif ! [ -e ${haystack_dir} ]; then
+        echo -e "haystack_dir: '${haystack_dir}' DNE"
+        echo -e $usage
+        return 1
+    fi
+    if [ -z ${grep_arguments} ]; then
+        grep_arguments=rni
+    fi
 
-  local command="grep -${grep_arguments} --color ${needle}${haystack_dir}"
-  echo $command
-  $command
+    local command="grep -${grep_arguments} --color ${needle}${haystack_dir}"
+    echo $command
+    $command
 }
 
 function copy-files-matching-pattern-to {
-  local file_match_pattern=${1}
-  local destination_dir=${2}
+    local file_match_pattern=${1}
+    local destination_dir=${2}
 
-  local files=$(ls | grep -P "${file_match_pattern}")
-  echo $files
+    local files=$(ls | grep -P "${file_match_pattern}")
+    echo $files
 
-  mkdir -p ${destination_dir}
+    mkdir -p ${destination_dir}
 
-  for file in $files; do
-    echo "copying file $PWD/${file} to ${destination_dir}/${file}"
-    cp ${file} ${destination_dir}/.
-  done
+    for file in $files; do
+        echo "copying file $PWD/${file} to ${destination_dir}/${file}"
+        cp ${file} ${destination_dir}/.
+    done
 }
 
 function copy-files-matching-pattern-contains-string-pattern-to {
-  local file_match_pattern=${1}
-  local destination_dir=${2}
-  local string_pattern=${3}
+    local file_match_pattern=${1}
+    local destination_dir=${2}
+    local string_pattern=${3}
 
-  local filepaths=$(grep -rPo "${string_pattern}" | grep -P "$file_match_pattern")
-  echo $filepaths
+    local filepaths=$(grep -rPo "${string_pattern}" | grep -P "$file_match_pattern")
+    echo $filepaths
 
-  mkdir -p ${destination_dir}
+    mkdir -p ${destination_dir}
 
-  for filepath in $filepaths; do
-    local file=$(echo ${filepath} | grep -oP ".*(?=:${string})")
-    echo "copying file $PWD/${file} to ${destination_dir}/${file}"
-    cp ${file} ${destination_dir}/.
-  done
+    for filepath in $filepaths; do
+        local file=$(echo ${filepath} | grep -oP ".*(?=:${string})")
+        echo "copying file $PWD/${file} to ${destination_dir}/${file}"
+        cp ${file} ${destination_dir}/.
+    done
 }

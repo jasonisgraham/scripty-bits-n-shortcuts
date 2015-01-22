@@ -2,6 +2,9 @@
 
 export SVN_LOCATIONS_TO_IGNORE="${SVN_LOCATIONS_TO_IGNORE} svn-commit.tmp"
 
+alias svn-diff-side-by-side='svn --diff-cmd "diff" --extensions "-y --suppress-common-lines" diff'
+alias svn-vim-diff='svn diff | vim -R -'
+
 function __print-ignored-locations {
     echo "Ignoring the following locations/patterns: " 
     for loc in $SVN_LOCATIONS_TO_IGNORE; do

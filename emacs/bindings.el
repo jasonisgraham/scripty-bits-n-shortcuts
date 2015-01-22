@@ -1,43 +1,44 @@
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "appearance.el"))
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "misc.el"))
 
-(global-set-key (kbd "M-j") 	'backward-word)
-(global-set-key (kbd "M-k")	'forward-word)
 (global-set-key (kbd "C-h")	'delete-backward-char)
-;; (global-set-key (kbd "TAB")	'self-insert-command) ; insert a TAB when I say tab, yo
 (global-set-key (kbd "M-G r")	'open-resource)
 (global-set-key (kbd "C-x C-b")	'buffer-menu)
 (global-set-key (kbd "H-M-8")	'buffer-menu)
 (global-set-key (kbd "H-8")	'ido-switch-buffer)
 (global-set-key (kbd "C-x C-c")	'nil) ;; default \C-x\C-c is too easy to hit accidentally
-(global-set-key (kbd "M-G k e")	'kill-emacs) ;; remapping kill-emacs.
+(global-set-key (kbd "M-G k e")	'nil) ;; remapping kill-emacs.
 (global-set-key (kbd "M-G g")	'goto-line-with-feedback)
 (global-set-key (kbd "M-;") 	'comment-dwim-line)
 (global-set-key (kbd "C-c r") 	'revert-buffer-no-confirm)
+(global-set-key (kbd "H-r")	'rgrep)
 
 (global-set-key (kbd "H-w")	'kill-ring-save-keep-highlight)
 (global-set-key (kbd "H-j") 	'newline)
 (global-set-key (kbd "H-SPC") 	'set-mark-command)
-(global-set-key (kbd "H-c t t") 'toggle-truncate-lines)
+(global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
+(global-set-key (kbd "H-o") 	'dabbrev-expand)
 
 (global-set-key (kbd "H-i") 	'vi-mode-exit-insert-mode-with-hooks)
 (global-set-key (kbd "H-;") 	'vi-mode-exit-insert-mode-with-hooks)
 (global-set-key (kbd "C-;") 	'vi-mode-exit-insert-mode-with-hooks)
 
+(global-set-key (kbd "H-M-h")	'buffer-stack-down)
+(global-set-key (kbd "H-M-l")	'buffer-stack-up)
 (global-set-key (kbd "H-p") 	'mode-line-other-buffer)
+(global-set-key (kbd "H-M-p")	'other-frame)
 (global-set-key (kbd "H-k") 	'kill-buffer)
-(global-set-key (kbd "H-M-k") 	'kill-this-buffer)
+(global-set-key (kbd "H-q") 	'kill-this-buffer) ;; doesn't seem to work for some reason?
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
+(global-set-key (kbd "<f7>") (lambda ()
+                               (interactive)
+                               (toggle-numbers-with-symbols)))
 
 (global-set-key (kbd "M-G d d") (lambda() (interactive) (message (get-dir-of-file))))
 (global-set-key (kbd "M-G d w") 'copy-dir-of-file)
 (global-set-key (kbd "M-G M-w M-s") 'copy-region-to-scratch)
-
-;; key-chord stuff
-;; (require 'key-chord)
-;; (key-chord-mode 1)
 
 ;; window number stuff (used to jump between windows easily)
 (global-set-key (kbd "M-H") 'windmove-left)
@@ -64,5 +65,73 @@
 (eval-after-load 'paredit
   '(progn
      (define-key paredit-mode-map (kbd "M-J") nil)
-     (define-key paredit-mode-map (kbd "M-;") nil )))
+     (define-key paredit-mode-map (kbd "M-;") nil)))
 
+;; this is a function to toggle numbers with symbols.  e.g. 1 -> !, 2 -> @, ... 9 -> (, 0 -> )
+(setq __use-symbols nil)
+
+(defun toggle-numbers-with-symbols ()
+  (interactive)
+  ;; if we're using symbols, then use numbers
+  (if __use-symbols
+      (numberrow-use-numbers)
+    (numberrow-use-symbols)))
+
+(defun numberrow-use-symbols ()
+  (interactive)
+  (setq __use-symbols t)
+  (keyboard-translate ?1 ?!)
+  (keyboard-translate ?! ?1)
+  (keyboard-translate ?2 ?@)
+  (keyboard-translate ?@ ?2)
+  (keyboard-translate ?3 ?#)
+  (keyboard-translate ?# ?3)
+  (keyboard-translate ?4 ?$)
+  (keyboard-translate ?$ ?4)
+  (keyboard-translate ?5 ?%)
+  (keyboard-translate ?% ?5)
+  (keyboard-translate ?6 ?^)
+  (keyboard-translate ?^ ?6)
+  (keyboard-translate ?7 ?&)
+  (keyboard-translate ?& ?7)
+  (keyboard-translate ?8 ?*)
+  (keyboard-translate ?* ?8)
+  (keyboard-translate ?9 ?\()
+  (keyboard-translate ?\( ?9)
+  (keyboard-translate ?0 ?\))
+  (keyboard-translate ?\) ?0))
+
+(defun numberrow-use-numbers ()
+  (interactive)
+  (setq __use-symbols nil)
+  (keyboard-translate ?1 ?1)
+  (keyboard-translate ?! ?!)
+  (keyboard-translate ?2 ?2)
+  (keyboard-translate ?@ ?@)
+  (keyboard-translate ?3 ?3)
+  (keyboard-translate ?# ?#)
+  (keyboard-translate ?4 ?4)
+  (keyboard-translate ?$ ?$)
+  (keyboard-translate ?5 ?5)
+  (keyboard-translate ?% ?%)
+  (keyboard-translate ?6 ?6)
+  (keyboard-translate ?^ ?^)
+  (keyboard-translate ?7 ?7)
+  (keyboard-translate ?& ?&)
+  (keyboard-translate ?8 ?8)
+  (keyboard-translate ?* ?*)
+  (keyboard-translate ?9 ?9)
+  (keyboard-translate ?\( ?\()
+  (keyboard-translate ?0 ?0)
+  (keyboard-translate ?\) ?\)))
+
+(add-hook 'org-mode-hook (lambda ()
+                           (interactive)
+                           (define-key org-mode-map (kbd "M-S-<return>")	'org-insert-subheading)
+                           (define-key org-mode-map (kbd "C-<return>")		'org-insert-heading-after-current)))
+
+
+;; disable mouse clicks
+;; (dolist (k '([mouse-1] [down-mouse-1]))
+;;   (global-unset-key k))
+(global-set-key (kbd "<down-mouse-1>") 'mouse-select-window)

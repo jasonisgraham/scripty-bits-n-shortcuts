@@ -1,5 +1,7 @@
+* when tiling window to right and it cannot go right anymore, move window to next monitor
+** Tile window to left
+** Tile window to right
 * have tabs of open buffers under header like in Eclipse
-* in addition to H-p to toggle previous buffer, do something like H-M-p & H-M-n to cycle up and down ALL active buffers, or H-M-h & H-M-p
 * if H-<key> doesn't exist, fallback to C-<key>
 * Themes
 ** ToAcquire
@@ -27,8 +29,9 @@
 ** tagged files
 * autocomplete yasnippets
 * remap the useless/redundant mouse buttons to Ctrl or something?
-* try to consolidate all these shit .el files  
+* try to consolidate all these shit .el files
 * gives unsaved lines a different background
+* have tab autocomplete like clojure-mode has
 * Caps_Lock and hyper key stuff
 
 ** instead of the key-chord stuff, use maybe vi macros?
@@ -70,5 +73,8 @@ add        mod2 = Num_Lock
 add        mod3 = Hyper_L
 add        mod4 = Super_L Super_R
 add        mod5 = Mode_switch ISO_Level3_Shift
-* H-k does kill-buffer, H-M-k could do kill-buffer without confirmation?
+** H-k does kill-buffer, H-M-k could do kill-buffer without confirmation?
 ** 'kill-this-buffer does what I want
+** remove saving when switching buffers.  it can get annoying.
+** in addition to H-p to toggle previous buffer, do something like H-M-p & H-M-n to cycle up and down ALL active buffers, or H-M-h & H-M-l
+** define some key to toggle numbers & symbols

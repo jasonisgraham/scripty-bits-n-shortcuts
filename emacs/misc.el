@@ -59,14 +59,6 @@
       (comment-or-uncomment-region (line-beginning-position) (line-end-position))
     (comment-dwim arg)))
 
-;; disable mouse clicks
-(dolist (k '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
-             [mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
-             [mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]
-             [mouse-4] [down-mouse-4] [drag-mouse-4] [double-mouse-4] [triple-mouse-4]
-             [mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
-  (global-unset-key k))
-
 (defun revert-buffer-no-confirm ()
   "revert buffer without confirmation"
   (interactive)
@@ -92,3 +84,46 @@
   (quote set-mark-command))
 
 (add-hook 'activate-mark-hook 'viper-intercept-ESC-key)
+
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+;; do things when switching out of a buffer that edits a file
+(defun on-window-switch ()
+  (viper-intercept-ESC-key)
+  ;; (when buffer-file-name
+  ;;   (viper-intercept-ESC-key)
+  ;;   (save-buffer)
+  ;;   )
+  )
+
+(defun goto-line-with-feedback ()
+  "If line numbers aren't displayed, show line numbers temporarily, while prompting for the line number input"
+  (interactive)
+  (if linum-mode (goto-line (read-number "Goto line: "))
+    (unwind-protect
+        (progn
+          (linum-mode 1)
+          (goto-line (read-number "Goto line: ")))
+      (linum-mode -1))))
+
+(defun remove-duplicate-blank-lines ()
+  (interactive)
+  (query-replace-regexp "^
+\\{2,\\}
+" "
+"))

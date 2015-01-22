@@ -1,6 +1,15 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq path-to-ctags "~/.emacs.d/TAGS") ;; <- your ctags path here
+(defun create-tags (dir-name)
+    "Create tags file."
+    (interactive "DDirectory: ")
+    (shell-command
+     (format "ctags -f %s -e -R %s" path-to-ctags (directory-file-name dir-name))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; open resource
 (add-to-list 'load-path "~/.emacs.d/recentf.el")
 (require 'recentf)
@@ -11,12 +20,10 @@
 ;; start- taken from http://www.masteringemacs.org/article/find-files-faster-recent-files-package
 ;; get rid of `find-file-read-only' and replace it with something
 ;; more useful.
-(global-set-key (kbd "C-c C-r") 'ido-recentf-open)
+(global-set-key (kbd "H-*") 'ido-recentf-open)
 
 ;; enable recent files mode.
 (recentf-mode t)
-
-;; 50 files ought to be enough.
 (setq recentf-max-saved-items 50)
 
 (defun ido-recentf-open ()
@@ -25,6 +32,9 @@
   (if (find-file (ido-completing-read "Find recent file: " recentf-list))
       (message "Opening file...")
     (message "Aborting")))
+
+;; a better solution
+(setq ido-auto-merge-work-directories-length -1)
 ;;; end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -71,12 +81,18 @@
 (defun lisp-hooks ()
   (interactive)
   (paredit-mode t)
-  (rainbow-delimiters-mode t))
+  (rainbow-delimiters-mode t)
+  ;; (numberrow-use-symbols)
+  )
 
 ;; (add-to-list 'auto-mode-alist '("\\.R\\'" . inferior-ess-mode))
 
 ;; clojure/lispy stuff
-(dolist (hook '(clojure-mode-hook emacs-lisp-mode-hook ielm-mode-hook cider-repl-mode))
+(dolist (hook '(clojure-mode-hook
+                emacs-lisp-mode-hook
+                ielm-mode-hook
+                cider-repl-mode
+                cider-repl-mode-hook))
   (add-hook hook 'lisp-hooks))
 
 
@@ -99,6 +115,9 @@
 (define-key viper-vi-basic-map (kbd "C-b") nil)
 (define-key viper-vi-basic-map (kbd "C-m") 'newline)
 (define-key viper-vi-basic-map (kbd "C-d") nil)
+(define-key viper-vi-basic-map (kbd "C-c M-n") nil)
+(define-key viper-vi-basic-map (kbd "C-u") nil)
+(define-key viper-vi-basic-map (kbd "C-h") 'delete-backward-char)
 
 ;; Override annoying stuff when in "insert mode"
 (define-key viper-insert-basic-map (kbd "C-w") nil)
@@ -108,12 +127,12 @@
 (define-key viper-insert-basic-map (kbd "TAB") nil)
 (define-key viper-insert-basic-map (kbd "<tab>") nil)
 (define-key viper-insert-basic-map (kbd "C-m") 'newline)
+(define-key viper-insert-basic-map (kbd "C-c M-n") nil)
+(define-key viper-insert-basic-map (kbd "C-u") nil)
+(define-key viper-insert-basic-map (kbd "C-h") 'delete-backward-char)
 
 (set 'viper-fast-keyseq-timeout 0)
 (set 'viper-no-multiple-ESC t)
 (defun viper-translate-all-ESC-keysequences () t)
 (set 'viper-ESC-keyseq-timeout 0)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
