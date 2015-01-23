@@ -4,10 +4,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq path-to-ctags "~/.emacs.d/TAGS") ;; <- your ctags path here
 (defun create-tags (dir-name)
-    "Create tags file."
-    (interactive "DDirectory: ")
-    (shell-command
-     (format "ctags -f %s -e -R %s" path-to-ctags (directory-file-name dir-name))))
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "ctags -f %s -e -R %s" path-to-ctags (directory-file-name dir-name))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; open resource
@@ -96,26 +96,47 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'evil)
 (evil-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; colors up the cursor
+;;;;;;;;;;;;;;;;;;;;;;;
 (setq evil-default-cursor '("white" box))
 (setq evil-normal-state-cursor '("white" box))
 (setq evil-insert-state-cursor '("green" bar))
-(setq evil-emacs-state-cursor '("blue" bar))
-;; (setq evil-visual-state-cursor '("" ))
-;; (setq evil-replace-state-cursor '("" ))
-;; (setq evil-operator-state-cursor '("" ))
-;; (setq evil-motion-state-cursor '("" ))
+(setq evil-emacs-state-cursor '("#444488" bar))
+(setq evil-visual-state-cursor '("violet"))
+(setq evil-replace-state-cursor '("red" hbar))
+(setq evil-operator-state-cursor '("orange"))
+(setq evil-motion-state-cursor '("magenta"))
 
-;; Make movement keys work like they should
+;; http://www.emacswiki.org/emacs/Evil
+;; change mode-line color by evil state
+(lexical-let ((default-color (cons (face-background 'mode-line)
+                                   (face-foreground 'mode-line))))
+  (add-hook 'post-command-hook
+            (lambda ()
+              (let ((color (cond ((minibufferp) default-color)
+                                 ((evil-insert-state-p) '("green" . "#000000"))
+                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                                 (t default-color))))
+                (set-face-background 'mode-line (car color))
+                (set-face-foreground 'mode-line (cdr color))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; left at column 0 puts cursor on last column of previous line
+;; right on last column of line puts cursor on column 0 of next line
+;; http://stackoverflow.com/questions/20882935/how-to-move-between-visual-lines-and-move-past-newline-in-evil-mode
+;;;;;;;;;;;;;;;;;;;;;;;
 (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
 (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-; Make horizontal movement cross lines
 (setq-default evil-cross-lines t)
-(define-key evil-normal-state-map (kbd "<remap> <evil-end-of-line>") 'evil-end-of-visual-line)
-(define-key evil-motion-state-map "$" 'evil-end-of-visual-line)
 
-;; Override annoying stuff when in vi mode
+;;;;;;;;;;;;;;;;;;;;;;;
+;; overriding annoying stuff when in insert or normal mode
+;;;;;;;;;;;;;;;;;;;;;;;
 (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-visual-line)
 (define-key evil-normal-state-map (kbd "C-f") 'forward-char)
 (define-key evil-normal-state-map (kbd "C-b") 'backward-char)
@@ -123,7 +144,6 @@
 (define-key evil-normal-state-map (kbd "C-d") 'delete-char)
 (define-key evil-normal-state-map (kbd "C-t") 'transpose-chars)
 
-;; Override annoying stuff when in "insert mode"
 (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-visual-line)
 (define-key evil-insert-state-map (kbd "C-n") nil)
 (define-key evil-insert-state-map (kbd "C-p") nil)
@@ -132,9 +152,11 @@
 (define-key evil-insert-state-map (kbd "C-t") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
 
+
+;; when exiting insert mode, the cursor doesn't move back a column
 (setq evil-move-cursor-back nil)
 
+;; when exiting insert mode, stuff happens
 (dolist (hook '(evil-normal-state-entry-hook))
   (add-hook hook 'save-and-format-buffer))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
