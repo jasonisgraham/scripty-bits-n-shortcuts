@@ -81,9 +81,7 @@
 (defun lisp-hooks ()
   (interactive)
   (paredit-mode t)
-  (rainbow-delimiters-mode t)
-  ;; (numberrow-use-symbols)
-  )
+  (rainbow-delimiters-mode t))
 
 ;; (add-to-list 'auto-mode-alist '("\\.R\\'" . inferior-ess-mode))
 
@@ -95,44 +93,48 @@
                 cider-repl-mode-hook))
   (add-hook hook 'lisp-hooks))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; viper-mode
-(setq viper-mode t)
-(setq viper-ESC-moves-cursor-back nil)
-(require 'viper)
+(require 'evil)
+(evil-mode 1)
+(setq evil-default-cursor '("white" box))
+(setq evil-normal-state-cursor '("white" box))
+(setq evil-insert-state-cursor '("green" bar))
+(setq evil-emacs-state-cursor '("blue" bar))
+;; (setq evil-visual-state-cursor '("" ))
+;; (setq evil-replace-state-cursor '("" ))
+;; (setq evil-operator-state-cursor '("" ))
+;; (setq evil-motion-state-cursor '("" ))
 
-(setq-default viper-want-emacs-keys-in-insert t)
-
-(viper-record-kbd-macro "$" 'vi-state [ (control e) ] 't)
-(setq viper-case-fold-search 't) ; viper search - case insensitive
-(setq viper-insert-state-cursor-color "Green")
-(setq viper-emacs-state-cursor-color "Blue")
+;; Make movement keys work like they should
+(define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+(define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+(define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+; Make horizontal movement cross lines
+(setq-default evil-cross-lines t)
+(define-key evil-normal-state-map (kbd "<remap> <evil-end-of-line>") 'evil-end-of-visual-line)
+(define-key evil-motion-state-map "$" 'evil-end-of-visual-line)
 
 ;; Override annoying stuff when in vi mode
-(define-key viper-vi-basic-map (kbd "C-e") nil)
-(define-key viper-vi-basic-map (kbd "C-f") nil)
-(define-key viper-vi-basic-map (kbd "C-b") nil)
-(define-key viper-vi-basic-map (kbd "C-m") 'newline)
-(define-key viper-vi-basic-map (kbd "C-d") nil)
-(define-key viper-vi-basic-map (kbd "C-c M-n") nil)
-(define-key viper-vi-basic-map (kbd "C-u") nil)
-(define-key viper-vi-basic-map (kbd "C-h") 'delete-backward-char)
+(define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-visual-line)
+(define-key evil-normal-state-map (kbd "C-f") 'forward-char)
+(define-key evil-normal-state-map (kbd "C-b") 'backward-char)
+(define-key evil-normal-state-map (kbd "C-m") 'newline)
+(define-key evil-normal-state-map (kbd "C-d") 'delete-char)
+(define-key evil-normal-state-map (kbd "C-t") 'transpose-chars)
 
 ;; Override annoying stuff when in "insert mode"
-(define-key viper-insert-basic-map (kbd "C-w") nil)
-(define-key viper-insert-basic-map (kbd "C-d") nil)
-(define-key viper-insert-basic-map (kbd "C-y") nil)
-(define-key viper-insert-basic-map (kbd "C-t") nil)
-(define-key viper-insert-basic-map (kbd "TAB") nil)
-(define-key viper-insert-basic-map (kbd "<tab>") nil)
-(define-key viper-insert-basic-map (kbd "C-m") 'newline)
-(define-key viper-insert-basic-map (kbd "C-c M-n") nil)
-(define-key viper-insert-basic-map (kbd "C-u") nil)
-(define-key viper-insert-basic-map (kbd "C-h") 'delete-backward-char)
+(define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-visual-line)
+(define-key evil-insert-state-map (kbd "C-n") nil)
+(define-key evil-insert-state-map (kbd "C-p") nil)
+(define-key evil-insert-state-map (kbd "C-d") nil)
+(define-key evil-insert-state-map (kbd "C-y") nil)
+(define-key evil-insert-state-map (kbd "C-t") nil)
+(define-key evil-insert-state-map (kbd "C-k") nil)
 
-(set 'viper-fast-keyseq-timeout 0)
-(set 'viper-no-multiple-ESC t)
-(defun viper-translate-all-ESC-keysequences () t)
-(set 'viper-ESC-keyseq-timeout 0)
+(setq evil-move-cursor-back nil)
+
+(dolist (hook '(evil-normal-state-entry-hook))
+  (add-hook hook 'save-and-format-buffer))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

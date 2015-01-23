@@ -64,13 +64,6 @@
   (interactive)
   (revert-buffer t t))
 
-(defun vi-mode-exit-insert-mode-with-hooks ()
-  "this is here in case I want things to happen when I exit vi-command mode.  I used to want a lot of things to happen, now it looks like all i want is to go back to vi-command mode.  BUT, this is here in case I change my mind one day."
-  (interactive)
-  (viper-intercept-ESC-key)
-  ;; (save-and-format-buffer)
-  )
-
 ;; http://unix.stackexchange.com/questions/20849/emacs-how-to-copy-region-and-leave-it-highlighted
 (defun kill-ring-save-keep-highlight (beg end)
   "Keep the region active after the kill"
@@ -83,7 +76,7 @@
   (interactive "r")
   (quote set-mark-command))
 
-(add-hook 'activate-mark-hook 'viper-intercept-ESC-key)
+(add-hook 'activate-mark-hook 'evil-normal-state)
 
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
@@ -104,12 +97,8 @@
 
 ;; do things when switching out of a buffer that edits a file
 (defun on-window-switch ()
-  (viper-intercept-ESC-key)
-  ;; (when buffer-file-name
-  ;;   (viper-intercept-ESC-key)
-  ;;   (save-buffer)
-  ;;   )
-  )
+  (when buffer-file-name
+    (evil-normal-state)))
 
 (defun goto-line-with-feedback ()
   "If line numbers aren't displayed, show line numbers temporarily, while prompting for the line number input"

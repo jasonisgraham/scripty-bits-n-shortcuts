@@ -19,9 +19,7 @@
 (global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
 (global-set-key (kbd "H-o") 	'dabbrev-expand)
 
-(global-set-key (kbd "H-i") 	'vi-mode-exit-insert-mode-with-hooks)
-(global-set-key (kbd "H-;") 	'vi-mode-exit-insert-mode-with-hooks)
-(global-set-key (kbd "C-;") 	'vi-mode-exit-insert-mode-with-hooks)
+(global-set-key (kbd "H-i") 	'evil-normal-state)
 
 (global-set-key (kbd "H-M-h")	'buffer-stack-down)
 (global-set-key (kbd "H-M-l")	'buffer-stack-up)

@@ -27,10 +27,10 @@
 (defun save-and-format-buffer ()
   "applies some formatting to a file then saves it"
   (interactive)
-  (delete-trailing-whitespace)
-  ;; (indent-buffer)
   (set-cursor-color "#ffffff")
-  (when buffer-file-name (save-buffer)))
+  (when (and buffer-file-name (buffer-modified-p))
+    (delete-trailing-whitespace)
+    (save-buffer)))
 
 ;; diff mode
 (eval-after-load 'diff-mode
