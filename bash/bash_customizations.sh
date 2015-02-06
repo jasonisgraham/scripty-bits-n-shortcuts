@@ -73,7 +73,7 @@ alias l=$__BASE_LS_COMMAND
 alias la="${__BASE_LS_COMMAND} -A"
 alias lah="${__BASE_LS_COMMAND} -Ahg"
 alias ll="ls -AlF"
-alias lt="${__BASE_LS_COMMAND} -t"
+alias lt="${__BASE_LS_COMMAND} -tAl"
 function ls-only-hidden-dirs {
     local _dir="$1"
     l -A --color=never $_dir | grep \/$ | grep '^\.'

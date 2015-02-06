@@ -59,6 +59,16 @@
 (ido-mode 1)
 (add-to-list 'ido-work-directory-list-ignore-regexps tramp-file-name-regexp)
 
+(global-set-key
+ "\M-x"
+ (lambda ()
+   (interactive)
+   (call-interactively
+    (intern
+     (ido-completing-read
+      "M-x "
+      (all-completions "" obarray 'commandp))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
@@ -92,7 +102,35 @@
                 cider-repl-mode
                 cider-repl-mode-hook))
   (add-hook hook 'lisp-hooks))
+(setq cider-test-show-report-on-success nil)
+(add-hook 'cider-mode-hook #'eldoc-mode)
+(setq nrepl-log-messages t)
+(setq nrepl-hide-special-buffers t)
+(setq cider-repl-pop-to-buffer-on-connect nil)
+(setq cider-repl-result-prefix ";;=> ")
 
+;; add the pretty lambda symbols
+(setq global-prettify-symbols-mode t)
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "λ")
+                               nil))))))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("\\(#\\)("
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "ƒ")
+                               nil))))))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("\\(#\\){"
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "∈")
+                               nil))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'evil)
 (evil-mode 1)
@@ -103,7 +141,7 @@
 (setq evil-default-cursor '("white" box))
 (setq evil-normal-state-cursor '("white" box))
 (setq evil-insert-state-cursor '("green" bar))
-(setq evil-emacs-state-cursor '("#444488" bar))
+(setq evil-emacs-state-cursor '("blue" box))
 (setq evil-visual-state-cursor '("violet"))
 (setq evil-replace-state-cursor '("red" hbar))
 (setq evil-operator-state-cursor '("orange"))
@@ -118,6 +156,7 @@
               (let ((color (cond ((minibufferp) default-color)
                                  ((evil-insert-state-p) '("green" . "#000000"))
                                  ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                                 ((evil-visual-state-p) '("red" . "#000000"))
                                  ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
                                  (t default-color))))
                 (set-face-background 'mode-line (car color))
@@ -143,6 +182,11 @@
 (define-key evil-normal-state-map (kbd "C-m") 'newline)
 (define-key evil-normal-state-map (kbd "C-d") 'delete-char)
 (define-key evil-normal-state-map (kbd "C-t") 'transpose-chars)
+(define-key evil-normal-state-map (kbd "q")    nil)
+(define-key evil-normal-state-map (kbd "C-w")  nil)
+(define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
+(define-key evil-normal-state-map (kbd "C-r")  nil)
+
 
 (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-visual-line)
 (define-key evil-insert-state-map (kbd "C-n") nil)
@@ -151,12 +195,36 @@
 (define-key evil-insert-state-map (kbd "C-y") nil)
 (define-key evil-insert-state-map (kbd "C-t") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
+(define-key evil-insert-state-map (kbd "C-w") nil)
+(define-key evil-insert-state-map (kbd "C-r") nil)
 
-
+(define-key evil-normal-state-map (kbd "gp")  'elscreen-previous)
+(define-key evil-normal-state-map (kbd "gn")  'elscreen-next)
+(define-key evil-normal-state-map (kbd "gh")  'windmove-left)
+(define-key evil-normal-state-map (kbd "gl")  'windmove-right)
+(define-key evil-normal-state-map (kbd "gk")  'windmove-up)
+(define-key evil-normal-state-map (kbd "gj")  'windmove-down)
 ;; when exiting insert mode, the cursor doesn't move back a column
 (setq evil-move-cursor-back nil)
 
 ;; when exiting insert mode, stuff happens
-(dolist (hook '(evil-normal-state-entry-hook))
-  (add-hook hook 'save-and-format-buffer))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (dolist (hook '(evil-normal-state-entry-hook))
+;;   (add-hook hook 'save-and-format-buffer))
+
+;; this gives the vim tabs stuff
+(load "elscreen" "ElScreen" t)
+(elscreen-start)
+(setq elscreen-display-tab nil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'sr-speedbar)
+;; Start Sr-Speedbar in buffer mode by default
+(add-hook 'speedbar-mode-hook
+          (lambda ()
+            (speedbar-change-initial-expansion-list "quick buffers")))
+
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))

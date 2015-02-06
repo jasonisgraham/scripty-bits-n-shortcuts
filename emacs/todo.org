@@ -1,3 +1,4 @@
+* buffer-stack-{down,up}, i'd like to ignore non-file buffers
 * when tiling window to right and it cannot go right anymore, move window to next monitor
 ** Tile window to left
 ** Tile window to right
@@ -49,7 +50,11 @@
 *** caps v - switch to vi-mode
 *** remap CAPSLOCK to some weird symbol.  make that symbol the beginning point of a key-chord or some ivper key combo
 *** give "Calc" key CapsLock function, make CapsLock Ctrl
-* Fixed
+* TODO when using symbol-row instead of numbers, indicate it in mode-line
+* unbound evil VIM keys
+** q
+** g
+* done Fixed
 ** viper exit replace mode w/o spitting out "q"
 *** stopped using key-chord.  this is bound to H-i & C-; now
 ** I don't like H-b & H-m-b for the switch buffer thing.  maybe H-8 & H-m-8?  that seems a LOT easier to hit on both keyboards.
@@ -78,3 +83,4 @@ add        mod5 = Mode_switch ISO_Level3_Shift
 ** remove saving when switching buffers.  it can get annoying.
 ** in addition to H-p to toggle previous buffer, do something like H-M-p & H-M-n to cycle up and down ALL active buffers, or H-M-h & H-M-l
 ** define some key to toggle numbers & symbols
+* ido on M-x
