@@ -80,6 +80,3 @@
 
 (defun swap-numbers-with-symbols/mode-line-display ()
   (if __use-symbols "<sym>" "<num>"))
-
-(defvar swap-numbers-with-symbols/mode-line-display
-  '(:eval (swap-numbers-with-symbols/mode-line-display-defun)))

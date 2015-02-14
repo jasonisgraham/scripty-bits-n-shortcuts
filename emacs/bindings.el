@@ -58,7 +58,10 @@
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
-(global-set-key (kbd "H-n") 'swap-numbers-with-symbols/toggle)
+(global-set-key (kbd "H-n") (lambda ()
+                              (interactive)
+                              (force-mode-line-update)
+                              (swap-numbers-with-symbols/toggle)))
 
 (global-set-key (kbd "M-G d d") (lambda()
                                   (interactive)
