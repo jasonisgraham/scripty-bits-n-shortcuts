@@ -9,6 +9,16 @@
   :group 'swap-numbers-with-symbols
   :type 'boolean)
 
+(defcustom mode-line-symbols-display ""
+  "what's diplayed in mode-line when symbols are active"
+  :group 'swap-numbers-with-symbols
+  :type 'string)
+
+(defcustom mode-line-numbers-display "<num>"
+  "what's diplayed in mode-line when numbers are active"
+  :group 'swap-numbers-with-symbols
+  :type 'string)
+
 (setq __use-symbols use-symbols-by-default)
 
 (defun swap-numbers-with-symbols/toggle ()
@@ -79,4 +89,4 @@
   (swap-numbers-with-symbols/use-symbols))
 
 (defun swap-numbers-with-symbols/mode-line-display ()
-  (if __use-symbols "<sym>" "<num>"))
+  (if __use-symbols mode-line-symbols-display mode-line-numbers-display))
