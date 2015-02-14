@@ -100,7 +100,10 @@ Move point to the beginning of the line, and run the normal hook
    (run-hooks 'hs-hide-hook)))
 
 (set-frame-parameter (selected-frame) 'alpha '(97 90))
-(global-auto-highlight-symbol-mode 1)
+
+(require 'auto-highlight-symbol)
+(setq global-auto-highlight-symbol-mode t) ;; at least alt+left/right conflicts with org-mode's bindings
+(setq auto-highlight-symbol-mode t)
 (setq ahs-chrange-whole-buffer t)
 
 (put 'scroll-left 'disabled nil)
@@ -108,4 +111,3 @@ Move point to the beginning of the line, and run the normal hook
 ;; http://emacs.stackexchange.com/questions/7225/visual-selection-highlighting-invisible-with-evil-and-color-theme
 ;; (region ((t (:background "#1D1E2C"))))
 ;; (speedbar-file-face ((t (:foreground "#1D1E2C"))))
-

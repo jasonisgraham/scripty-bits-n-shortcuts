@@ -1,5 +1,6 @@
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "appearance.el"))
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "misc.el"))
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "swap-numbers-with-symbols.el"))
 
 (global-set-key (kbd "C-h")	'delete-backward-char)
 (global-set-key (kbd "M-G r")	'open-resource)
@@ -14,6 +15,7 @@
 (global-set-key (kbd "C-r")	'isearch-backward)
 (global-set-key (kbd "H-r")	'rgrep)
 (global-set-key (kbd "H-M-\\")	'indent-buffer)
+(global-set-key (kbd "M-C k")	'flyspell-correct-word-before-point)
 
 (global-set-key (kbd "H-w")	'kill-ring-save-keep-highlight)
 (global-set-key (kbd "H-j") 	'newline)
@@ -56,7 +58,7 @@
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
-(global-set-key (kbd "H-n") 'toggle-numbers-with-symbols)
+(global-set-key (kbd "H-n") 'swap-numbers-with-symbols/toggle)
 
 (global-set-key (kbd "M-G d d") (lambda()
                                   (interactive)
@@ -97,81 +99,11 @@
   '(progn
      (define-key undo-tree-map (kbd "C-r") nil)))
 
-(defun toggle-numbers-with-symbols ()
-  (interactive)
-  ;; if we're using symbols, then use numbers
-  (if __use-symbols
-      (numberrow-use-numbers)
-    (numberrow-use-symbols)))
-
-(defun numberrow-use-symbols ()
-  (interactive)
-  (setq __use-symbols t)
-  (keyboard-translate ?1 ?!)
-  (keyboard-translate ?! ?1)
-  (keyboard-translate ?2 ?@)
-  (keyboard-translate ?@ ?2)
-  (keyboard-translate ?3 ?#)
-  (keyboard-translate ?# ?3)
-  (keyboard-translate ?4 ?$)
-  (keyboard-translate ?$ ?4)
-  (keyboard-translate ?5 ?%)
-  (keyboard-translate ?% ?5)
-  (keyboard-translate ?6 ?^)
-  (keyboard-translate ?^ ?6)
-  (keyboard-translate ?7 ?&)
-  (keyboard-translate ?& ?7)
-  (keyboard-translate ?8 ?*)
-  (keyboard-translate ?* ?8)
-  (keyboard-translate ?9 ?\()
-  (keyboard-translate ?\( ?9)
-  (keyboard-translate ?0 ?\))
-  (keyboard-translate ?\) ?0)
-  (define-key evil-normal-state-map (kbd "qw)") 'delete-window)
-  (define-key evil-normal-state-map (kbd "qw0") nil)
-  (define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
-  (define-key evil-normal-state-map (kbd "qw1") nil))
-
-(defun numberrow-use-numbers ()
-  (interactive)
-  (setq __use-symbols nil)
-  (keyboard-translate ?1 ?1)
-  (keyboard-translate ?! ?!)
-  (keyboard-translate ?2 ?2)
-  (keyboard-translate ?@ ?@)
-  (keyboard-translate ?3 ?3)
-  (keyboard-translate ?# ?#)
-  (keyboard-translate ?4 ?4)
-  (keyboard-translate ?$ ?$)
-  (keyboard-translate ?5 ?5)
-  (keyboard-translate ?% ?%)
-  (keyboard-translate ?6 ?6)
-  (keyboard-translate ?^ ?^)
-  (keyboard-translate ?7 ?7)
-  (keyboard-translate ?& ?&)
-  (keyboard-translate ?8 ?8)
-  (keyboard-translate ?* ?*)
-  (keyboard-translate ?9 ?9)
-  (keyboard-translate ?\( ?\()
-  (keyboard-translate ?0 ?0)
-  (keyboard-translate ?\) ?\))
-  (define-key evil-normal-state-map (kbd "qw0") 'delete-window)
-  (define-key evil-normal-state-map (kbd "qw)") nil)
-  (define-key evil-normal-state-map (kbd "qw1") 'delete-other-windows)
-  (define-key evil-normal-state-map (kbd "qw!") nil))
-
-;; this is a function to toggle numbers with symbols.  e.g. 1 -> !, 2 -> @, ... 9 -> (, 0 -> )
-(numberrow-use-numbers) ;; (setq __use-symbols nil)
-
-(defun numberrow-mode-line-display-defun ()
-  (if __use-symbols "<sym>" "<num>"))
-
-(defvar numberrow-mode-line-display '(:eval (numberrow-mode-line-display-defun)))
-
 (add-hook 'org-mode-hook (lambda ()
                            (interactive)
                            (define-key org-mode-map (kbd "M-S-<return>")	'org-insert-subheading)
-                           (define-key org-mode-map (kbd "C-<return>")		'org-insert-heading-after-current)))
+                           (define-key org-mode-map (kbd "C-<return>")		'org-insert-heading-after-current)
+                           (setq flyspell-mode t)))
 
 ;; disable mouse clicks
 ;; (dolist (k '([mouse-1] [down-mouse-1]))
@@ -191,9 +123,10 @@
                                                 (interactive)
                                                 (split-window-below)
                                                 (windmove-down)))
-;; (define-key evil-normal-state-map (kbd "gwn") 'winner-undo)
-;; (define-key evil-normal-state-map (kbd "gwp") 'winner-redo)
-;; (define-key evil-normal-state-map (kbd "gq") 'repeat)
+
+(define-key evil-normal-state-map (kbd "gwn") 'winner-undo)
+(define-key evil-normal-state-map (kbd "gwp") 'winner-redo)
+(define-key evil-normal-state-map (kbd "gr") 'repeat)
 
 (define-key evil-normal-state-map (kbd "qq") 'quit-window)
 (define-key evil-normal-state-map (kbd "gp") 'elscreen-previous)
@@ -206,4 +139,5 @@
 (define-key evil-normal-state-map (kbd "gf") 'ido-find-file)
 (define-key evil-normal-state-map (kbd "g-") 'hs-hide-block)
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
+(define-key evil-normal-state-map (kbd "ge") 'evil-execute-in-emacs-state)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

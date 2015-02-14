@@ -207,10 +207,6 @@
 ;; when exiting insert mode, the cursor doesn't move back a column
 (setq evil-move-cursor-back nil)
 
-;; when exiting insert mode, stuff happens
-;; (dolist (hook '(evil-normal-state-entry-hook))
-;;   (add-hook hook 'save-and-format-buffer))
-
 ;; this gives the vim tabs stuff
 (load "elscreen" "ElScreen" t)
 (elscreen-start)
