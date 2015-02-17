@@ -1,13 +1,14 @@
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "appearance.el"))
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "misc.el"))
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "swap-numbers-with-symbols.el"))
+;; (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "swap-numbers-with-symbols.el"))
 
 (global-set-key (kbd "C-h")	'delete-backward-char)
 (global-set-key (kbd "M-G r")	'open-resource)
 (global-set-key (kbd "C-x C-b")	'buffer-menu)
-(global-set-key (kbd "H-M-8")	'buffer-menu)
+(global-set-key (kbd "H-M-*")	'buffer-menu)
 (global-set-key (kbd "H-M-s")	'sr-speedbar-toggle)
-(global-set-key (kbd "H-8")	'ido-switch-buffer)
+(global-set-key (kbd "H-*")	'ido-switch-buffer)
+(global-set-key (kbd "H-8") 	'ido-recentf-open)
 (global-set-key (kbd "C-x C-c")	'nil) ;; default \C-x\C-c is too easy to hit accidentally
 (global-set-key (kbd "M-G g")	'goto-line-with-feedback)
 (global-set-key (kbd "M-;") 	'comment-dwim-line)
@@ -17,11 +18,22 @@
 (global-set-key (kbd "H-M-\\")	'indent-buffer)
 (global-set-key (kbd "M-C k")	'flyspell-correct-word-before-point)
 
+(define-key evil-normal-state-map (kbd "qw)") 'delete-window)
+(define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
+
 (global-set-key (kbd "H-w")	'kill-ring-save-keep-highlight)
 (global-set-key (kbd "H-j") 	'newline)
+
+(global-set-key (kbd "H-<f6>")	'load-file)
 (global-set-key (kbd "H-SPC") 	'set-mark-command)
+
+;; (defun set-mark-and-enter-evil-normal-state (arg)
+;;   (interactive "^p")
+;;   (set-mark-command nil)
+;;   (evil-normal-state))
+
 (global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
-(global-set-key (kbd "H-o") 	'dabbrev-expand)
+;; (global-set-key (kbd "H-o") 	'dabbrev-expand)
 
 (global-set-key (kbd "H-i") 	(lambda ()
                                   (interactive)
@@ -31,9 +43,9 @@
 
 ;; requires elscree; nput some elscreen check here?
 (global-set-key (kbd "H-v p") 	'elscreen-previous)
-(global-set-key (kbd "H-9") 	'elscreen-previous)
+(global-set-key (kbd "H-(") 	'elscreen-previous)
 (global-set-key (kbd "H-v n") 	'elscreen-next)
-(global-set-key (kbd "H-0") 	'elscreen-next)
+(global-set-key (kbd "H-)") 	'elscreen-next)
 (global-set-key (kbd "H-v c") 	'elscreen-create)
 (global-set-key (kbd "H-v k") 	'elscreen-kill)
 (global-set-key (kbd "H-v f")	'elscreen-find-file)
@@ -45,8 +57,7 @@
 (global-set-key (kbd "H-e") 	'eval-last-sexp)
 
 (global-set-key (kbd "H-f")	'ido-find-file)
-(global-set-key (kbd "H-4 f")	'ido-find-file-other-window)
-(global-set-key (kbd "H-5 f")	'ido-find-file-other-frame)
+(global-set-key (kbd "H-$ f")	'ido-find-file-other-window)
 
 (global-set-key (kbd "H-M--") 	'bury-buffer)
 (global-set-key (kbd "H-M-h")	'buffer-stack-down)
@@ -58,10 +69,10 @@
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
-(global-set-key (kbd "H-n") (lambda ()
-                              (interactive)
-                              (force-mode-line-update)
-                              (swap-numbers-with-symbols/toggle)))
+;; (global-set-key (kbd "H-n") (lambda ()
+;;                               (interactive)
+;;                               (force-mode-line-update)
+;;                               (swap-numbers-with-symbols/toggle)))
 
 (global-set-key (kbd "M-G d d") (lambda()
                                   (interactive)
@@ -117,15 +128,9 @@
 ;; evil stuff
 (define-key evil-normal-state-map (kbd "gw") nil)
 (define-key evil-normal-state-map (kbd "gwh") 'split-window-right)
-(define-key evil-normal-state-map (kbd "gwl") (lambda ()
-                                                (interactive)
-                                                (split-window-right)
-                                                (windmove-right)))
+(define-key evil-normal-state-map (kbd "gwl") 'split-window-right-and-make-active)
 (define-key evil-normal-state-map (kbd "gwk") 'split-window-below)
-(define-key evil-normal-state-map (kbd "gwj") (lambda ()
-                                                (interactive)
-                                                (split-window-below)
-                                                (windmove-down)))
+(define-key evil-normal-state-map (kbd "gwj") 'split-window-below-and-make-active)
 
 (define-key evil-normal-state-map (kbd "gwn") 'winner-undo)
 (define-key evil-normal-state-map (kbd "gwp") 'winner-redo)
@@ -137,10 +142,11 @@
 (define-key evil-normal-state-map (kbd "gh") 'windmove-left)
 (define-key evil-normal-state-map (kbd "gl") 'windmove-right)
 (define-key evil-normal-state-map (kbd "gk") 'windmove-up)
-
 (define-key evil-normal-state-map (kbd "gj") 'windmove-down)
-(define-key evil-normal-state-map (kbd "gf") 'ido-find-file)
 (define-key evil-normal-state-map (kbd "g-") 'hs-hide-block)
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
 (define-key evil-normal-state-map (kbd "ge") 'evil-execute-in-emacs-state)
+
+(define-key evil-normal-state-map (kbd "gf") 	'ido-find-file)
+(define-key evil-insert-state-map (kbd "H-o") 'evil-execute-in-normal-state)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

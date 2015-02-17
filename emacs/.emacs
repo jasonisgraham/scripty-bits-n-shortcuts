@@ -108,13 +108,16 @@
  '(main-line-separator-style (quote chamfer))
  '(mode-line-format
    (quote
-    ((:eval (swap-numbers-with-symbols/mode-line-display))
+    (;; (:eval
+     ;;  (swap-numbers-with-symbols/mode-line-display))
      " " "%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position evil-mode-line-tag
      (elscreen-display-screen-number
       (" " elscreen-mode-line-string))
      (vc-mode vc-mode)
      "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
+ '(org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+ '(org-mobile-inbox-for-pull "~/org/flagged.org")
  '(org-startup-truncated nil)
  '(powerline-color1 "#1E1E1E")
  '(powerline-color2 "#111111")

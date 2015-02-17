@@ -29,6 +29,7 @@
   '(progn
      (set-face-foreground 'diff-added "green4")
      (set-face-foreground 'diff-added "red3")))
+(setq ediff-diff-options "-w")
 
 ;; (set-frame-font "Source Code Pro 10" nil t)
 ;; (set-face-attribute 'default nil :font "Source Code Pro 9")

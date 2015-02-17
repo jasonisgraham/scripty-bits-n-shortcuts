@@ -17,11 +17,6 @@
 (setq open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; start- taken from http://www.masteringemacs.org/article/find-files-faster-recent-files-package
-;; get rid of `find-file-read-only' and replace it with something
-;; more useful.
-(global-set-key (kbd "H-*") 'ido-recentf-open)
-
 ;; enable recent files mode.
 (recentf-mode t)
 (setq recentf-max-saved-items 50)
@@ -125,16 +120,22 @@
                                                (match-end 1) "ƒ")
                                nil))))))
 
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("\\(#\\){"
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "∈")
-                               nil))))))
+;; (eval-after-load 'clojure-mode
+;;   '(font-lock-add-keywords
+;;     'clojure-mode `(("\\(#\\){"
+;;                      (0 (progn (compose-region (match-beginning 1)
+;;                                                (match-end 1) "∈")
+;;                                nil))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'evil)
 (evil-mode 1)
 
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+
+(require 'highlight)
+(require 'evil-search-highlight-persist)
+(global-evil-search-highlight-persist t)
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; colors up the cursor
 ;;;;;;;;;;;;;;;;;;;;;;;

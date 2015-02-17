@@ -71,13 +71,6 @@
   (prog1 (kill-ring-save beg end)
     (setq deactivate-mark nil)))
 
-(defun set-mark-switch-to-vi-command-mode ()
-  "When setting mark, get out of vi-insert mode if there"
-  (interactive "r")
-  (unless (evil-emacs-state-p)
-    (message "here")
-    (quote set-mark-command)))
-
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
@@ -110,7 +103,7 @@
           (goto-line (read-number "Goto line: ")))
       (linum-mode -1))))
 
-(add-hook 'activate-mark-hook 'evil-normal-state)
+;; (add-hook 'activate-mark-hook 'evil-normal-state)
 
 (defun save-and-format-buffer ()
   "applies some formatting to a file then saves it"
@@ -121,3 +114,15 @@
     (save-buffer)))
 
 (setq debug-on-error nil)
+
+(defun split-window-right-and-make-active ()
+  "creates new window to right and moves cursor there"
+  (interactive)
+  (split-window-right)
+  (windmove-right))
+
+(defun split-window-below-and-make-active ()
+  "creates new window below and moves cursor there"
+  (interactive)
+  (split-window-below)
+  (windmove-down))

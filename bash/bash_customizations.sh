@@ -72,7 +72,7 @@ __BASE_LS_COMMAND='ls -hBF --ignore=#* --ignore=.svn --ignore=.git --color=alway
 alias l=$__BASE_LS_COMMAND
 alias la="${__BASE_LS_COMMAND} -A"
 alias lah="${__BASE_LS_COMMAND} -Ahg"
-alias ll="ls -AlF"
+alias ll="${__BASE_LS_COMMAND} -Al"
 alias lt="${__BASE_LS_COMMAND} -tAl"
 function ls-only-hidden-dirs {
     local _dir="$1"
