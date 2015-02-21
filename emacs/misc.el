@@ -126,3 +126,7 @@
   (interactive)
   (split-window-below)
   (windmove-down))
+
+;; http://stackoverflow.com/questions/4053708/emacs-desktop-doesnt-remember-tramp-connections
+;; remember TRAMP connections
+(setq desktop-files-not-to-save "^$")

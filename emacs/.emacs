@@ -63,6 +63,8 @@
  '(font-use-system-font t)
  '(foreground-color "#cccccc")
  '(fringe-mode 0 nil (fringe))
+ '(global-auto-highlight-symbol-mode t)
+ '(global-evil-search-highlight-persist t)
  '(global-linum-mode nil)
  '(global-undo-tree-mode t)
  '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
@@ -100,6 +102,7 @@
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
  '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
+ '(ispell-highlight-face (quote flyspell-incorrect))
  '(linum-format "%0d")
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
@@ -108,16 +111,12 @@
  '(main-line-separator-style (quote chamfer))
  '(mode-line-format
    (quote
-    (;; (:eval
-     ;;  (swap-numbers-with-symbols/mode-line-display))
-     " " "%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position evil-mode-line-tag
+    (" " "%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position evil-mode-line-tag
      (elscreen-display-screen-number
       (" " elscreen-mode-line-string))
      (vc-mode vc-mode)
      "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
- '(org-mobile-directory "~/Dropbox/Apps/MobileOrg")
- '(org-mobile-inbox-for-pull "~/org/flagged.org")
  '(org-startup-truncated nil)
  '(powerline-color1 "#1E1E1E")
  '(powerline-color2 "#111111")
@@ -181,8 +180,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-search-highlight-persist-highlight-face ((t (:inherit nil :background "yellow1" :foreground "black"))))
  '(mode-line ((t (:background "white" :foreground "black"))))
  '(mode-line-buffer-id ((t (:foreground "black" :weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
  '(mode-line-inactive ((t (:inherit mode-line :inverse-video t))))
- '(show-paren-match ((t (:background "blue")))))
+ '(show-paren-match ((t (:background "blue"))))
+ '(term ((t (:inherit default :foreground "white smoke")))))

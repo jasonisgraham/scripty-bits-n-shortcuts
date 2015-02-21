@@ -17,6 +17,9 @@
 (global-set-key (kbd "H-r")	'rgrep)
 (global-set-key (kbd "H-M-\\")	'indent-buffer)
 (global-set-key (kbd "M-C k")	'flyspell-correct-word-before-point)
+(global-set-key (kbd "M-5")	'query-replace)
+(global-set-key (kbd "M-%")	'digit-argument)
+(global-set-key (kbd "H-d")	'ediff-buffers)
 
 (define-key evil-normal-state-map (kbd "qw)") 'delete-window)
 (define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)

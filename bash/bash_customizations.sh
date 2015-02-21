@@ -60,8 +60,6 @@ bind '"\eXe"':'"\C-aemacs $(convert-dos-filepath-to-cygwin-filepath "\C-e")\C-j\
 bind '"\eX\ew"':'"\C-a echo \"\C-e\" | xclip -selection clipboard\C-j\"'
 # copy whatever ctrl+y does into clipboard
 bind '"\eX\ey"':'"echo \C-y | xclip -selection clipboard\C-j"'
-# inserts $() and moves cursor inside parens
-bind '"\eX("':'"$()\C-b"'
 bind '"\ep"':'"\C-p"'
 bind '"\en"':'"\C-n"'
 
@@ -99,7 +97,7 @@ fi
 
 if [ -a $BASH_FILES_DIR/bash_customizations_svn.sh ]; then
     source $BASH_FILES_DIR/bash_customizations_svn.sh
-    bind '"\e&"':"\"\C-udo-svn\C-m\""
+    bind '"\e7"':"\"\C-udo-svn\C-m\""
 fi
 
 # THUMB BALL MOUSE ES 2 FASTO! SLOW IT DOWN
@@ -107,7 +105,7 @@ fi
 #xinput --set-prop "$logitech" "Device Accel Constant Deceleration" 2 # It defaults to 1
 
 # stupid delay on keypress too slow, dawg when coming out of "suspend".  stupid xubuntu.
-source $BASH_FILES_DIR/reset-cursor-blink-speed.sh
+source $BASH_FILES_DIR/swap-symbols-with-numbers.sh
 
 ##################################
 #HISTORY_CUSTOMIZATIONS
@@ -122,7 +120,12 @@ HISTFILESIZE=10000
 # "useful" functions that are called with the binds from above
 # consider these private methods.  It doesn't make a lot of sense
 # to use these from the command line
-####################################################################
+###################################################################
+# only display minimal xev information (keypress and keycodes)
+function xev-minimal {
+    xev -event keyboard | grep --color -oP 'keycode.*\)'
+}
+
 # sorts single csv line asc
 function sort-csv-line {
     echo $1 | tr ',' '\n' | sort -u | tr '\n' ','
