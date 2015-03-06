@@ -1,34 +1,44 @@
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "appearance.el"))
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "misc.el"))
-;; (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "swap-numbers-with-symbols.el"))
 
-(global-set-key (kbd "C-h")	'delete-backward-char)
-(global-set-key (kbd "M-G r")	'open-resource)
-(global-set-key (kbd "C-x C-b")	'buffer-menu)
-(global-set-key (kbd "H-M-*")	'buffer-menu)
-(global-set-key (kbd "H-M-s")	'sr-speedbar-toggle)
-(global-set-key (kbd "H-*")	'ido-switch-buffer)
-(global-set-key (kbd "H-8") 	'ido-recentf-open)
-(global-set-key (kbd "C-x C-c")	'nil) ;; default \C-x\C-c is too easy to hit accidentally
-(global-set-key (kbd "M-G g")	'goto-line-with-feedback)
-(global-set-key (kbd "M-;") 	'comment-dwim-line)
-(global-set-key (kbd "C-c r") 	'revert-buffer-no-confirm)
-(global-set-key (kbd "C-r")	'isearch-backward)
-(global-set-key (kbd "H-r")	'rgrep)
-(global-set-key (kbd "H-M-\\")	'indent-buffer)
-(global-set-key (kbd "M-C k")	'flyspell-correct-word-before-point)
-(global-set-key (kbd "M-5")	'query-replace)
-(global-set-key (kbd "M-%")	'digit-argument)
-(global-set-key (kbd "H-d")	'ediff-buffers)
+(global-set-key (kbd "C-h")     'delete-backward-char)
+(global-set-key (kbd "M-G r")   'open-resource)
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
+(global-set-key (kbd "H-M-*")   'buffer-menu)
+(global-set-key (kbd "H-M-s")   'sr-speedbar-toggle)
+(global-set-key (kbd "H-*")     'ido-switch-buffer)
+;; (global-set-key (kbd "H-8")  'ido-recentf-open)
+
+(global-set-key (kbd "H-8")     'helm-mini)
+(global-set-key (kbd "M-x")     'helm-M-x)
+(global-set-key (kbd "H-y")     'helm-show-kill-ring)
+;; (global-set-key (kbd "M-y")  'yank-pop)
+(global-set-key [H-tab]         'dabbrev-expand)
+
+(global-set-key (kbd "C-x C-c") 'nil) ;; default \C-x\C-c is too easy to hit accidentally
+(global-set-key (kbd "M-G g")   'goto-line-with-feedback)
+(global-set-key (kbd "M-;")     'comment-dwim-line)
+(global-set-key (kbd "C-c r")   'revert-buffer-no-confirm)
+(global-set-key (kbd "C-r")     'isearch-backward)
+(global-set-key (kbd "H-r")     'rgrep)
+(global-set-key (kbd "H-M-\\")  'indent-buffer)
+(global-set-key (kbd "M-C k")   'flyspell-correct-word-before-point)
+(global-set-key (kbd "M-5")     'query-replace)
+(global-set-key (kbd "M-%")     'digit-argument)
+(global-set-key (kbd "H-d")     'ediff-buffers)
 
 (define-key evil-normal-state-map (kbd "qw)") 'delete-window)
 (define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
 
-(global-set-key (kbd "H-w")	'kill-ring-save-keep-highlight)
-(global-set-key (kbd "H-j") 	'newline)
+(global-set-key (kbd "H-w")     'kill-ring-save-keep-highlight)
+(global-set-key (kbd "H-m")     'newline)
+(global-set-key (kbd "H-o j")   'evil-next-line-first-non-blank)
+(global-set-key (kbd "H-o H-o k")  'evil-open-above)
+(global-set-key (kbd "H-o k")   'evil-previous-line-first-non-blank)
 
-(global-set-key (kbd "H-<f6>")	'load-file)
-(global-set-key (kbd "H-SPC") 	'set-mark-command)
+(global-set-key (kbd "H-<f1>")  'help)
+(global-set-key (kbd "H-<f6>")  'load-file)
+(global-set-key (kbd "H-SPC")   'set-mark-command)
 
 ;; (defun set-mark-and-enter-evil-normal-state (arg)
 ;;   (interactive "^p")
@@ -36,46 +46,41 @@
 ;;   (evil-normal-state))
 
 (global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
-;; (global-set-key (kbd "H-o") 	'dabbrev-expand)
 
-(global-set-key (kbd "H-i") 	(lambda ()
+(global-set-key (kbd "H-i")     (lambda ()
                                   (interactive)
                                   (evil-normal-state)
                                   (save-and-format-buffer)))
-(global-set-key (kbd "H-[")	'evil-normal-state)
+(global-set-key (kbd "H-[")     'evil-normal-state)
 
 ;; requires elscree; nput some elscreen check here?
-(global-set-key (kbd "H-v p") 	'elscreen-previous)
-(global-set-key (kbd "H-(") 	'elscreen-previous)
-(global-set-key (kbd "H-v n") 	'elscreen-next)
-(global-set-key (kbd "H-)") 	'elscreen-next)
-(global-set-key (kbd "H-v c") 	'elscreen-create)
-(global-set-key (kbd "H-v k") 	'elscreen-kill)
-(global-set-key (kbd "H-v f")	'elscreen-find-file)
-(global-set-key (kbd "H-v '")	'elscreen-select-and-goto)
-(global-set-key (kbd "H-v H-v")	'elscreen-toggle)
-(global-set-key (kbd "H-v v")	'elscreen-toggle)
-(global-set-key (kbd "H-v A")	'elscreen-screen-nickname)
+(global-set-key (kbd "H-v p")   'elscreen-previous)
+(global-set-key (kbd "H-(")     'elscreen-previous)
+(global-set-key (kbd "H-v n")   'elscreen-next)
+(global-set-key (kbd "H-)")     'elscreen-next)
+(global-set-key (kbd "H-v c")   'elscreen-create)
+(global-set-key (kbd "H-v k")   'elscreen-kill)
+(global-set-key (kbd "H-v f")   'elscreen-find-file)
+(global-set-key (kbd "H-v '")   'elscreen-select-and-goto)
+(global-set-key (kbd "H-v H-v") 'elscreen-toggle)
+(global-set-key (kbd "H-v v")   'elscreen-toggle)
+(global-set-key (kbd "H-v A")   'elscreen-screen-nickname)
 
-(global-set-key (kbd "H-e") 	'eval-last-sexp)
+(global-set-key (kbd "H-e")     'eval-last-sexp)
 
-(global-set-key (kbd "H-f")	'ido-find-file)
-(global-set-key (kbd "H-$ f")	'ido-find-file-other-window)
+(global-set-key (kbd "H-f")     'ido-find-file)
+(global-set-key (kbd "H-$ f")   'ido-find-file-other-window)
 
-(global-set-key (kbd "H-M--") 	'bury-buffer)
-(global-set-key (kbd "H-M-h")	'buffer-stack-down)
-(global-set-key (kbd "H-M-l")	'buffer-stack-up)
-(global-set-key (kbd "H-p") 	'mode-line-other-buffer)
-(global-set-key (kbd "H-M-p")	'other-frame)
-(global-set-key (kbd "H-k") 	'kill-buffer)
-(global-set-key (kbd "H-q") 	'kill-this-buffer) ;; doesn't seem to work for some reason?
+(global-set-key (kbd "H-M--")   'bury-buffer)
+(global-set-key (kbd "H-M-h")   'buffer-stack-down)
+(global-set-key (kbd "H-M-l")   'buffer-stack-up)
+(global-set-key (kbd "H-p")     'mode-line-other-buffer)
+(global-set-key (kbd "H-M-p")   'other-frame)
+(global-set-key (kbd "H-k")     'kill-buffer)
+(global-set-key (kbd "H-q")     'kill-this-buffer) ;; doesn't seem to work for some reason?
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
-;; (global-set-key (kbd "H-n") (lambda ()
-;;                               (interactive)
-;;                               (force-mode-line-update)
-;;                               (swap-numbers-with-symbols/toggle)))
 
 (global-set-key (kbd "M-G d d") (lambda()
                                   (interactive)
@@ -103,24 +108,47 @@
 (global-set-key (kbd "M-G s B") 'hs-show-all)
 (global-set-key (kbd "M-G s b") 'hs-show-block)
 (global-set-key (kbd "M-G h b") 'hs-hide-block)
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+
+(setq __toggle-hyphen-underscore-default "-")
+(setq __toggle-hyphen-underscore-current __toggle-hyphen-underscore-default)
+
+(defun toggle-hyphen-underscore ()
+  (interactive)
+  (if (string= "-" __toggle-hyphen-underscore-current)
+      (progn
+        (setq __toggle-hyphen-underscore-current "_")
+        (keyboard-translate ?- ?_)
+        (keyboard-translate ?_ ?-))
+    (progn
+      (setq __toggle-hyphen-underscore-current "_")
+      (keyboard-translate ?- ?-)
+      (keyboard-translate ?_ ?_))))
 
 ;; Override this paredit keybindings
 (eval-after-load 'paredit
   '(progn
      (define-key paredit-mode-map (kbd "M-J") nil)
      (define-key paredit-mode-map (kbd "M-;") nil)
-     (define-key paredit-mode-map (kbd "M-r") nil)))
+     (define-key paredit-mode-map (kbd "M-r") nil)
+     (define-key paredit-mode-map (kbd "M--") nil)))
 
-;; TODO dont know if this works
+;; Override these cuz really all I want is the symbols to be highlighted
+(eval-after-load 'auto-highlight-symbol
+  '(progn
+     (define-key auto-highlight-symbol-mode-map (kbd "M--") nil)))
+
 (eval-after-load 'undo-tree
   '(progn
      (define-key undo-tree-map (kbd "C-r") nil)))
 
-(add-hook 'org-mode-hook (lambda ()
-                           (interactive)
-                           (define-key org-mode-map (kbd "M-S-<return>")	'org-insert-subheading)
-                           (define-key org-mode-map (kbd "C-<return>")		'org-insert-heading-after-current)
-                           (setq flyspell-mode t)))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (interactive)
+            (define-key org-mode-map (kbd "M-S-<return>") 'org-insert-subheading)
+            (define-key org-mode-map (kbd "C-<return>")   'org-insert-heading-after-current)
+            ;; (setq flyspell-mode t)
+            ))
 
 ;; disable mouse clicks
 ;; (dolist (k '([mouse-1] [down-mouse-1]))
@@ -148,8 +176,7 @@
 (define-key evil-normal-state-map (kbd "gj") 'windmove-down)
 (define-key evil-normal-state-map (kbd "g-") 'hs-hide-block)
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
-(define-key evil-normal-state-map (kbd "ge") 'evil-execute-in-emacs-state)
 
-(define-key evil-normal-state-map (kbd "gf") 	'ido-find-file)
-(define-key evil-insert-state-map (kbd "H-o") 'evil-execute-in-normal-state)
+(define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
+(define-key evil-normal-state-map (kbd "g SPC") 'ace-jump-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

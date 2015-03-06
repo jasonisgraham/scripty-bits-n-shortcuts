@@ -23,6 +23,7 @@ export IGNOREEOF=1
 export PS1="\u \w> "
 #PS1='$(echo -ne "\033[$(reset_username_background_after_N_seconds)m")\u$(echo -ne "\033[0m") \w> '
 export EDITOR="emacs"
+export CLOJURESCRIPT_HOME=~/Programs/clojurescript/
 
 # tell SCREEN to back off when setting TERM to "screen"
 export TERM=xterm
@@ -104,8 +105,7 @@ fi
 #logitech=$(xinput --list --short | grep -m1 "Logitech" | cut -f2 | cut -d= -f2) # mouse ID
 #xinput --set-prop "$logitech" "Device Accel Constant Deceleration" 2 # It defaults to 1
 
-# stupid delay on keypress too slow, dawg when coming out of "suspend".  stupid xubuntu.
-source $BASH_FILES_DIR/swap-symbols-with-numbers.sh
+source /usr/share/autojump/autojump.bash
 
 ##################################
 #HISTORY_CUSTOMIZATIONS
@@ -296,16 +296,21 @@ function get-path-to-dir {
 }
 
 function cd-above {
-    # cd "$1" >> /dev/null
-    # if [ "$?" != "0" ]; then
-    #     cd $(get-path-to-dir $1)
-    # fi
     if [ ! "$1" ]; then
-        cd
+        ## if no arg, go home
+        cd ~
     elif [ -d "$1" -o "$1" == "-" ]; then
+        ## if it's already a directory that exits
+        ## or we're trying to just toggle to previous dir, do that
         cd "$1"
     else
-        cd $(get-path-to-dir $1)
+        local _dir=$(get-path-to-dir $1)
+        if [ -d "$_dir" ]; then
+            cd $_dir
+        else
+            ## else, autojump to what $1 is
+            j $1
+        fi
     fi
 }
 

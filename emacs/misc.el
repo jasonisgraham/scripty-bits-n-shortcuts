@@ -129,4 +129,37 @@
 
 ;; http://stackoverflow.com/questions/4053708/emacs-desktop-doesnt-remember-tramp-connections
 ;; remember TRAMP connections
-(setq desktop-files-not-to-save "^$")
+;; (setq desktop-files-not-to-save "^$")
+
+
+;; http://stackoverflow.com/questions/13794433/how-to-disable-autosave-for-tramp-buffers-in-emacs
+(setq tramp-auto-save-directory "~/emacs/tramp-autosave")
+
+;; http://stackoverflow.com/questions/18812938/copy-full-file-path-into-copy-paste-clipboard
+(defun copy-buffer-file-name-as-kill (choice)
+  "Copy the buffer-file-name to the kill-ring"
+  (interactive "cCopy Buffer Name (F) Full, (D) Directory, (N) Name")
+  (let ((new-kill-string)
+        (name (if (eq major-mode 'dired-mode)
+                  (dired-get-filename)
+                (or (buffer-file-name) ""))))
+    (cond ((eq choice ?f)
+           (setq new-kill-string name))
+          ((eq choice ?d)
+           (setq new-kill-string (file-name-directory name)))
+          ((eq choice ?n)
+           (setq new-kill-string (file-name-nondirectory name)))
+          (t (message "Quit")))
+    (when new-kill-string
+      (message "%s copied" new-kill-string)
+      (kill-new new-kill-string))))
+
+;; (defun move-cursor-and-maintain-cursor-state (cursor-path)
+;;   "if in evil-insert mode, move cursor and stay in evil-insert mode"
+;;   (interactive)
+;;   (let ((initial-state (format "%s" (evil-state-property evil-state :mode))))
+;;     (setq some-fun (lambda () (message "do 1st thing") (message "do 2nd")))
+;;     (funcall some-fun)
+;;     (cond ((string= initial-state "evil-insert-state-minor-mode"))
+;;           )
+;;     (message (concat "state: " initial-state))))

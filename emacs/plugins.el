@@ -52,7 +52,8 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
-(add-to-list 'ido-work-directory-list-ignore-regexps tramp-file-name-regexp)
+;; (add-to-list 'ido-work-directory-list-ignore-regexps tramp-file-name-regexp)
+(setq desktop-files-not-to-save "^$")
 
 (global-set-key
  "\M-x"
@@ -101,24 +102,24 @@
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (setq nrepl-log-messages t)
 (setq nrepl-hide-special-buffers t)
-(setq cider-repl-pop-to-buffer-on-connect nil)
+;; (setq cider-repl-pop-to-buffer-on-connect nil)
 (setq cider-repl-result-prefix ";;=> ")
 
 ;; add the pretty lambda symbols
 (setq global-prettify-symbols-mode t)
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "λ")
-                               nil))))))
+;; (eval-after-load 'clojure-mode
+;;   '(font-lock-add-keywords
+;;     'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
+;;                      (0 (progn (compose-region (match-beginning 1)
+;;                                                (match-end 1) "λ")
+;;                                nil))))))
 
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("\\(#\\)("
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "ƒ")
-                               nil))))))
+;; (eval-after-load 'clojure-mode
+;;   '(font-lock-add-keywords
+;;     'clojure-mode `(("\\(#\\)("
+;;                      (0 (progn (compose-region (match-beginning 1)
+;;                                                (match-end 1) "ƒ")
+;;                                nil))))))
 
 ;; (eval-after-load 'clojure-mode
 ;;   '(font-lock-add-keywords
@@ -205,13 +206,15 @@
 (define-key evil-normal-state-map (kbd "gl")  'windmove-right)
 (define-key evil-normal-state-map (kbd "gk")  'windmove-up)
 (define-key evil-normal-state-map (kbd "gj")  'windmove-down)
+
 ;; when exiting insert mode, the cursor doesn't move back a column
-(setq evil-move-cursor-back nil)
+(setq evil-move-cursor-back t)
 
 ;; this gives the vim tabs stuff
 (load "elscreen" "ElScreen" t)
 (elscreen-start)
 (setq elscreen-display-tab nil)
+(elscreen-persist-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'sr-speedbar)
@@ -225,3 +228,114 @@
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+;;;;;;;;;;;;;
+;; golden ratio
+;; https://github.com/roman/golden-ratio.el
+;;;;;;;;;;;;;
+;; (require 'golden-ratio)
+;; (golden-ratio-mode 1)
+
+;;;;;;;;;;;;;
+;; helm
+;; http://tuhdo.github.io/helm-intro.html
+;;;;;;;;;;;;;
+(require 'helm)
+(helm-mode 1)
+(require 'helm-config)
+
+(setq helm-M-x-fuzzy-match t)
+(helm-autoresize-mode t)
+;; (setq helm-mini)
+(setq helm-buffers-fuzzy-matching t)
+(setq helm-recentf-fuzzy-match t)
+(setq helm-semantic-fuzzy-match t)
+(setq helm-imenu-fuzzy-match t)
+(helm-autoresize-mode t)
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+;; enables man page at point
+(add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+(semantic-mode 1)
+;;;;;;;;;;;;;
+;; eclim
+;; https://github.com/senny/emacs-eclim
+;;;;;;;;;;;;;
+;; (require 'eclim)
+;; (global-eclim-mode)
+;; (custom-set-variables
+;;  '(eclim-eclipse-dirs '("~/Programs/eclipse"))
+;;  '(eclim-executable "~/Programs/eclipse/eclim"))
+;; (require 'eclimd)
+
+;; regular auto-complete initialization
+;; (require 'auto-complete-config)
+;; (ac-config-default)
+
+;; add the emacs-eclim source
+;; (require 'ac-emacs-eclim-source)
+;; (ac-emacs-eclim-config)
+
+;; configuring company-mode
+(require 'company)
+;; (require 'company-emacs-eclim)
+;; (company-emacs-eclim-setup)
+;; (global-company-mode t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;; python stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; make sure to run (run-python) https://github.com/bbatsov/prelude/issues/530
+(autoload 'jedi:setup "jedi" nil t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:setup-keys t)
+(setq jedi:complete-on-dot t)
+
+;; eval-in-repl
+(require 'eval-in-repl)
+(require 'eval-in-repl-python)
+(define-key python-mode-map (kbd "H-e") 'eir-eval-in-python)
+
+(require 'django-html-mode)
+(require 'django-mode)
+;;(yas/load-directory "~/.emacs.d/elpa/django-snippets-20131229.811/snippets")
+;;(add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;; sgml/html stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun sgml-hooks ()
+  (interactive)
+  (zencoding-mode t)
+  (multiple-cursors-mode t))
+
+(require 'zencoding-mode)
+(dolist (hook '(sgml-mode-hook
+                html-mode-hook
+                django-html-mode))
+  (add-hook hook 'sgml-hooks))
+
+(setq vc-svn-diff-switches '("-x --ignore-eol-style" "-x -w"))
+
+;; (defcustom buffer-stack-ignore-pattern-exceptions nil
+;;   "see my-next-buffer for whatever is ignored when doing next-buffer & previous-buffer.  Good for things like *ielm* or *shell*"
+;;   :group 'buffer-stack
+;;   :type '(repeat string))
+
+;; (defun buffer-stack-filter-ignore-function (buffer)
+;;   (when (buffer-stack-filter-interesting-buffer-p (buffer-name buffer))
+;;     t))
+
+;; (defun buffer-stack-filter-interesting-buffer-p (name)
+;;   (or
+;;    (member name buffer-stack-ignore-pattern-exceptions)
+;;    (not (string-match "^\*" name))
+;;    ))
+
+;; (setq buffer-stack-filter 'buffer-stack-filter-ignore-function)

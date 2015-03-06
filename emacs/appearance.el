@@ -30,6 +30,7 @@
      (set-face-foreground 'diff-added "green4")
      (set-face-foreground 'diff-added "red3")))
 (setq ediff-diff-options "-w")
+(setq ediff-split-window-function 'split-window-horizontally)
 
 ;; (set-frame-font "Source Code Pro 10" nil t)
 ;; (set-face-attribute 'default nil :font "Source Code Pro 9")
@@ -72,7 +73,7 @@
   (on-window-switch))
 
 ;; hide-show stuff
-;;(setq-default hs-minor-mode t)
+(setq-default hs-minor-mode t)
 (add-hook 'c-mode-common-hook (lambda() (hs-minor-mode 1)))
 (defun hs-hide-all-comments ()
   "Hide all top level blocks, if they are comments, displaying only first line.
@@ -100,7 +101,7 @@ Move point to the beginning of the line, and run the normal hook
    (beginning-of-line)
    (run-hooks 'hs-hide-hook)))
 
-(set-frame-parameter (selected-frame) 'alpha '(97 90))
+(set-frame-parameter (selected-frame) 'alpha '(93 85))
 
 (require 'auto-highlight-symbol)
 (setq global-auto-highlight-symbol-mode t) ;; at least alt+left/right conflicts with org-mode's bindings
@@ -112,3 +113,22 @@ Move point to the beginning of the line, and run the normal hook
 ;; http://emacs.stackexchange.com/questions/7225/visual-selection-highlighting-invisible-with-evil-and-color-theme
 ;; (region ((t (:background "#1D1E2C"))))
 ;; (speedbar-file-face ((t (:foreground "#1D1E2C"))))
+
+(setq global-hl-line-mode t)
+
+;; https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L144-166
+(defun untabify-buffer ()
+  (interactive)
+  (untabify (point-min) (point-max)))
+
+(defun indent-buffer ()
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+(defun cleanup-buffer ()
+  "Perform a bunch of operations on the whitespace content of a buffer.
+Including indent-buffer, which should not be called automatically on save."
+  (interactive)
+  (untabify-buffer)
+  (delete-trailing-whitespace)
+  (indent-buffer))
