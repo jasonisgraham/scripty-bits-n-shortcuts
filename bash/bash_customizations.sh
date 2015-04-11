@@ -18,29 +18,74 @@ set completion-ignore-case on
 set show-mode-in-prompt on
 shopt -s cdspell
 
-# xports
+# colors
+# Reset
+Color_Off='\e[0m'       # Text Reset
+
+# Regular Colors
+Black='\e[0;30m'        # Black
+Red='\e[0;31m'          # Red
+Green='\e[0;32m'        # Green
+Yellow='\e[0;33m'       # Yellow
+Blue='\e[0;34m'         # Blue
+Purple='\e[0;35m'       # Purple
+Cyan='\e[0;36m'         # Cyan
+White='\e[0;37m'        # White
+
+# Bold
+BBlack='\e[1;30m'       # Black
+BRed='\e[1;31m'         # Red
+BGreen='\e[1;32m'       # Green
+BYellow='\e[1;33m'      # Yellow
+BBlue='\e[1;34m'        # Blue
+BPurple='\e[1;35m'      # Purple
+BCyan='\e[1;36m'        # Cyan
+BWhite='\e[1;37m'       # White
+
+# Underline
+UBlack='\e[4;30m'       # Black
+URed='\e[4;31m'         # Red
+UGreen='\e[4;32m'       # Green
+UYellow='\e[4;33m'      # Yellow
+UBlue='\e[4;34m'        # Blue
+UPurple='\e[4;35m'      # Purple
+UCyan='\e[4;36m'        # Cyan
+UWhite='\e[4;37m'       # White
+
+# Background
+On_Black='\e[40m'       # Black
+On_Red='\e[41m'         # Red
+On_Green='\e[42m'       # Green
+On_Yellow='\e[43m'      # Yellow
+On_Blue='\e[44m'        # Blue
+On_Purple='\e[45m'      # Purple
+On_Cyan='\e[46m'        # Cyan
+On_White='\e[47m'       # White
+
 export IGNOREEOF=1
-export PS1="\u \w> "
-#PS1='$(echo -ne "\033[$(reset_username_background_after_N_seconds)m")\u$(echo -ne "\033[0m") \w> '
+# \[$UYellow\]\$(vcprompt -f %m%a%u)
+function ps1-use-fullpath {
+    export PS1="\[$BGreen\]\u \[$BBlue\]\w\[$Color_Off\]> "
+}
+function ps1-use-cwd-basename {
+    export PS1="\[$BGreen\]\u \[$BBlue\]\W\[$Color_Off\]> "
+}
+ps1-use-cwd-basename
+
+# export PS1="\u \w> "
 export EDITOR="emacs"
 export CLOJURESCRIPT_HOME=~/Programs/clojurescript/
 
 # tell SCREEN to back off when setting TERM to "screen"
-export TERM=xterm
-#export TERM=xterm-256color
+# export TERM=xterm
+export TERM=xterm-256color
 
 # binds
 bind 'set completion-ignore-case on'
 # alt-S loads source
 bind '"\eS"':"\"source ~/.bashrc\C-m\""
-# alt-j moves cursor back word
-bind '"\ej"':"\"\eb\""
-# alt-k moves cursor forward word
-bind '"\ek"':"\"\ef\""
-# alt-J cuts word behind cursor
-bind '"\eJ"':"\"\C-w\""
-# alt-K cuts word in front of cursor
-bind '"\eK"':"\"\ed\""
+# alt-j acts like <return>
+bind '"\ej"':"\"\C-m\""
 # alt-< Move up the directory. same as cd ../
 bind '"\e<"':"\"\C-u__move-up-directory\C-m\""
 # alt-L same as __ls-type
@@ -66,7 +111,7 @@ bind '"\en"':'"\C-n"'
 
 # aliases
 #  human readable, all files minus . and .., append indicator, ignore backups
-alias ls="ls -h"
+alias ls="ls -h --color=always"
 __BASE_LS_COMMAND='ls -hBF --ignore=#* --ignore=.svn --ignore=.git --color=always --group-directories-first'
 alias l=$__BASE_LS_COMMAND
 alias la="${__BASE_LS_COMMAND} -A"
@@ -105,7 +150,9 @@ fi
 #logitech=$(xinput --list --short | grep -m1 "Logitech" | cut -f2 | cut -d= -f2) # mouse ID
 #xinput --set-prop "$logitech" "Device Accel Constant Deceleration" 2 # It defaults to 1
 
-source /usr/share/autojump/autojump.bash
+## autojump
+[[ -s /home/jason/.autojump/etc/profile.d/autojump.sh ]] && source /home/jason/.autojump/etc/profile.d/autojump.sh
+
 
 ##################################
 #HISTORY_CUSTOMIZATIONS

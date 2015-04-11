@@ -67,7 +67,7 @@
       "M-x "
       (all-completions "" obarray 'commandp))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
 (yas-global-mode 1)
@@ -83,15 +83,16 @@
 ;;; activate, otherwise, auto-complete will
 (ac-set-trigger-key "TAB")
 (ac-set-trigger-key "<tab>")
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; lisp stuff
 (defun lisp-hooks ()
   (interactive)
   (paredit-mode t)
   (rainbow-delimiters-mode t))
 
-;; (add-to-list 'auto-mode-alist '("\\.R\\'" . inferior-ess-mode))
+(eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
 
 ;; clojure/lispy stuff
 (dolist (hook '(clojure-mode-hook
@@ -103,33 +104,14 @@
 (setq cider-test-show-report-on-success nil)
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (setq nrepl-log-messages t)
-(setq nrepl-hide-special-buffers t)
-;; (setq cider-repl-pop-to-buffer-on-connect nil)
+(setq nrepl-hide-special-buffers nil)
+(setq cider-repl-display-in-current-window t)
 (setq cider-repl-result-prefix ";;=> ")
 
+;; (setq cider-lein-parameters "with-profile +1.6 repl :headless")
 ;; add the pretty lambda symbols
 (setq global-prettify-symbols-mode t)
-;; (eval-after-load 'clojure-mode
-;;   '(font-lock-add-keywords
-;;     'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
-;;                      (0 (progn (compose-region (match-beginning 1)
-;;                                                (match-end 1) "λ")
-;;                                nil))))))
-
-;; (eval-after-load 'clojure-mode
-;;   '(font-lock-add-keywords
-;;     'clojure-mode `(("\\(#\\)("
-;;                      (0 (progn (compose-region (match-beginning 1)
-;;                                                (match-end 1) "ƒ")
-;;                                nil))))))
-
-;; (eval-after-load 'clojure-mode
-;;   '(font-lock-add-keywords
-;;     'clojure-mode `(("\\(#\\){"
-;;                      (0 (progn (compose-region (match-beginning 1)
-;;                                                (match-end 1) "∈")
-;;                                nil))))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'evil)
 (evil-mode 1)
 
@@ -142,7 +124,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; colors up the cursor
 ;;;;;;;;;;;;;;;;;;;;;;;
-(setq evil-default-cursor '("white" box))
+(setq evil-default-cursor '("white" hbar))
 (setq evil-normal-state-cursor '("white" box))
 (setq evil-insert-state-cursor '("green" bar))
 (setq evil-emacs-state-cursor '("blue" box))
@@ -191,7 +173,6 @@
 (define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
 (define-key evil-normal-state-map (kbd "C-r")  nil)
 
-
 (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-visual-line)
 (define-key evil-insert-state-map (kbd "C-n") nil)
 (define-key evil-insert-state-map (kbd "C-p") nil)
@@ -202,22 +183,15 @@
 (define-key evil-insert-state-map (kbd "C-w") nil)
 (define-key evil-insert-state-map (kbd "C-r") nil)
 
-(define-key evil-normal-state-map (kbd "gp")  'elscreen-previous)
-(define-key evil-normal-state-map (kbd "gn")  'elscreen-next)
-(define-key evil-normal-state-map (kbd "gh")  'windmove-left)
-(define-key evil-normal-state-map (kbd "gl")  'windmove-right)
-(define-key evil-normal-state-map (kbd "gk")  'windmove-up)
-(define-key evil-normal-state-map (kbd "gj")  'windmove-down)
-
 ;; when exiting insert mode, the cursor doesn't move back a column
-(setq evil-move-cursor-back t)
+(setq evil-move-cursor-back nil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; this gives the vim tabs stuff
 (load "elscreen" "ElScreen" t)
 (elscreen-start)
 (setq elscreen-display-tab nil)
 (elscreen-persist-mode 1)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'sr-speedbar)
 ;; Start Sr-Speedbar in buffer mode by default
@@ -273,15 +247,15 @@
 ;;  '(eclim-executable "~/Programs/eclipse/eclim"))
 ;; (require 'eclimd)
 
-;; regular auto-complete initialization
+;; ;; regular auto-complete initialization
 ;; (require 'auto-complete-config)
 ;; (ac-config-default)
 
-;; add the emacs-eclim source
+;; ;; add the emacs-eclim source
 ;; (require 'ac-emacs-eclim-source)
 ;; (ac-emacs-eclim-config)
 
-;; configuring company-mode
+;; ;; configuring company-mode
 (require 'company)
 ;; (require 'company-emacs-eclim)
 ;; (company-emacs-eclim-setup)
@@ -325,6 +299,8 @@
   (add-hook hook 'zencoding-hooks))
 
 (setq vc-svn-diff-switches '("-x --ignore-eol-style" "-x -w"))
+
+(add-hook 'zencoding-mode 'zencoding-hooks)
 
 ;; (defcustom buffer-stack-ignore-pattern-exceptions nil
 ;;   "see my-next-buffer for whatever is ignored when doing next-buffer & previous-buffer.  Good for things like *ielm* or *shell*"
@@ -476,14 +452,13 @@
 ;; remember TRAMP connections
 ;; (setq desktop-files-not-to-save "^$")
 
-
 ;; http://stackoverflow.com/questions/13794433/how-to-disable-autosave-for-tramp-buffers-in-emacs
 (setq tramp-auto-save-directory "~/emacs/tramp-autosave")
 
 ;; http://stackoverflow.com/questions/18812938/copy-full-file-path-into-copy-paste-clipboard
 (defun copy-buffer-file-name-as-kill (choice)
   "Copy the buffer-file-name to the kill-ring"
-  (interactive "cCopy Buffer Name (F) Full, (D) Directory, (N) Name")
+  (interactive "cCopy Buffer Name (f) Full, (d) Directory, (n) Name")
   (let ((new-kill-string)
         (name (if (eq major-mode 'dired-mode)
                   (dired-get-filename)
@@ -509,8 +484,6 @@
 ;;           )
 ;;     (message (concat "state: " initial-state))))
 
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "open-resource.el"))
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "bindings.el"))
 (setq-default c-basic-offset 2)
 (setq-default indent-tabs-mode nil)
 (setq js-indent-level 2)
@@ -543,6 +516,7 @@
      (set-face-foreground 'diff-added "green4")
      (set-face-foreground 'diff-added "red3")))
 (setq ediff-diff-options "-w")
+;; (setq ediff-diff-options "")
 (setq ediff-split-window-function 'split-window-horizontally)
 
 ;; (set-frame-font "Source Code Pro 10" nil t)
@@ -614,8 +588,6 @@ Move point to the beginning of the line, and run the normal hook
    (beginning-of-line)
    (run-hooks 'hs-hide-hook)))
 
-(set-frame-parameter (selected-frame) 'alpha '(93 85))
-
 (require 'auto-highlight-symbol)
 (setq global-auto-highlight-symbol-mode t) ;; at least alt+left/right conflicts with org-mode's bindings
 (setq auto-highlight-symbol-mode t)
@@ -627,7 +599,8 @@ Move point to the beginning of the line, and run the normal hook
 ;; (region ((t (:background "#1D1E2C"))))
 ;; (speedbar-file-face ((t (:foreground "#1D1E2C"))))
 
-(setq global-hl-line-mode t)
+(global-hl-line-mode +1)
+(set-face-background hl-line-face "gray10")
 
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L144-166
 (defun untabify-buffer ()
@@ -648,14 +621,12 @@ Including indent-buffer, which should not be called automatically on save."
 
 (defun buffer-stack-filter-regexp (buffer)
   "Non-nil if buffer is in buffer-stack-tracked."
-  (not (or (string-match "Help\\|html\\|helm\\|temp\\|Minibuf\\|Messages\\|Customize\\|Custom-Work\\|scratch\\|tram\\|Buffer" (buffer-name buffer))
+  (not (or (string-match "Help\\|html\\|helm\\|temp\\|Minibuf\\|Messages\\|Customize\\|Custom-Work\\|scratch\\|tram\\|Buffer\\|Echo\\|code-conversion-work\\|nrepl\\|WoMan-Log\\|cider-" (buffer-name buffer))
            (member buffer buffer-stack-untracked))))
 
 (setq jdk-directory "~/jdk/src/")
 
 (setq tags-revert-without-query 't)
-
-;; (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "appearance.el"))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/monokai-theme-20150112.442/")
 (custom-set-variables
@@ -663,46 +634,38 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(2C-mode-line-format
-   (quote
-    ("dog" "-%*- %15b --"
-     (-3 . "%p")
-     "--%[(" mode-name minor-mode-alist "%n" mode-line-process ")%]%-")))
+ '(2C-mode-line-format (quote ("dog" "-%*- %15b --" (-3 . "%p") "--%[(" mode-name minor-mode-alist "%n" mode-line-process ")%]%-")))
  '(Linum-format "%7i ")
+ '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#c0c0c0" "#336c6c" "#806080" "#0f2050" "#732f2c" "#23733c" "#6c1f1c" "#232333"])
- '(ansi-term-color-vector
-   [unspecified "#081724" "#ff694d" "#68f6cb" "#fffe4e" "#bad6e2" "#afc0fd" "#d2f1ff" "#d3f9ee"] t)
+ '(ansi-color-faces-vector [default default default italic underline success warning error])
+ '(ansi-color-names-vector ["#c0c0c0" "#336c6c" "#806080" "#0f2050" "#732f2c" "#23733c" "#6c1f1c" "#232333"])
+ '(ansi-term-color-vector [unspecified "#081724" "#ff694d" "#68f6cb" "#fffe4e" "#bad6e2" "#afc0fd" "#d2f1ff" "#d3f9ee"] t)
  '(background-mode dark)
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ '(browse-url-browser-function (quote browse-url-chromium))
  '(buffer-stack-filter (quote buffer-stack-filter-regexp))
  '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
- '(buffer-stack-untracked
-   (quote
-    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
+ '(buffer-stack-untracked (quote ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
  '(column-number-mode t)
  '(compilation-message-face (quote default))
- '(completion-ignored-extensions
-   (quote
-    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
+ '(completion-ignored-extensions (quote (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
  '(cursor-color "#cccccc")
  '(custom-enabled-themes (quote (monokai)))
- '(custom-safe-themes
-   (quote
-    ("4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
+ '(custom-safe-themes (quote ("08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
  '(diary-entry-marker (quote font-lock-variable-name-face))
- '(dired-listing-switches
-   "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
+ '(dired-listing-switches "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
+ '(ediff-split-window-function (quote split-window-horizontally) t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(electric-pair-mode t)
+ '(evil-default-cursor (quote (hbar)))
+ '(evil-move-cursor-back t)
  '(fci-rule-character-color "#202020")
+ '(fci-rule-color "#49483E")
  '(font-use-system-font t)
  '(foreground-color "#cccccc")
  '(fringe-mode 0 nil (fringe))
@@ -714,39 +677,18 @@ Including indent-buffer, which should not be called automatically on save."
  '(golden-ratio-mode nil)
  '(grep-command "grep -n -e ")
  '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
- '(grep-find-ignored-files
-   (quote
-    (".#*" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
+ '(grep-find-ignored-files (quote (".#*" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
  '(grep-find-template "find . <X> -type f <F> -exec grep <C> -nH -e <R> {} +")
  '(grep-highlight-matches (quote auto))
  '(grep-template "grep <X> <C> -n -e <R> <F>")
  '(grep-use-null-device t)
  '(helm-recentf-fuzzy-match t)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#002b36" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-colors (--map (solarized-color-blend it "#002b36" 0.25) (quote ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
  '(highlight-symbol-foreground-color "#93a1a1")
- '(highlight-tail-colors
-   (quote
-    (("#073642" . 0)
-     ("#546E00" . 20)
-     ("#00736F" . 30)
-     ("#00629D" . 50)
-     ("#7B6000" . 60)
-     ("#8B2C02" . 70)
-     ("#93115C" . 85)
-     ("#073642" . 100))))
- '(hl-bg-colors
-   (quote
-    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
- '(hl-fg-colors
-   (quote
-    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
- '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
- '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
+ '(highlight-tail-colors (quote (("#073642" . 0) ("#546E00" . 20) ("#00736F" . 30) ("#00629D" . 50) ("#7B6000" . 60) ("#8B2C02" . 70) ("#93115C" . 85) ("#073642" . 100))))
+ '(hl-bg-colors (quote ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
+ '(hl-fg-colors (quote ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(ispell-highlight-face (quote flyspell-incorrect))
  '(linum-format "%d ")
  '(magit-diff-use-overlays nil)
@@ -754,13 +696,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(main-line-color1 "#1E1E1E")
  '(main-line-color2 "#111111")
  '(main-line-separator-style (quote chamfer))
- '(mode-line-format
-   (quote
-    (" " "%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position evil-mode-line-tag
-     (elscreen-display-screen-number
-      (" " elscreen-mode-line-string))
-     (vc-mode vc-mode)
-     "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
+ '(mode-line-format (quote (" " "%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position evil-mode-line-tag (elscreen-display-screen-number (" " elscreen-mode-line-string)) (vc-mode vc-mode) "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
  '(org-startup-truncated nil)
  '(powerline-color1 "#1E1E1E")
@@ -773,57 +709,24 @@ Including indent-buffer, which should not be called automatically on save."
  '(safe-local-variable-values (quote ((require-final-newline))))
  '(show-paren-mode t)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
- '(syslog-debug-face
-   (quote
-    ((t :background unspecified :foreground "#A1EFE4" :weight bold))))
- '(syslog-error-face
-   (quote
-    ((t :background unspecified :foreground "#F92672" :weight bold))))
+ '(syslog-debug-face (quote ((t :background unspecified :foreground "#A1EFE4" :weight bold))))
+ '(syslog-error-face (quote ((t :background unspecified :foreground "#F92672" :weight bold))))
  '(syslog-hour-face (quote ((t :background unspecified :foreground "#A6E22E"))))
- '(syslog-info-face
-   (quote
-    ((t :background unspecified :foreground "#66D9EF" :weight bold))))
+ '(syslog-info-face (quote ((t :background unspecified :foreground "#66D9EF" :weight bold))))
  '(syslog-ip-face (quote ((t :background unspecified :foreground "#E6DB74"))))
  '(syslog-su-face (quote ((t :background unspecified :foreground "#FD5FF0"))))
- '(syslog-warn-face
-   (quote
-    ((t :background unspecified :foreground "#FD971F" :weight bold))))
+ '(syslog-warn-face (quote ((t :background unspecified :foreground "#FD971F" :weight bold))))
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
  '(tool-bar-mode nil)
  '(vc-annotate-background "#202020")
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#C99090")
-     (40 . "#D9A0A0")
-     (60 . "#ECBC9C")
-     (80 . "#DDCC9C")
-     (100 . "#EDDCAC")
-     (120 . "#FDECBC")
-     (140 . "#6C8C6C")
-     (160 . "#8CAC8C")
-     (180 . "#9CBF9C")
-     (200 . "#ACD2AC")
-     (220 . "#BCE5BC")
-     (240 . "#CCF8CC")
-     (260 . "#A0EDF0")
-     (280 . "#79ADB0")
-     (300 . "#89C5C8")
-     (320 . "#99DDE0")
-     (340 . "#9CC7FB")
-     (360 . "#E090C7"))))
+ '(vc-annotate-color-map (quote ((20 . "#C99090") (40 . "#D9A0A0") (60 . "#ECBC9C") (80 . "#DDCC9C") (100 . "#EDDCAC") (120 . "#FDECBC") (140 . "#6C8C6C") (160 . "#8CAC8C") (180 . "#9CBF9C") (200 . "#ACD2AC") (220 . "#BCE5BC") (240 . "#CCF8CC") (260 . "#A0EDF0") (280 . "#79ADB0") (300 . "#89C5C8") (320 . "#99DDE0") (340 . "#9CC7FB") (360 . "#E090C7"))))
  '(vc-annotate-very-old-color "#E090C7")
  '(view-highlight-face (quote highlight))
- '(weechat-color-list
-   (quote
-    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
- '(yas-snippet-dirs
-   (quote
-    (yas-installed-snippets-dir "/home/jason/.emacs.d/elpa/django-snippets-20131229.811/snippets")) nil (yasnippet)))
+ '(weechat-color-list (quote (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
+ '(yas-snippet-dirs (quote (yas-installed-snippets-dir "/home/jason/.emacs.d/elpa/django-snippets-20131229.811/snippets")) nil (yasnippet)))
 
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
-(setq my-background-color "grey6")
-(set-background-color my-background-color)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -834,13 +737,14 @@ Including indent-buffer, which should not be called automatically on save."
  '(helm-selection ((t (:inherit nil :inverse-video t :underline t))))
  '(highlight ((t (:background "lawn green" :foreground "black"))))
  '(linum ((t (:background "gray9" :foreground "#75715E"))))
- '(mode-line ((t (:background "white" :foreground "black"))))
- '(mode-line-buffer-id ((t (:foreground "black" :weight bold))))
+ '(mode-line ((t (:background "#444488" :foreground "#ffffff" :box (:line-width 1 :color "#3E3D31" :style unspecified)))))
+ '(mode-line-buffer-id ((t (:background "black" :foreground "gainsboro" :weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
- '(mode-line-inactive ((t (:inherit mode-line :inverse-video t))))
+ '(mode-line-inactive ((t (:inherit mode-line :background "#000000" :foreground "#BCBCBC"))))
+ '(paren-face-match ((t (:inverse-video nil :weight light))) t)
  '(semantic-highlight-edits-face ((t (:background "gray21"))))
- '(show-paren-match ((t (:background "blue"))))
- '(term ((t (:inherit default :foreground "white smoke"))))
+ '(show-paren-match ((t (:underline t :weight normal))))
+ '(term ((t (:inherit default :foreground "white smoke"))) t)
  '(zencoding-preview-output ((t (:background "dim gray")))))
 
 ;; package-activated-list
@@ -848,3 +752,40 @@ Including indent-buffer, which should not be called automatically on save."
 
  ;; '(eclim-eclipse-dirs (quote ("~/Programs/eclipse")))
  ;; '(eclim-executable "~/Programs/eclipse/eclim")
+
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "bindings.el"))
+
+(defun evil-normal-state-and-save-buffer ()
+    (interactive)
+    (evil-normal-state)
+    (save-and-format-buffer))
+
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+
+;; http://emacswiki.org/emacs/FullScreen
+(defun toggle-fullscreen ()
+  "Toggle full screen on X11"
+  (interactive)
+  (when (eq window-system 'x)
+    (set-frame-parameter
+     nil 'fullscreen
+     (when (not (frame-parameter nil 'fullscreen)) 'fullboth))))
+
+ ;; '(paren-face-match ((t (:background "#272822" :foreground "#A1EFE4" :inverse-video nil :weight light))) t)
+ ;; '(show-paren-match ((t (:background "#272822" :foreground "#A1EFE4" :underline t :weight normal))))
+ ;; '(show-paren-match-face ((t (:background "#272822" :foreground "#A1EFE4" :underline t :weight normal))) t)
+ ;; '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
+ ;; '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
+
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "google-chrome")
+
+
+(set-frame-parameter (selected-frame) 'alpha '(95 90))
+(setq my-background-color "grey6")
+(set-background-color my-background-color)
+
+;; shartfinder
+(load-file "~/Projects/shartfinder/config/set-env-vars.el")
+(set-shartfinder-env-vars)

@@ -1,6 +1,4 @@
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "appearance.el"))
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "misc.el"))
-
+(global-set-key (kbd "<f11>") 	'toggle-fullscreen)
 (global-set-key (kbd "C-h")     'delete-backward-char)
 (global-set-key (kbd "M-G r")   'open-resource)
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
@@ -9,10 +7,10 @@
 (global-set-key (kbd "H-*")     'ido-switch-buffer)
 ;; (global-set-key (kbd "H-8")  'ido-recentf-open)
 
+;; (global-set-key (kbd "M-k")     'keyboard-quit)
 (global-set-key (kbd "H-8")     'helm-mini)
 (global-set-key (kbd "M-x")     'helm-M-x)
 (global-set-key (kbd "H-y")     'helm-show-kill-ring)
-;; (global-set-key (kbd "M-y")  'yank-pop)
 (global-set-key [H-tab]         'dabbrev-expand)
 
 (global-set-key (kbd "C-x C-c") 'nil) ;; default \C-x\C-c is too easy to hit accidentally
@@ -27,11 +25,8 @@
 (global-set-key (kbd "M-%")     'digit-argument)
 (global-set-key (kbd "H-d")     'ediff-buffers)
 
-(define-key evil-normal-state-map (kbd "qw)") 'delete-window)
-(define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
-
 (global-set-key (kbd "H-w")     'kill-ring-save-keep-highlight)
-(global-set-key (kbd "H-m")     'newline)
+
 (global-set-key (kbd "H-o j")   'evil-next-line-first-non-blank)
 (global-set-key (kbd "H-o H-o k")  'evil-open-above)
 (global-set-key (kbd "H-o k")   'evil-previous-line-first-non-blank)
@@ -40,23 +35,13 @@
 (global-set-key (kbd "H-<f6>")  'load-file)
 (global-set-key (kbd "H-SPC")   'set-mark-command)
 
-;; (defun set-mark-and-enter-evil-normal-state (arg)
-;;   (interactive "^p")
-;;   (set-mark-command nil)
-;;   (evil-normal-state))
-
 (global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
 
-(global-set-key (kbd "H-i")     (lambda ()
-                                  (interactive)
-                                  (evil-normal-state)
-                                  (save-and-format-buffer)))
+(global-set-key (kbd "H-i")     'evil-normal-state-and-save-buffer)
 (global-set-key (kbd "H-[")     'evil-normal-state)
 
 ;; requires elscree; nput some elscreen check here?
-(global-set-key (kbd "H-v p")   'elscreen-previous)
 (global-set-key (kbd "H-(")     'elscreen-previous)
-(global-set-key (kbd "H-v n")   'elscreen-next)
 (global-set-key (kbd "H-)")     'elscreen-next)
 (global-set-key (kbd "H-v c")   'elscreen-create)
 (global-set-key (kbd "H-v k")   'elscreen-kill)
@@ -85,7 +70,7 @@
 (global-set-key (kbd "M-G d d") (lambda()
                                   (interactive)
                                   (message (get-dir-of-file))))
-(global-set-key (kbd "M-G d w") 'copy-dir-of-file)
+(global-set-key (kbd "M-G d w") 'copy-buffer-file-name-as-kill)
 (global-set-key (kbd "M-G M-w M-s") 'copy-region-to-scratch)
 
 ;; window number stuff (used to jump between windows easily)
@@ -133,6 +118,10 @@
      (define-key paredit-mode-map (kbd "M-r") nil)
      (define-key paredit-mode-map (kbd "M--") nil)))
 
+(defun zencoding-hooks ()
+  (define-key zencoding-mode-map (kdb "C-j" nil))
+  (define-key zencoding-mode-map (kdb "M-C k" 'zencoding-expand-line)))
+
 ;; Override these cuz really all I want is the symbols to be highlighted
 (eval-after-load 'auto-highlight-symbol
   '(progn
@@ -145,10 +134,9 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (interactive)
-            (define-key org-mode-map (kbd "M-S-<return>") 'org-insert-subheading)
-            (define-key org-mode-map (kbd "C-<return>")   'org-insert-heading-after-current)
             ;; (setq flyspell-mode t)
-            ))
+            (define-key org-mode-map (kbd "M-S-<return>") 'org-insert-subheading)
+            (define-key org-mode-map (kbd "C-<return>")   'org-insert-heading-after-current)))
 
 ;; disable mouse clicks
 ;; (dolist (k '([mouse-1] [down-mouse-1]))
@@ -168,8 +156,8 @@
 (define-key evil-normal-state-map (kbd "gr") 'repeat)
 
 (define-key evil-normal-state-map (kbd "qq") 'quit-window)
-(define-key evil-normal-state-map (kbd "gp") 'elscreen-previous)
-(define-key evil-normal-state-map (kbd "gn") 'elscreen-next)
+(define-key evil-normal-state-map (kbd "gn") 'elscreen-previous)
+(define-key evil-normal-state-map (kbd "gp") 'elscreen-next)
 (define-key evil-normal-state-map (kbd "gh") 'windmove-left)
 (define-key evil-normal-state-map (kbd "gl") 'windmove-right)
 (define-key evil-normal-state-map (kbd "gk") 'windmove-up)
@@ -179,4 +167,43 @@
 
 (define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
 (define-key evil-normal-state-map (kbd "g SPC") 'ace-jump-mode)
+
+(define-key evil-normal-state-map (kbd "qw)") 'delete-window)
+(define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
+
+(define-key evil-normal-state-map (kbd "g*")  'ido-switch-buffer)
+(define-key evil-normal-state-map (kbd "g H-*")  'helm-mini)
+(define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
+(define-key evil-normal-state-map (kbd "qi")  'evil-normal-state-and-save-buffer)
+(define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; do with H-j, M-j what you could do with <return> but less pink moving
+(let ((map minibuffer-local-map))
+  (define-key map (kbd "M-j") 'exit-minibuffer)
+  (define-key map (kbd "M-k") 'abort-recursive-edit))
+
+;;
+(key-chord-mode 1)
+(setq key-chord-two-keys-delay 0.05)
+(key-chord-define evil-insert-state-map "qi" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "q-" "_")
+(key-chord-define evil-insert-state-map "qg" 'evil-execute-in-normal-state)
+(key-chord-define evil-insert-state-map "ql" 'evil-forward-char)
+(key-chord-define evil-insert-state-map "qh" 'evil-backward-char)
+(key-chord-define evil-insert-state-map "qk" 'evil-previous-visual-line)
+(key-chord-define evil-insert-state-map "qj" 'evil-next-visual-line)
+(key-chord-define evil-insert-state-map "q)" 'evil-digit-argument-or-evil-beginning-of-line)
+
+
+;; Magit rules!
+(global-set-key (kbd "C-x g") 'magit-status)
+
+
+;; c1,c2 -> will put these each on own line
+(fset 'sql-one-select-column-per-line
+   [?/ ?, ?. return ?l ?i return escape])
+
+;; will replace 'alias = table.column' with 'table.column AS alias'.  'alias' needs to be only one word.  'table.column' needs to be followed by a comma
+(fset 'ingres-equals-to-oracle-as
+   [?f ?= ?x ?d ?B ?A ?\C-b ?  ?A ?S ?\S-  ?\C-y escape])
