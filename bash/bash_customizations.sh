@@ -98,9 +98,6 @@ bind '"\eXf"':"\"\C-a__find-in-files \C-e . rn \C-j\""
 bind '"\eXi"':"\"\C-a__find-in-files \C-e . rni \C-j\""
 # case insensitive regex file grep, Uses Perl regex.  Encase this with some quotes
 bind '"\eXr"':"\"\C-a__find-in-files \C-e . rniP \C-j\""
-# open file specified by whatever is currently printed to line in emacs in cygwin. Should be a file path (DOS or unix)
-# do not quote the argument!
-bind '"\eXe"':'"\C-aemacs $(convert-dos-filepath-to-cygwin-filepath "\C-e")\C-j\"'
 # copy what's on terminal line to clipboard
 bind '"\eX\ew"':'"\C-a echo \"\C-e\" | xclip -selection clipboard\C-j\"'
 # copy whatever ctrl+y does into clipboard
@@ -121,6 +118,8 @@ function ls-only-hidden-dirs {
 local _dir="$1"
 l -A --color=never $_dir | grep \/$ | grep '^\.'
 }
+bind '"\e!"':"\"\C-a\C-kla\C-j\""
+bind '"\e@"':"\"\C-a\C-klt\C-j\""
 
 # echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
 # alias to-clipboard='xclip -selection clipboard'
