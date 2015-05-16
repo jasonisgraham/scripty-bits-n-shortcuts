@@ -63,7 +63,6 @@ On_Cyan='\e[46m'        # Cyan
 On_White='\e[47m'       # White
 
 export IGNOREEOF=1
-# \[$UYellow\]\$(vcprompt -f %m%a%u)
 function ps1-use-fullpath {
     export PS1="\[$BGreen\]\u \[$BBlue\]\w\[$Color_Off\]> "
 }
@@ -119,8 +118,8 @@ alias lah="${__BASE_LS_COMMAND} -Ahg"
 alias ll="${__BASE_LS_COMMAND} -Al"
 alias lt="${__BASE_LS_COMMAND} -tAl"
 function ls-only-hidden-dirs {
-    local _dir="$1"
-    l -A --color=never $_dir | grep \/$ | grep '^\.'
+local _dir="$1"
+l -A --color=never $_dir | grep \/$ | grep '^\.'
 }
 
 # echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
@@ -138,12 +137,12 @@ alias run-junit="java -cp .:/usr/share/java/junit4.jar org.junit.runner.JUnitCor
 
 # sources
 if [ -a $BASH_FILES_DIR/bash_customizations_git.sh ]; then
-    source $BASH_FILES_DIR/bash_customizations_git.sh
+	source $BASH_FILES_DIR/bash_customizations_git.sh
 fi
 
 if [ -a $BASH_FILES_DIR/bash_customizations_svn.sh ]; then
-    source $BASH_FILES_DIR/bash_customizations_svn.sh
-    bind '"\e7"':"\"\C-udo-svn\C-m\""
+	source $BASH_FILES_DIR/bash_customizations_svn.sh
+	bind '"\e7"':"\"\C-udo-svn\C-m\""
 fi
 
 # THUMB BALL MOUSE ES 2 FASTO! SLOW IT DOWN
@@ -170,283 +169,283 @@ HISTFILESIZE=10000
 ###################################################################
 # only display minimal xev information (keypress and keycodes)
 function xev-minimal {
-    xev -event keyboard | grep --color -oP 'keycode.*\)'
+xev -event keyboard | grep --color -oP 'keycode.*\)'
 }
 
 # sorts single csv line asc
 function sort-csv-line {
-    echo $1 | tr ',' '\n' | sort -u | tr '\n' ','
+echo $1 | tr ',' '\n' | sort -u | tr '\n' ','
 }
 
 # removes all temp files given a directory
 function remove-all-temp-files {
-    local haystack_dir=$1
+local haystack_dir=$1
 
-    # removes all files ending with a tilde
-    find $haystack_dir -name "*~"  -exec rm {} \;
+# removes all files ending with a tilde
+find $haystack_dir -name "*~"  -exec rm {} \;
 
-    # beginnging with hash
-    find $haystack_dir -name "#*" -exec rm {} \;
+# beginnging with hash
+find $haystack_dir -name "#*" -exec rm {} \;
 
-    # all .~ directories
-    find $haystack_dir -name .~ -type d -exec rm -r {} \;
+# all .~ directories
+find $haystack_dir -name .~ -type d -exec rm -r {} \;
 }
 
 function convert-dos-filepath-to-cygwin-filepath {
-    _CYGWIN_FILEPATH=$(echo "$1" | sed 's@\\@/@g' | sed 's@C:@/cygdrive/c@g')
-    echo ${_CYGWIN_FILEPATH}
+_CYGWIN_FILEPATH=$(echo "$1" | sed 's@\\@/@g' | sed 's@C:@/cygdrive/c@g')
+echo ${_CYGWIN_FILEPATH}
 }
 function __move-up-directory {
-    pushd . >> /dev/null
-    cd ../
+pushd . >> /dev/null
+cd ../
 }
 
 function __move-down-directory {
-    popd >> /dev/null
+popd >> /dev/null
 }
 
 function __ls-type {
-    local _type
-    read -n 1 -s _type
+local _type
+read -n 1 -s _type
 
-    local _args="$*"
-    case $_type in
+local _args="$*"
+case $_type in
 	t) # sort by modification time
-	    l -t $_args
-	    ;;
+		lt $_args
+		;;
 	s) # sort by file size
-            l -s $_args
-	    ;;
-        [aA])
-            l -A $_args
-            ;;
-        [Xx])
-            l -X $_args
-            ;;
+		l -s $_args
+		;;
+	[aA])
+		l -A $_args
+		;;
+	[Xx])
+		l -X $_args
+		;;
 	*)
-            l $_args
-	    ;;
-    esac
+		l $_args
+		;;
+esac
 }
 
 function apply-to-resource {
-    local resources=$(find-resource $1 $2)
+local resources=$(find-resource $1 $2)
 
-    if [[ ! "$resources" ]]; then
+if [[ ! "$resources" ]]; then
 	echo "Couldn't find resource matching $1 in haystack $2"
 	return 0
-    fi
-    local command_to_apply="$3"
-    local args_line=""
+fi
+local command_to_apply="$3"
+local args_line=""
 
-    if [[ $(echo $resources | wc -w) -ge 2 ]]; then
+if [[ $(echo $resources | wc -w) -ge 2 ]]; then
 	count=0;
 	for r in $resources
 	do
-	    r_arr[$count]=$r
-	    count=$(($count+1))
+		r_arr[$count]=$r
+		count=$(($count+1))
 	done
 	for key in ${!r_arr[@]}
 	do
-	    echo -n "$key "
-	    echo ${r_arr[$key]}
+		echo -n "$key "
+		echo ${r_arr[$key]}
 	done
 	echo -e "\nSelect files to run command \"$command_to_apply\" on by number(s).  If multiple, separate by space. If all, enter nothing or enter *.\n Which files(s): "
 	read _file_numbers
 
 	if [[ -z "$_file_numbers" ]]; then
-	    _file_numbers="*"
+		_file_numbers="*"
 	fi
 	if [[ "$_file_numbers" = "*" ]]; then
-	    args_line=$resources
+		args_line=$resources
 	else
-	    for _file_number in $_file_numbers
-	    do
-		args_line="${args_line} ${r_arr[$_file_number]}"
-	    done
+		for _file_number in $_file_numbers
+		do
+			args_line="${args_line} ${r_arr[$_file_number]}"
+		done
 	fi
-    else
+else
 	echo $resources
 	args_line=$resources
-    fi
+fi
 
-    if [[ ! "$command_to_apply" ]]; then
+if [[ ! "$command_to_apply" ]]; then
 	echo -e "\n Enter command to apply to found resource(s): "
 	read command_to_apply
 	if [[ ! "$command_to_apply" ]]; then
-	    echo -e "\n Unknown command. exiting"
-	    return 1
+		echo -e "\n Unknown command. exiting"
+		return 1
 	fi
-    fi
+fi
 
-    $command_to_apply $args_line
+$command_to_apply $args_line
 }
 
 function open-resource {
-    local resource_pattern="$1"
-    local haystack="$2"
-    apply-to-resource "$resource_pattern" "$haystack" "$EDITOR"
+local resource_pattern="$1"
+local haystack="$2"
+apply-to-resource "$resource_pattern" "$haystack" "$EDITOR"
 }
 
 function find-resource {
-    local _file_search_string=$(_wildcard-camelcase-file-search-string $1)
-    local _search_result_filter_string=$(_wildcard-camelcase-file-search-result-filter-string $1)
-    local _haystack_dir=${2:-"."}
-    find $_haystack_dir -name $_file_search_string | grep -v target | grep -v .svn | grep -v bin | grep -v \~ | grep -P $_search_result_filter_string
+local _file_search_string=$(_wildcard-camelcase-file-search-string $1)
+local _search_result_filter_string=$(_wildcard-camelcase-file-search-result-filter-string $1)
+local _haystack_dir=${2:-"."}
+find $_haystack_dir -name $_file_search_string | grep -v target | grep -v .svn | grep -v bin | grep -v \~ | grep -P $_search_result_filter_string
 }
 
 function _wildcard-camelcase-file-search-string {
-    local _begins_with_wildcard=
-    if [[ $(echo $1 | grep ^*) ]]; then
+local _begins_with_wildcard=
+if [[ $(echo $1 | grep ^*) ]]; then
 	_begins_with_wildcard="*"
-    fi
-    echo $_begins_with_wildcard$(echo $1 | sed -E 's/([A-Z])/*\1/g' | sed 's/^\**//g' | sed 's/\*{2}/*/g')*
+fi
+echo $_begins_with_wildcard$(echo $1 | sed -E 's/([A-Z])/*\1/g' | sed 's/^\**//g' | sed 's/\*{2}/*/g')*
 }
 
 #############################
 # Tries to cd to $1.  if fails, removes last piece of $1's path, and tries to cd there
 #############################
 function cdu {
-    local dir="$1"
-    local op=$(cd $dir 2>&1 > /dev/null)
-    if [[ "$op" && $op =~ 'Not a directory' ]]; then
-        dir=$(echo $dir | sed -E 's@/[^/]+$@@g')
-    fi
-    cd $dir
+local dir="$1"
+local op=$(cd $dir 2>&1 > /dev/null)
+if [[ "$op" && $op =~ 'Not a directory' ]]; then
+	dir=$(echo $dir | sed -E 's@/[^/]+$@@g')
+fi
+cd $dir
 }
 
 ###
 # This turns something like HashSet.java into Hash[^A-Z]*Set.java* to prevent things like HashAttributeSet.java being returned
 ###
 function _wildcard-camelcase-file-search-result-filter-string {
-    echo $(_wildcard-camelcase-file-search-string $1 | sed 's/\*$//' | sed 's/\*/[^A-Z]*/g')
+echo $(_wildcard-camelcase-file-search-string $1 | sed 's/\*$//' | sed 's/\*/[^A-Z]*/g')
 }
 
 function str-contains {
-    local _haystack=$1
-    local _needle=$2
-    if [[ $(echo $_haystack | grep -P $_needle) ]]; then echo 1
-    fi
+local _haystack=$1
+local _needle=$2
+if [[ $(echo $_haystack | grep -P $_needle) ]]; then echo 1
+fi
 }
 
 function get-path-to-dir {
-    local array=""
-    IFS='/'
-    read -a array <<< "$1"
-    local l=""
-    for element in "${array[@]}"
-    do
+local array=""
+IFS='/'
+read -a array <<< "$1"
+local l=""
+for element in "${array[@]}"
+do
 	l=$element
-    done
-    unset IFS
-    echo $1 | sed "s@$l@@g"
+done
+unset IFS
+echo $1 | sed "s@$l@@g"
 }
 
 function cd-above {
-    if [ ! "$1" ]; then
-        ## if no arg, go home
-        cd ~
-    elif [ -d "$1" -o "$1" == "-" ]; then
-        ## if it's already a directory that exits
-        ## or we're trying to just toggle to previous dir, do that
-        cd "$1"
-    else
-        local _dir=$(get-path-to-dir $1)
-        if [ -d "$_dir" ]; then
-            cd $_dir
-        else
-            ## else, autojump to what $1 is
-            j $1
-        fi
-    fi
+if [ ! "$1" ]; then
+	## if no arg, go home
+	cd ~
+elif [ -d "$1" -o "$1" == "-" ]; then
+	## if it's already a directory that exits
+	## or we're trying to just toggle to previous dir, do that
+	cd "$1"
+else
+	local _dir=$(get-path-to-dir $1)
+	if [ -d "$_dir" ]; then
+		cd $_dir
+	else
+		## else, autojump to what $1 is
+		j $1
+	fi
+fi
 }
 
 function grep-includes {
-    local _args=$1
-    if [[ "$2" ]]; then
+local _args=$1
+if [[ "$2" ]]; then
 	local _includes="$2"
-    else
+else
 	local _includes=""
-    fi
-    if [[ $(str-contains $_args j) ]]; then
+fi
+if [[ $(str-contains $_args j) ]]; then
 	_includes="${_includes} --include=\"*.java\""
-    fi
-    if [[ $(str-contains $_args g) ]]; then
+fi
+if [[ $(str-contains $_args g) ]]; then
 	_includes="${_includes} --include=\"*.groovy\""
-    fi
-    if [[ $(str-contains $_args x) ]]; then
+fi
+if [[ $(str-contains $_args x) ]]; then
 	_includes="${_includes} --include=\"*.xml\""
-    fi
-    if [[ $(str-contains $_args s) ]]; then
+fi
+if [[ $(str-contains $_args s) ]]; then
 	_includes="${_includes} --include=\"*.sql\""
-    fi
-    if [[ $(str-contains $_args p) ]]; then
+fi
+if [[ $(str-contains $_args p) ]]; then
 	_includes="${_includes} --include=\"*.properties\""
-    fi
-    echo $_includes
+fi
+echo $_includes
 }
 
 function __find-in-files {
-    usage="__find-in-files [needle] [grep_arguments] [haystack_dir]"
+usage="__find-in-files [needle] [grep_arguments] [haystack_dir]"
 
-    local needle=${1}
-    local haystack_dir=${2}
-    local grep_arguments=${3}
+local needle=${1}
+local haystack_dir=${2}
+local grep_arguments=${3}
 
-    if [ -z ${needle} ]; then
-        echo "needle is not populated"
-        echo -e $usage
-        return 1;
-    fi
-    if [ -n "${4}" ]; then
-        echo "there is an extra parameter at position 4: '${4}'"
-        echo -e $usage
-        return 1;
-    fi
-    if [ -z ${haystack_dir} ]; then
-        haystack_dir="."
-    elif ! [ -e ${haystack_dir} ]; then
-        echo -e "haystack_dir: '${haystack_dir}' DNE"
-        echo -e $usage
-        return 1
-    fi
-    if [ -z ${grep_arguments} ]; then
-        grep_arguments=rni
-    fi
+if [ -z ${needle} ]; then
+	echo "needle is not populated"
+	echo -e $usage
+	return 1;
+fi
+if [ -n "${4}" ]; then
+	echo "there is an extra parameter at position 4: '${4}'"
+	echo -e $usage
+	return 1;
+fi
+if [ -z ${haystack_dir} ]; then
+	haystack_dir="."
+elif ! [ -e ${haystack_dir} ]; then
+	echo -e "haystack_dir: '${haystack_dir}' DNE"
+	echo -e $usage
+	return 1
+fi
+if [ -z ${grep_arguments} ]; then
+	grep_arguments=rni
+fi
 
-    local command="grep -${grep_arguments} --color ${needle}${haystack_dir}"
-    echo $command
-    $command
+local command="grep -${grep_arguments} --color ${needle}${haystack_dir}"
+echo $command
+$command
 }
 
 function copy-files-matching-pattern-to {
-    local file_match_pattern=${1}
-    local destination_dir=${2}
+local file_match_pattern=${1}
+local destination_dir=${2}
 
-    local files=$(ls | grep -P "${file_match_pattern}")
-    echo $files
+local files=$(ls | grep -P "${file_match_pattern}")
+echo $files
 
-    mkdir -p ${destination_dir}
+mkdir -p ${destination_dir}
 
-    for file in $files; do
-        echo "copying file $PWD/${file} to ${destination_dir}/${file}"
-        cp ${file} ${destination_dir}/.
-    done
+for file in $files; do
+	echo "copying file $PWD/${file} to ${destination_dir}/${file}"
+	cp ${file} ${destination_dir}/.
+done
 }
 
 function copy-files-matching-pattern-contains-string-pattern-to {
-    local file_match_pattern=${1}
-    local destination_dir=${2}
-    local string_pattern=${3}
+local file_match_pattern=${1}
+local destination_dir=${2}
+local string_pattern=${3}
 
-    local filepaths=$(grep -rPo "${string_pattern}" | grep -P "$file_match_pattern")
-    echo $filepaths
+local filepaths=$(grep -rPo "${string_pattern}" | grep -P "$file_match_pattern")
+echo $filepaths
 
-    mkdir -p ${destination_dir}
+mkdir -p ${destination_dir}
 
-    for filepath in $filepaths; do
-        local file=$(echo ${filepath} | grep -oP ".*(?=:${string})")
-        echo "copying file $PWD/${file} to ${destination_dir}/${file}"
-        cp ${file} ${destination_dir}/.
-    done
+for filepath in $filepaths; do
+	local file=$(echo ${filepath} | grep -oP ".*(?=:${string})")
+	echo "copying file $PWD/${file} to ${destination_dir}/${file}"
+	cp ${file} ${destination_dir}/.
+done
 }

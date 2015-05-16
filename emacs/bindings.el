@@ -16,6 +16,7 @@
 (global-set-key (kbd "C-x C-c") 'nil) ;; default \C-x\C-c is too easy to hit accidentally
 (global-set-key (kbd "M-G g")   'goto-line-with-feedback)
 (global-set-key (kbd "M-;")     'comment-dwim-line)
+(global-set-key (kbd "C-c M-;")	'comment-box)
 (global-set-key (kbd "C-c r")   'revert-buffer-no-confirm)
 (global-set-key (kbd "C-r")     'isearch-backward)
 (global-set-key (kbd "H-r")     'rgrep)
@@ -66,6 +67,12 @@
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
+(global-set-key (kbd "<f5>") 'linum-mode)
+(global-set-key (kbd "<H-f7>") 'desktop-change-dir)
+(global-set-key (kbd "<H-f5>") (lambda ()
+                                 (interactive)
+                                 (shell "sqlplus")))
+
 
 (global-set-key (kbd "M-G d d") (lambda()
                                   (interactive)
@@ -176,6 +183,7 @@
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
 (define-key evil-normal-state-map (kbd "qi")  'evil-normal-state-and-save-buffer)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
+(define-key evil-normal-state-map (kbd "g@")  'er/expand-region)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; do with H-j, M-j what you could do with <return> but less pink moving
@@ -189,21 +197,28 @@
 (key-chord-define evil-insert-state-map "qi" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "q-" "_")
 (key-chord-define evil-insert-state-map "qg" 'evil-execute-in-normal-state)
-(key-chord-define evil-insert-state-map "ql" 'evil-forward-char)
-(key-chord-define evil-insert-state-map "qh" 'evil-backward-char)
-(key-chord-define evil-insert-state-map "qk" 'evil-previous-visual-line)
-(key-chord-define evil-insert-state-map "qj" 'evil-next-visual-line)
+;; (key-chord-define evil-insert-state-map "ql" 'evil-forward-char)
+;; (key-chord-define evil-insert-state-map "qh" 'evil-backward-char)
+;; (key-chord-define evil-insert-state-map "qk" 'evil-previous-visual-line)
+;; (key-chord-define evil-insert-state-map "qj" 'evil-next-visual-line)
 (key-chord-define evil-insert-state-map "q)" 'evil-digit-argument-or-evil-beginning-of-line)
+(key-chord-define evil-insert-state-map "q'" "\"")
 
 
 ;; Magit rules!
 (global-set-key (kbd "C-x g") 'magit-status)
 
-
 ;; c1,c2 -> will put these each on own line
 (fset 'sql-one-select-column-per-line
-   [?/ ?, ?. return ?l ?i return escape])
+      [?/ ?, ?. return ?l ?i return escape])
 
 ;; will replace 'alias = table.column' with 'table.column AS alias'.  'alias' needs to be only one word.  'table.column' needs to be followed by a comma
 (fset 'ingres-equals-to-oracle-as
-   [?f ?= ?x ?d ?B ?A ?\C-b ?  ?A ?S ?\S-  ?\C-y escape])
+      [?f ?= ?x ?d ?B ?A ?\C-b ?  ?A ?S ?\S-  ?\C-y escape])
+
+(global-set-key (kbd "H-C-M-, h") 'shrink-window-horizontally)
+(global-set-key (kbd "H-C-M-. h") 'enlarge-window-horizontally)
+(global-set-key (kbd "H-C-M-, v") 'shrink-window)
+(global-set-key (kbd "H-C-M-. v") 'enlarge-window)
+
+(global-set-key (kbd "C-c H-r") 'transpose-windows)

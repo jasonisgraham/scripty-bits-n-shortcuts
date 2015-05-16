@@ -8,7 +8,7 @@ clear      mod5
 !! Caps_Lock key gives you Hyper_L
 keycode      66 = Hyper_L
 !! If you want Control_R, It can be found on R_Alt in addition to Control_R
-keycode     108 = Control_R
+keycode     108 = Alt_R
 keycode     105 = Control_R
 !! if you want Caps_Lock setxkbmap set it to both ~shift~ keys
 !! keycode     127 = Caps_Lock

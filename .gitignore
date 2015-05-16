@@ -1,3 +1,7 @@
 .~
 .idea
 \#*
+/bash/wakeup-screen.sh
+/emacs/bindings.el.~origin_master~
+/emacs/elscreen-buffer-list.el
+/emacs/number-lock.el
