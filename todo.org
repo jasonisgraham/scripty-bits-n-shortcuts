@@ -1,3 +1,7 @@
+* X
+** map some  somewhere more suitable and portable
+*** map the directional keys
+*** NUM pad keys
 * buffer-stack-{down,up}, i'd like to ignore non-file buffers
 * when tiling window to right and it cannot go right anymore, move window to next monitor
 ** Tile window to left
