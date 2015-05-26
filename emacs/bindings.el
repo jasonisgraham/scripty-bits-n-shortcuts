@@ -1,43 +1,19 @@
-(global-set-key (kbd "<f11>") 	'toggle-fullscreen)
-(global-set-key (kbd "C-h")     'delete-backward-char)
-(global-set-key (kbd "M-G r")   'open-resource)
-(global-set-key (kbd "C-x C-b") 'buffer-menu)
-(global-set-key (kbd "H-M-*")   'buffer-menu)
-(global-set-key (kbd "H-M-s")   'sr-speedbar-toggle)
+;; Hyper & control duplicates while i get used to swapping Ctrl + Hyper
+(global-set-key (kbd "H-z")     'repeat)
+(global-set-key (kbd "C-M-*")   'buffer-menu)
 (global-set-key (kbd "H-*")     'ido-switch-buffer)
-;; (global-set-key (kbd "H-8")  'ido-recentf-open)
-
-;; (global-set-key (kbd "M-k")     'keyboard-quit)
+(global-set-key (kbd "C-*")     'ido-switch-buffer)
 (global-set-key (kbd "H-8")     'helm-mini)
-(global-set-key (kbd "M-x")     'helm-M-x)
 (global-set-key (kbd "H-y")     'helm-show-kill-ring)
-(global-set-key [H-tab]         'dabbrev-expand)
-
-(global-set-key (kbd "C-x C-c") 'nil) ;; default \C-x\C-c is too easy to hit accidentally
-(global-set-key (kbd "M-G g")   'goto-line-with-feedback)
-(global-set-key (kbd "M-;")     'comment-dwim-line)
-(global-set-key (kbd "C-c M-;")	'comment-box)
-(global-set-key (kbd "C-c r")   'revert-buffer-no-confirm)
-(global-set-key (kbd "C-r")     'isearch-backward)
 (global-set-key (kbd "H-r")     'rgrep)
 (global-set-key (kbd "H-M-\\")  'indent-buffer)
-(global-set-key (kbd "M-C k")   'flyspell-correct-word-before-point)
-(global-set-key (kbd "M-5")     'query-replace)
-(global-set-key (kbd "M-%")     'digit-argument)
 (global-set-key (kbd "H-d")     'ediff-buffers)
-
 (global-set-key (kbd "H-w")     'kill-ring-save-keep-highlight)
-
 (global-set-key (kbd "H-o j")   'evil-next-line-first-non-blank)
-(global-set-key (kbd "H-o H-o k")  'evil-open-above)
 (global-set-key (kbd "H-o k")   'evil-previous-line-first-non-blank)
-
-(global-set-key (kbd "H-<f1>")  'help)
 (global-set-key (kbd "H-<f6>")  'load-file)
-(global-set-key (kbd "H-SPC")   'set-mark-command)
-
-(global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
-
+;; (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
+(global-set-key (kbd "C-;")     'evil-normal-state-and-save-buffer)
 (global-set-key (kbd "H-i")     'evil-normal-state-and-save-buffer)
 (global-set-key (kbd "H-[")     'evil-normal-state)
 
@@ -54,7 +30,6 @@
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 
-(global-set-key (kbd "H-f")     'ido-find-file)
 (global-set-key (kbd "H-$ f")   'ido-find-file-other-window)
 
 (global-set-key (kbd "H-M--")   'bury-buffer)
@@ -64,15 +39,39 @@
 (global-set-key (kbd "H-M-p")   'other-frame)
 (global-set-key (kbd "H-k")     'kill-buffer)
 (global-set-key (kbd "H-q")     'kill-this-buffer) ;; doesn't seem to work for some reason?
+(global-set-key (kbd "H-C-M-, h") 'shrink-window-horizontally)
+(global-set-key (kbd "H-C-M-. h") 'enlarge-window-horizontally)
+(global-set-key (kbd "H-C-M-, v") 'shrink-window)
+(global-set-key (kbd "H-C-M-. v") 'enlarge-window)
+
+(global-set-key (kbd "<f11>") 	'toggle-fullscreen)
+(global-set-key (kbd "C-h")     'delete-backward-char)
+(global-set-key (kbd "M-G r")   'open-resource)
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
+
+;; (global-set-key (kbd "M-k")     'keyboard-quit)
+(global-set-key (kbd "M-x")     'helm-M-x)
+(global-set-key [C-tab]         'dabbrev-expand)
+
+(global-set-key (kbd "C-x C-c") 'nil) ;; default \C-x\C-c is too easy to hit accidentally
+(global-set-key (kbd "M-G g")   'goto-line-with-feedback)
+(global-set-key (kbd "M-;")     'comment-dwim-line)
+(global-set-key (kbd "C-c M-;")	'comment-box)
+(global-set-key (kbd "C-c r")   'revert-buffer-no-confirm)
+(global-set-key (kbd "C-r")     'isearch-backward)
+(global-set-key (kbd "M-C k")   'flyspell-correct-word-before-point)
+(global-set-key (kbd "M-5")     'query-replace)
+(global-set-key (kbd "M-%")     'digit-argument)
+
+
+
+(global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
+
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
 (global-set-key (kbd "<f5>") 'linum-mode)
 (global-set-key (kbd "<H-f7>") 'desktop-change-dir)
-(global-set-key (kbd "<H-f5>") (lambda ()
-                                 (interactive)
-                                 (shell "sqlplus")))
-
 
 (global-set-key (kbd "M-G d d") (lambda()
                                   (interactive)
@@ -184,6 +183,8 @@
 (define-key evil-normal-state-map (kbd "qi")  'evil-normal-state-and-save-buffer)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 (define-key evil-normal-state-map (kbd "g@")  'er/expand-region)
+(define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
+(define-key evil-normal-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; do with H-j, M-j what you could do with <return> but less pink moving
@@ -216,9 +217,5 @@
 (fset 'ingres-equals-to-oracle-as
       [?f ?= ?x ?d ?B ?A ?\C-b ?  ?A ?S ?\S-  ?\C-y escape])
 
-(global-set-key (kbd "H-C-M-, h") 'shrink-window-horizontally)
-(global-set-key (kbd "H-C-M-. h") 'enlarge-window-horizontally)
-(global-set-key (kbd "H-C-M-, v") 'shrink-window)
-(global-set-key (kbd "H-C-M-. v") 'enlarge-window)
 
 (global-set-key (kbd "C-c H-r") 'transpose-windows)

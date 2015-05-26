@@ -880,3 +880,5 @@ Including indent-buffer, which should not be called automatically on save."
          (set-window-buffer (funcall selector) this-win)
          (select-window (funcall selector)))
        (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+
+(server-start)
