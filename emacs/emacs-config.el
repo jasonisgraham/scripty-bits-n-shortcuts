@@ -101,6 +101,7 @@
                 cider-repl-mode
                 cider-repl-mode-hook))
   (add-hook hook 'lisp-hooks))
+
 (setq cider-test-show-report-on-success nil)
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (setq nrepl-log-messages t)
@@ -109,6 +110,7 @@
 (setq cider-repl-result-prefix ";;=> ")
 (setq cider-prompt-save-file-on-load nil)
 (setq cider-repl-use-pretty-printing t)
+(setq cider-show-error-buffer nil)
 ;; (setq cider-lein-parameters "with-profile +1.6 repl :headless")
 ;; add the pretty lambda symbols
 (setq global-prettify-symbols-mode t)
@@ -530,7 +532,16 @@
 
 (setq column-number-mode 't)
 (setq menu-bar-mode nil)
-(setq global-linum-mode 't)
+
+(setq global-linum-mode nil)
+(dolist (hook '(c-mode-common-hook
+                sgml-mode-hook
+                clojure-mode-hook
+                sh-script-mode-hook
+                emacs-lisp-mode-hook
+                lisp-mode-hook))
+
+  (add-hook hook (lambda () (linum-mode 1))))
 
 ;; open 2 files as side-by-side windows
 (defun 2-windows-vertical-to-horizontal ()
@@ -564,7 +575,10 @@
 
 ;; hide-show stuff
 (setq-default hs-minor-mode t)
-(add-hook 'c-mode-common-hook (lambda() (hs-minor-mode 1)))
+(add-hook 'c-mode-common-hook
+          (lambda()
+            (hs-minor-mode 1)))
+
 (defun hs-hide-all-comments ()
   "Hide all top level blocks, if they are comments, displaying only first line.
 Move point to the beginning of the line, and run the normal hook
@@ -594,6 +608,7 @@ Move point to the beginning of the line, and run the normal hook
 (require 'auto-highlight-symbol)
 (setq global-auto-highlight-symbol-mode t) ;; at least alt+left/right conflicts with org-mode's bindings
 (setq auto-highlight-symbol-mode t)
+(auto-highlight-symbol-mode 1)
 (setq ahs-chrange-whole-buffer t)
 
 (put 'scroll-left 'disabled nil)
@@ -669,7 +684,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(custom-enabled-themes (quote (monokai)))
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
+    ("1c57936ffb459ad3de4f2abbc39ef29bfb109eade28405fa72734df1bc252c13" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-listing-switches
    "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
@@ -684,10 +699,12 @@ Including indent-buffer, which should not be called automatically on save."
  '(font-use-system-font t)
  '(foreground-color "#cccccc")
  '(fringe-mode 0 nil (fringe))
+ '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
  '(global-linum-mode nil)
  '(global-undo-tree-mode t)
+ '(global-vi-tilde-fringe-mode t)
  '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
  '(golden-ratio-mode nil)
  '(grep-command "grep -n -e ")
@@ -739,8 +756,6 @@ Including indent-buffer, which should not be called automatically on save."
      "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
  '(org-startup-truncated nil)
- '(powerline-color1 "#1E1E1E")
- '(powerline-color2 "#111111")
  '(read-buffer-completion-ignore-case t)
  '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
  '(recentf-keep (quote (recentf-keep-default-predicate)))
@@ -748,7 +763,6 @@ Including indent-buffer, which should not be called automatically on save."
  '(recentf-mode t)
  '(safe-local-variable-values (quote ((require-final-newline))))
  '(show-paren-mode t)
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(syslog-debug-face
    (quote
     ((t :background unspecified :foreground "#A1EFE4" :weight bold))))
@@ -804,6 +818,7 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(anzu-mode-line ((t (:background "black" :foreground "white" :weight bold))))
  '(evil-search-highlight-persist-highlight-face ((t (:inherit nil :background "yellow1" :foreground "black"))))
  '(helm-selection ((t (:inherit nil :inverse-video t :underline t))))
  '(highlight ((t (:background "lawn green" :foreground "black"))))
@@ -821,15 +836,15 @@ Including indent-buffer, which should not be called automatically on save."
 ;; package-activated-list
 ;; (2048-game ac-cider auto-complete popup cider queue pkg-info epl dash clojure-mode afternoon-theme ample-theme anything archive-region async auto-complete popup auto-highlight-symbol autopair badger-theme base16-theme bash-completion bliss-theme bookmark+ boron-theme buffer-move buffer-stack capture cider-decompile javap-mode cider queue pkg-info epl dash clojure-mode cider-profile cider queue pkg-info epl dash clojure-mode cider-spy dash cider queue pkg-info epl dash clojure-mode clojure-mode clues-theme company csv-mode ctags cyberpunk-theme dakrone-theme dark-krystal-theme elisp-slime-nav emacs-eclim s emacs-setup ess-R-data-view ess popup ctable ess-R-object-popup ess popup ess-smart-underscore ess evil-args evil goto-chg undo-tree evil-easymotion noflet ace-jump-mode evil-escape evil goto-chg undo-tree evil-exchange evil goto-chg undo-tree evil-jumper evil goto-chg undo-tree evil-lisp-state smartparens dash evil-leader evil goto-chg undo-tree evil goto-chg undo-tree evil-matchit evil-org evil goto-chg undo-tree evil-paredit paredit evil goto-chg undo-tree evil-search-highlight-persist highlight evil-snipe evil goto-chg undo-tree evil-space evil goto-chg undo-tree evil-surround evil-tabs elscreen evil goto-chg undo-tree evil-terminal-cursor-changer evil goto-chg undo-tree evil-tutor evil goto-chg undo-tree evil-visual-mark-mode dash evil goto-chg undo-tree evil-visualstar evil goto-chg undo-tree firecode-theme foreign-regexp gitlab request pkg-info epl dash s golden-ratio google goto-chg groovy-mode gruvbox-theme heroku highlight ido-at-point ido-complete-space-or-hyphen ido-gnus ido-hacks ido-load-library pcache persistent-soft list-utils pcache ido-select-window ido-sort-mtime ido-ubiquitous ido-vertical-mode jabber javap-mode jtags magit git-rebase-mode git-commit-mode markdown-mode monokai-theme multiple-cursors noflet paredit persistent-soft list-utils pcache pkg-info epl popup purple-haze-theme queue rainbow-delimiters regex-tool request s smart-mode-line rich-minority dash smartparens dash smyx-theme soothe-theme sr-speedbar subatomic256-theme sublime-themes tango-2-theme toxi-theme undo-tree waher-theme warm-night-theme window-number wrap-region dash yasnippet zen-and-art-theme zenburn-theme zonokai-theme)
 
- ;; '(eclim-eclipse-dirs (quote ("~/Programs/eclipse")))
- ;; '(eclim-executable "~/Programs/eclipse/eclim")
+;; '(eclim-eclipse-dirs (quote ("~/Programs/eclipse")))
+;; '(eclim-executable "~/Programs/eclipse/eclim")
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "bindings.el"))
 
 (defun evil-normal-state-and-save-buffer ()
-    (interactive)
-    (evil-normal-state)
-    (save-and-format-buffer))
+  (interactive)
+  (evil-normal-state)
+  (save-and-format-buffer))
 
 (projectile-global-mode)
 (setq projectile-enable-caching t)
@@ -843,18 +858,18 @@ Including indent-buffer, which should not be called automatically on save."
      nil 'fullscreen
      (when (not (frame-parameter nil 'fullscreen)) 'fullboth))))
 
- ;; '(paren-face-match ((t (:background "#272822" :foreground "#A1EFE4" :inverse-video nil :weight light))) t)
- ;; '(show-paren-match ((t (:background "#272822" :foreground "#A1EFE4" :underline t :weight normal))))
- ;; '(show-paren-match-face ((t (:background "#272822" :foreground "#A1EFE4" :underline t :weight normal))) t)
- ;; '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
- ;; '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
+;; '(paren-face-match ((t (:background "#272822" :foreground "#A1EFE4" :inverse-video nil :weight light))) t)
+;; '(show-paren-match ((t (:background "#272822" :foreground "#A1EFE4" :underline t :weight normal))))
+;; '(show-paren-match-face ((t (:background "#272822" :foreground "#A1EFE4" :underline t :weight normal))) t)
+;; '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
+;; '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
 
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 
 
-(set-frame-parameter (selected-frame) 'alpha '(95 90))
-(setq my-background-color "grey6")
+(set-frame-parameter (selected-frame) 'alpha '(98 90))
+(setq my-background-color "grey8")
 (set-background-color my-background-color)
 
 ;; shartfinder
@@ -870,15 +885,52 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; http://emacswiki.org/emacs/TransposeWindows
 (defun transpose-windows (arg)
-   "Transpose the buffers shown in two windows."
-   (interactive "p")
-   (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
-     (while (/= arg 0)
-       (let ((this-win (window-buffer))
-             (next-win (window-buffer (funcall selector))))
-         (set-window-buffer (selected-window) next-win)
-         (set-window-buffer (funcall selector) this-win)
-         (select-window (funcall selector)))
-       (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+  "Transpose the buffers shown in two windows."
+  (interactive "p")
+  (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
+    (while (/= arg 0)
+      (let ((this-win (window-buffer))
+            (next-win (window-buffer (funcall selector))))
+        (set-window-buffer (selected-window) next-win)
+        (set-window-buffer (funcall selector) this-win)
+        (select-window (funcall selector)))
+      (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
 
 (server-start)
+
+(setq explicit-shell-file-name "/bin/bash")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; http://root42.blogspot.com/2014/08/how-to-automatically-refresh-cider-when.html ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'cider-mode-hook
+          '(lambda () (add-hook 'after-save-hook
+                                '(lambda ()
+                                   (if (and (boundp 'cider-mode) cider-mode)
+                                       (cider-namespace-refresh)
+                                     )))))
+
+(defun cider-namespace-refresh ()
+  (interactive)
+  (cider-interactive-eval
+   "(require 'clojure.tools.namespace.repl)
+  (clojure.tools.namespace.repl/refresh)"))
+
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (define-key clojure-mode-map (kbd "C-c C-r") 'cider-namespace-refresh)
+            (define-key clojure-mode-map (kbd "<H-f1>") 'clojure-cheatsheet)
+            (define-key clojure-mode-map (kbd "C-c d") 'cider-debug-defun-at-point)
+            (auto-highlight-symbol-mode t)
+            (linum-mode 1)))
+
+;; (define-key clojure-mode-map (kbd "<C-f9>") 'cider-namespace-refresh)
+
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+
+(require 'popwin)
+(popwin-mode 1)

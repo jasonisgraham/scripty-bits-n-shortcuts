@@ -64,6 +64,7 @@
 (global-set-key (kbd "M-%")     'digit-argument)
 
 
+(global-set-key (kbd "C-<f12>") 'sr-speedbar-toggle)
 
 (global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
 

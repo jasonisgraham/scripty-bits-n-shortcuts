@@ -107,7 +107,7 @@ bind '"\en"':'"\C-n"'
 
 # with "set -o vi", \ev opens emacs for some reason
 # this is a way to unbind
-bind '"\ev"':self-insert 
+bind '"\ev"':self-insert
 # # aliases
 # #  human readable, all files minus . and .., append indicator, ignore backups
 alias ls="ls -h --color=always"

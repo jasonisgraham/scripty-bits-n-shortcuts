@@ -50,7 +50,8 @@ function fish_prompt
         else
                 set arrow "$red➜ "
         end
-        set -l cwd $cyan(basename (prompt_pwd))
+        # set -l cwd $cyan(basename (prompt_pwd))
+        set -l cwd $cyan(prompt_pwd)
 
         if [ (_git_branch_name) ]
                 set -l git_branch $red(_git_branch_name)
@@ -83,11 +84,11 @@ set -x TERM xterm-256color
 alias ls "ls -h --color=always"
 alias __BASE_LS_COMMAND "ls -hBF --ignore=.svn --ignore=.git --color=always --group-directories-first"
 
-function l; __BASE_LS_COMMAND; end
-function la; __BASE_LS_COMMAND -A; end
-function lah; __BASE_LS_COMMAND -Ahg; end
-function ll; __BASE_LS_COMMAND -l; end
-function lt; __BASE_LS_COMMAND -tAl; end
+function l; __BASE_LS_COMMAND $argv; end
+function la; __BASE_LS_COMMAND -A $argv; end
+function lah; __BASE_LS_COMMAND -Ahg $argv; end
+function ll; __BASE_LS_COMMAND -l $argv; end
+function lt; __BASE_LS_COMMAND -tAl $argv; end
 
 function ls-only-hidden-dirs
         set -l _dir $argv[1]
@@ -218,6 +219,9 @@ function my_vi_key_bindings
         bind \eS -M insert '. ~/.config/fish/config.fish'
         bind \cl 'clear; commandline -f repaint'
         bind -M insert \cl 'clear; commandline -f repaint'
+
+        bind \cd delete-char
+        bind -M insert \cd delete-char
 end
 
 set -g fish_key_bindings my_vi_key_bindings
