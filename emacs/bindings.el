@@ -146,9 +146,13 @@
             (define-key org-mode-map (kbd "C-<return>")   'org-insert-heading-after-current)))
 
 ;; disable mouse clicks
-;; (dolist (k '([mouse-1] [down-mouse-1]))
-;;   (global-unset-key k))
-(global-set-key (kbd "<down-mouse-1>") 'mouse-select-window)
+(dolist (k '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
+             [mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
+             [mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]
+             [mouse-4] [down-mouse-4] [drag-mouse-4] [double-mouse-4] [triple-mouse-4]
+             [mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
+  (global-unset-key k))
+;; (global-set-key (kbd "<down-mouse-1>") 'mouse-select-window)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evil stuff
@@ -181,7 +185,6 @@
 (define-key evil-normal-state-map (kbd "g*")  'ido-switch-buffer)
 (define-key evil-normal-state-map (kbd "g H-*")  'helm-mini)
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
-(define-key evil-normal-state-map (kbd "qi")  'evil-normal-state-and-save-buffer)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 (define-key evil-normal-state-map (kbd "g@")  'er/expand-region)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
@@ -197,6 +200,7 @@
 (key-chord-mode 1)
 (setq key-chord-two-keys-delay 0.05)
 (key-chord-define evil-insert-state-map "qi" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "q-" "_")
 (key-chord-define evil-insert-state-map "qg" 'evil-execute-in-normal-state)
 ;; (key-chord-define evil-insert-state-map "ql" 'evil-forward-char)

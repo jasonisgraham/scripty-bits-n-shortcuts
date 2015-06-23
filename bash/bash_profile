@@ -1,0 +1,19 @@
+export TERM='xterm-color'
+
+export JAVA_HOME=~/jdk
+export PATH=${PATH}:${JAVA_HOME}/bin:~/bin
+export GRADLE_HOME=/usr/share/gradle-2.2.1
+export PATH=${PATH}:${GRADLE_HOME}/bin
+export CLASSPATH=".:/usr/share/java/junit4.jar:/usr/share/groovy/lib/spock.jar:$CLASSPATH:~/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar"
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+export PATH=${PATH}:/opt/cisco/anyconnect/bin/
+
+export PATH
+
+case $- in *i*) . ~/.bashrc;; esac
+
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "~/.gvm/bin/gvm-init.sh" ]] && source "~/.gvm/bin/gvm-init.sh"

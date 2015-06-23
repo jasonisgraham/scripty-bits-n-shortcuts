@@ -8,15 +8,17 @@
                        [spyscope "0.1.5"]
                        [org.clojure/tools.namespace "0.2.10"]
                        [io.aviso/pretty "0.1.18"]
-                       [jsg-utils "0.1.0-SNAPSHOT"]
                        [im.chit/vinyasa "0.3.4"]
-                       [clj-ns-browser "1.3.1"]
-                       [org.clojure/clojurescript "0.0-3308"]]
+                       [clj-ns-browser "1.3.1"]]
 
         :global-vars {*print-length* 30}
 
         :injections [(require 'spyscope.core)
                      (require 'vinyasa.inject)
+
+                     (require 'io.aviso.repl
+                              'clojure.repl
+                              'clojure.main)
 
                      (vinyasa.inject/inject 'clojure.core
                                             '[[vinyasa.inject [inject inject]]
@@ -26,13 +28,9 @@
                                               [clojure.reflect reflect]
                                               [clojure.tools.namespace.repl [refresh refresh]]
                                               [clojure.pprint [pprint >pprint print-table]]
-                                              [io.aviso.binary [write-binary >bin]]
-                                              [jsg-utils.core show-available-methods]
-                                              ])
+                                              [io.aviso.binary [write-binary >bin]]])
 
-                     (require 'io.aviso.repl
-                              'clojure.repl
-                              'clojure.main)
+
                      (alter-var-root #'clojure.main/repl-caught
                                      (constantly @#'io.aviso.repl/pretty-pst))
                      (alter-var-root #'clojure.repl/pst
