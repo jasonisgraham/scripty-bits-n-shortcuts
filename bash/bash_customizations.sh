@@ -73,37 +73,10 @@ ps1-use-cwd-basename
 
 # export PS1="\u \w> "
 export EDITOR="emacs"
-export CLOJURESCRIPT_HOME=~/Programs/clojurescript/
 
 # tell SCREEN to back off when setting TERM to "screen"
 # export TERM=xterm
 export TERM=xterm-256color
-
-# binds
-bind 'set completion-ignore-case on'
-# alt-S loads source
-bind '"\eS"':"\"source ~/.bashrc\C-m\""
-# alt-j acts like <return>
-bind '"\ej"':"\"\C-m\""
-# alt-< Move up the directory. same as cd ../
-bind '"\e<"':"\"\C-u__move-up-directory\C-m\""
-# alt-L same as __ls-type
-bind '"\eL"':"\"\C-u__ls-type\C-m\""
-# alt-> Move down the directory.
-bind '"\e>"':"\"\C-u__move-down-directory\C-m\""
-bind '"\ew"':kill-region
-# case sensitive file grep
-bind '"\eXf"':"\"\C-a__find-in-files \C-e . rn \C-j\""
-# case insensitive file grep
-bind '"\eXi"':"\"\C-a__find-in-files \C-e . rni \C-j\""
-# case insensitive regex file grep, Uses Perl regex.  Encase this with some quotes
-bind '"\eXr"':"\"\C-a__find-in-files \C-e . rniP \C-j\""
-# copy what's on terminal line to clipboard
-bind '"\eX\ew"':'"\C-a echo \"\C-e\" | xclip -selection clipboard\C-j\"'
-# copy whatever ctrl+y does into clipboard
-bind '"\eX\ey"':'"echo \C-y | xclip -selection clipboard\C-j"'
-bind '"\ep"':'"\C-p"'
-bind '"\en"':'"\C-n"'
 
 # with "set -o vi", \ev opens emacs for some reason
 # this is a way to unbind
@@ -121,15 +94,43 @@ function ls-only-hidden-dirs {
     local _dir="$1"
     l -A --color=never $_dir | grep \/$ | grep '^\.'
 }
+
+# binds
+bind 'set completion-ignore-case on'
+# alt-S loads source
+bind '"\eS"':"\"source ~/.bashrc\C-m\""
+# alt-j acts like <return>
+bind '"\ej"':"\"\C-m\""
+# alt-< Move up the directory. same as cd ../
+bind '"\e<"':"\"\C-u__move-up-directory\C-m\""
+bind '"\eL"':"\"\C-u__ls-type\C-m\""
+bind '"\el"':"\"\C-ul\C-m\""
 bind '"\e!"':"\"\C-a\C-kla\C-j\""
 bind '"\e@"':"\"\C-a\C-klt\C-j\""
+
+# alt-> Move down the directory.
+bind '"\e>"':"\"\C-u__move-down-directory\C-m\""
+bind '"\ew"':kill-region
+# case sensitive file grep
+bind '"\eXf"':"\"\C-a__find-in-files \C-e . rn \C-j\""
+# case insensitive file grep
+bind '"\eXi"':"\"\C-a__find-in-files \C-e . rni \C-j\""
+# case insensitive regex file grep, Uses Perl regex.  Encase this with some quotes
+bind '"\eXr"':"\"\C-a__find-in-files \C-e . rniP \C-j\""
+# copy what's on terminal line to clipboard
+bind '"\eX\ew"':'"\C-a echo \"\C-e\" | xclip -selection clipboard\C-j\"'
+# copy whatever ctrl+y does into clipboard
+bind '"\eX\ey"':'"echo \C-y | xclip -selection clipboard\C-j"'
+bind '"\ep"':'"\C-p"'
+bind '"\en"':'"\C-n"'
+
 
 # echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
 # alias to-clipboard='xclip -selection clipboard'
 alias irb='irb --simple-prompt'
 alias rm='rm -i'
 alias mv='mv -i'
-alias cp='cp -i'
+# alias cp='cp -i'
 alias df='df -h'
 alias du='du -sh'
 alias h='history | tail'

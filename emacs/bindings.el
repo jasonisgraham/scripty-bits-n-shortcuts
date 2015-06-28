@@ -2,9 +2,8 @@
 (global-set-key (kbd "H-z")     'repeat)
 (global-set-key (kbd "C-M-*")   'buffer-menu)
 (global-set-key (kbd "H-*")     'ido-switch-buffer)
-(global-set-key (kbd "C-*")     'ido-switch-buffer)
 (global-set-key (kbd "H-8")     'helm-mini)
-(global-set-key (kbd "H-y")     'helm-show-kill-ring)
+(global-set-key (kbd "H-y")     'helm--kill-ring)
 (global-set-key (kbd "H-r")     'rgrep)
 (global-set-key (kbd "H-M-\\")  'indent-buffer)
 (global-set-key (kbd "H-d")     'ediff-buffers)
@@ -14,8 +13,6 @@
 (global-set-key (kbd "H-<f6>")  'load-file)
 ;; (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
 (global-set-key (kbd "C-;")     'evil-normal-state-and-save-buffer)
-(global-set-key (kbd "H-i")     'evil-normal-state-and-save-buffer)
-(global-set-key (kbd "H-[")     'evil-normal-state)
 
 ;; requires elscree; nput some elscreen check here?
 (global-set-key (kbd "H-(")     'elscreen-previous)
@@ -39,10 +36,6 @@
 (global-set-key (kbd "H-M-p")   'other-frame)
 (global-set-key (kbd "H-k")     'kill-buffer)
 (global-set-key (kbd "H-q")     'kill-this-buffer) ;; doesn't seem to work for some reason?
-(global-set-key (kbd "H-C-M-, h") 'shrink-window-horizontally)
-(global-set-key (kbd "H-C-M-. h") 'enlarge-window-horizontally)
-(global-set-key (kbd "H-C-M-, v") 'shrink-window)
-(global-set-key (kbd "H-C-M-. v") 'enlarge-window)
 
 (global-set-key (kbd "<f11>") 	'toggle-fullscreen)
 (global-set-key (kbd "C-h")     'delete-backward-char)
@@ -67,7 +60,6 @@
 (global-set-key (kbd "C-<f12>") 'sr-speedbar-toggle)
 
 (global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
-
 
 ;; use this when you don't know where your cursor is.  once to enable.  again to disable
 (global-set-key (kbd "<f6>") 'hl-line-mode)
@@ -102,21 +94,6 @@
 (global-set-key (kbd "M-G h b") 'hs-hide-block)
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 
-(setq __toggle-hyphen-underscore-default "-")
-(setq __toggle-hyphen-underscore-current __toggle-hyphen-underscore-default)
-
-(defun toggle-hyphen-underscore ()
-  (interactive)
-  (if (string= "-" __toggle-hyphen-underscore-current)
-      (progn
-        (setq __toggle-hyphen-underscore-current "_")
-        (keyboard-translate ?- ?_)
-        (keyboard-translate ?_ ?-))
-    (progn
-      (setq __toggle-hyphen-underscore-current "_")
-      (keyboard-translate ?- ?-)
-      (keyboard-translate ?_ ?_))))
-
 ;; Override this paredit keybindings
 (eval-after-load 'paredit
   '(progn
@@ -145,14 +122,6 @@
             (define-key org-mode-map (kbd "M-S-<return>") 'org-insert-subheading)
             (define-key org-mode-map (kbd "C-<return>")   'org-insert-heading-after-current)))
 
-;; disable mouse clicks
-(dolist (k '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
-             [mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
-             [mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]
-             [mouse-4] [down-mouse-4] [drag-mouse-4] [double-mouse-4] [triple-mouse-4]
-             [mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
-  (global-unset-key k))
-;; (global-set-key (kbd "<down-mouse-1>") 'mouse-select-window)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evil stuff
@@ -162,8 +131,6 @@
 (define-key evil-normal-state-map (kbd "gwk") 'split-window-below)
 (define-key evil-normal-state-map (kbd "gwj") 'split-window-below-and-make-active)
 
-(define-key evil-normal-state-map (kbd "gwn") 'winner-undo)
-(define-key evil-normal-state-map (kbd "gwp") 'winner-redo)
 (define-key evil-normal-state-map (kbd "gr") 'repeat)
 
 (define-key evil-normal-state-map (kbd "qq") 'quit-window)
@@ -183,12 +150,10 @@
 (define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
 
 (define-key evil-normal-state-map (kbd "g*")  'ido-switch-buffer)
-(define-key evil-normal-state-map (kbd "g H-*")  'helm-mini)
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 (define-key evil-normal-state-map (kbd "g@")  'er/expand-region)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
-(define-key evil-normal-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; do with H-j, M-j what you could do with <return> but less pink moving
@@ -199,16 +164,10 @@
 ;;
 (key-chord-mode 1)
 (setq key-chord-two-keys-delay 0.05)
-(key-chord-define evil-insert-state-map "qi" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "q-" "_")
 (key-chord-define evil-insert-state-map "qg" 'evil-execute-in-normal-state)
-;; (key-chord-define evil-insert-state-map "ql" 'evil-forward-char)
-;; (key-chord-define evil-insert-state-map "qh" 'evil-backward-char)
-;; (key-chord-define evil-insert-state-map "qk" 'evil-previous-visual-line)
-;; (key-chord-define evil-insert-state-map "qj" 'evil-next-visual-line)
 (key-chord-define evil-insert-state-map "q)" 'evil-digit-argument-or-evil-beginning-of-line)
-(key-chord-define evil-insert-state-map "q'" "\"")
 
 
 ;; Magit rules!
@@ -222,5 +181,66 @@
 (fset 'ingres-equals-to-oracle-as
       [?f ?= ?x ?d ?B ?A ?\C-b ?  ?A ?S ?\S-  ?\C-y escape])
 
-
 (global-set-key (kbd "C-c H-r") 'transpose-windows)
+
+;; disable mouse clicks
+(dolist (k '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
+             [mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
+             [mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]))
+  (global-unset-key k))
+;; (global-set-key (kbd "<down-mouse-1>") 'mouse-select-window)
+
+;;;;;;;;;;;;;;;;;
+;; hydra stuff ;;
+;;;;;;;;;;;;;;;;;
+
+;; https://www.reddit.com/r/emacs/comments/3ba645/does_anybody_have_any_real_cool_hydras_to_share/cskdhte
+(defhydra hydra-windows (:hint nil)
+  "
+          Split: _|_:vert  _-_:horz
+         Delete: !:other )_:curr
+  Switch Window: _h_:left  _j_:down  _k_:up  _l_:right
+        Buffers: _p_revious  _n_ext  _b_:select  _f_ind-file  _F_projectile _R_:helm-mini _K_ill-buffer
+         Winner: _u_ndo  _r_edo
+         Resize: _H_:splitter left  _J_:splitter down  _K_:splitter up  _L_:splitter right
+           Move: _a_:up  _z_:down  _i_menu"
+
+  ("z" scroll-up-line)
+  ("a" scroll-down-line)
+  ("i" idomenu)
+
+  ("u" winner-undo)
+  ("r" winner-redo)
+
+  ("h" windmove-left)
+  ("j" windmove-down)
+  ("k" windmove-up)
+  ("l" windmove-right)
+
+  ("M-h" buf-move-left nil)
+  ("M-l" buf-move-right nil)
+  ("M-k" buf-move-up nil)
+  ("M-j" buf-move-down nil)
+
+  ("p" previous-buffer)
+  ("n" next-buffer)
+  ("b" ido-switch-buffer)
+  ("f" ido-find-file)
+  ("F" projectile-find-file)
+  ("R" helm-mini)
+  ("K" kill-this-buffer)
+
+  ("-" split-window-below)
+  ("|" split-window-right)
+
+  (")" delete-window)
+  ("!" delete-other-windows)
+
+  ("H" hydra-move-splitter-left)
+  ("J" hydra-move-splitter-down)
+  ("K" hydra-move-splitter-up)
+  ("L" hydra-move-splitter-right)
+
+  ("q" nil))
+
+(global-set-key (kbd "C-*")     'hydra-windows/body)

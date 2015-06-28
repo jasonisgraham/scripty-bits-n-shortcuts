@@ -302,10 +302,9 @@
                 django-html-mode
                 clojure-mode))
   (add-hook hook 'zencoding-hooks))
+(add-hook 'zencoding-mode 'zencoding-hooks)
 
 (setq vc-svn-diff-switches '("-x --ignore-eol-style" "-x -w"))
-
-(add-hook 'zencoding-mode 'zencoding-hooks)
 
 ;; (defcustom buffer-stack-ignore-pattern-exceptions nil
 ;;   "see my-next-buffer for whatever is ignored when doing next-buffer & previous-buffer.  Good for things like *ielm* or *shell*"
@@ -756,6 +755,11 @@ Including indent-buffer, which should not be called automatically on save."
      "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
  '(org-startup-truncated nil)
+ '(projectile-enable-caching t)
+ '(projectile-global-mode t)
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*")))
  '(read-buffer-completion-ignore-case t)
  '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
  '(recentf-keep (quote (recentf-keep-default-predicate)))
@@ -829,7 +833,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(mode-line-inactive ((t (:inherit mode-line :background "#000000" :foreground "#BCBCBC"))))
  '(paren-face-match ((t (:inverse-video nil :weight light))) t)
  '(semantic-highlight-edits-face ((t (:background "gray21"))))
- '(show-paren-match ((t (:underline t :weight normal))))
+ '(show-paren-match ((t (:background "#272822" :foreground "gray" :inverse-video t :underline "black" :weight thin))))
  '(term ((t (:inherit default :foreground "white smoke"))) t)
  '(zencoding-preview-output ((t (:background "dim gray")))))
 

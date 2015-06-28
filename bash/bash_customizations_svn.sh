@@ -6,7 +6,7 @@ alias svn-diff-side-by-side='svn --diff-cmd "diff" --extensions "-y --suppress-c
 alias svn-vim-diff='svn diff | vim -R -'
 
 function __print-ignored-locations {
-    echo "Ignoring the following locations/patterns: " 
+    echo "Ignoring the following locations/patterns: "
     for loc in $SVN_LOCATIONS_TO_IGNORE; do
 	echo " - $loc"
     done
@@ -17,33 +17,33 @@ function __define-svn-st-ignoring-specified-locations {
     local _dir="."
     if [[ "$1" ]]; then
 	_dir="$1"
-    fi		
+    fi
     __GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS=$(svn st $_dir | grep -vP $(echo $SVN_LOCATIONS_TO_IGNORE | sed "s/\s/|/g") | grep -oP "[^\s]+$")
 }
 
 function svn-st-ignoring-specified-locations {
-    __print-ignored-locations
+    # __print-ignored-locations
     __define-svn-st-ignoring-specified-locations
     echo $__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS | tr ' ' '\n'
-    echo ""
+    # echo ""
 }
 
 function svn-ci-ignoring-specified-locations {
     local _ci_args=$@
     __print-ignored-locations
     __define-svn-st-ignoring-specified-locations $_ci_args
-    
+
     local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
 
     if [ ! "$_svn_st_result" ]; then
 	echo ""
 	echo " no changes to commit"
 	echo ""
-    else	
+    else
 	if [[ "$_svn_st_result" ]]; then
 	    _ci_args=$_svn_st_result
-	fi		
-	
+	fi
+
 	svn ci $_ci_args
     fi
 }
@@ -52,21 +52,21 @@ function svn-diff-ignoring-specified-locations {
     local _diff_args=$@
     __print-ignored-locations
     __define-svn-st-ignoring-specified-locations $_diff_args
-    
+
     local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
 
     if [ ! "$_svn_st_result" ]; then
 	echo ""
 	echo " no changes to diff"
 	echo ""
-    else	
+    else
 	echo $_svn_st_result | tr ' ' '\n'
 	echo ""
-	
+
 	if [[ "$_svn_st_result" ]]; then
 	    _diff_args=$_svn_st_result
-	fi		
-	
+	fi
+
 	svn diff -x -w $_diff_args
     fi
 }
@@ -91,7 +91,7 @@ function do-svn {
 	"u" )
 	    svn_cmd="$svn_cmd up"
 	    ;;
-	"s" )	    
+	"s" )
 	    svn_cmd="$svn_cmd st"
 	    ;;
 	"r" )
@@ -103,19 +103,19 @@ function do-svn {
 	"i" )
 	    svn_cmd="$svn_cmd info"
 	    ;;
-	"t" ) 
+	"t" )
 	    if [[ $args == "." ]]; then
 		tar-local-mods
 	  	return
 	    fi
 
-	    local local_MOD_TARBALL_NAME=$(make-local-mod-tarball-name)	    
+	    local local_MOD_TARBALL_NAME=$(make-local-mod-tarball-name)
 	    local tar_cmd="tar -cvf ${local_MOD_TARBALL_NAME} ${args}"
 	    echo $tar_cmd
 	    $tar_cmd
 	    return
 	    ;;
-	
+
 	"&")
 	    IFS=$
 	    stat=`svn st`
@@ -134,7 +134,7 @@ function do-svn {
 	    read _file_numbers
 
 	    IFS=" "
-	    local args_line=""	    
+	    local args_line=""
 	    for _file_number in $_file_numbers
 	    do
 		args_line="${args_line} ${svn_st_arr[$_file_number]}"
@@ -175,7 +175,7 @@ function make-local-mod-tarball-name {
 }
 
 
-function tar-local-mods {    
+function tar-local-mods {
     local tarball_name=$(make-local-mod-tarball-name)
     local args="$*"
 
@@ -184,15 +184,15 @@ function tar-local-mods {
 	    tarball_name=$arg
 	fi
     done
-    
-    local svn_st=$(svn st)    
+
+    local svn_st=$(svn st)
     local retval=$?
     if [ 0 -ne $retval ]; then
 	echo "Exiting: svn st returned code of ${retval}"
 	return $retval
     else
 	local all_files=$(svn st | grep -oP "(?<=\s)\w.*\.*$")
-	local previous_tarball_pattern="$(whoami)_$(hostname)__[^\s]*\d+\.tar"    
+	local previous_tarball_pattern="$(whoami)_$(hostname)__[^\s]*\d+\.tar"
 	local files=""
 
 	if [[ ! $all_files ]]; then
