@@ -13,63 +13,61 @@ function __print-ignored-locations {
     echo ""
 }
 
-function __define-svn-st-ignoring-specified-locations {
+# function __define-svn-st-ignoring-specified-locations {
+#     __GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS=$(svn st $_dir | grep -vP $(echo $SVN_LOCATIONS_TO_IGNORE | sed "s/\s/|/g"))
+# }
+
+function svn-st-ignoring-specified-locations {
     local _dir="."
     if [[ "$1" ]]; then
 	_dir="$1"
     fi
-    __GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS=$(svn st $_dir | grep -vP $(echo $SVN_LOCATIONS_TO_IGNORE | sed "s/\s/|/g") | grep -oP "[^\s]+$")
+
+    svn st $_dir | grep -vP $(echo $SVN_LOCATIONS_TO_IGNORE | sed "s/\s/|/g")
 }
 
-function svn-st-ignoring-specified-locations {
-    # __print-ignored-locations
-    __define-svn-st-ignoring-specified-locations
-    echo $__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS | tr ' ' '\n'
-    # echo ""
-}
+# function svn-ci-ignoring-specified-locations {
+#     local _ci_args=$@
+#     __print-ignored-locations
+#     __define-svn-st-ignoring-specified-locations $_ci_args
 
-function svn-ci-ignoring-specified-locations {
-    local _ci_args=$@
-    __print-ignored-locations
-    __define-svn-st-ignoring-specified-locations $_ci_args
+#     local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
 
-    local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
+#     if [ ! "$_svn_st_result" ]; then
+# 	echo ""
+# 	echo " no changes to commit"
+# 	echo ""
+#     else
+# 	if [[ "$_svn_st_result" ]]; then
+# 	    _ci_args=$_svn_st_result
+# 	fi
 
-    if [ ! "$_svn_st_result" ]; then
-	echo ""
-	echo " no changes to commit"
-	echo ""
-    else
-	if [[ "$_svn_st_result" ]]; then
-	    _ci_args=$_svn_st_result
-	fi
+# 	svn ci $_ci_args
+#     fi
+# }
 
-	svn ci $_ci_args
-    fi
-}
+# function svn-diff-ignoring-specified-locations {
+#     local _diff_args=$@
+#     __print-ignored-locations
+#     __define-svn-st-ignoring-specified-locations $_diff_args
 
-function svn-diff-ignoring-specified-locations {
-    local _diff_args=$@
-    __print-ignored-locations
-    __define-svn-st-ignoring-specified-locations $_diff_args
+#     local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
 
-    local _svn_st_result=$__GLOBAL_SVN_ST_IGNORING_SPECIFIED_LOCATIONS
+#     if [ ! "$_svn_st_result" ]; then
+# 	echo ""
+# 	echo " no changes to diff"
+# 	echo ""
+#     else
+# 	echo $_svn_st_result | tr ' ' '\n'
+# 	echo ""
 
-    if [ ! "$_svn_st_result" ]; then
-	echo ""
-	echo " no changes to diff"
-	echo ""
-    else
-	echo $_svn_st_result | tr ' ' '\n'
-	echo ""
+# 	if [[ "$_svn_st_result" ]]; then
+# 	    _diff_args=$_svn_st_result
+# 	fi
 
-	if [[ "$_svn_st_result" ]]; then
-	    _diff_args=$_svn_st_result
-	fi
-
-	svn diff -x -w $_diff_args
-    fi
-}
+# 	svn diff -x -w $_diff_args
+#     fi
+# }
 
 function do-svn {
     local args='.'

@@ -82,7 +82,7 @@
 ;;; if the word exists in yasnippet, pressing tab will cause yasnippet to
 ;;; activate, otherwise, auto-complete will
 (ac-set-trigger-key "TAB")
-(ac-set-trigger-key "<tab>")
+;; (ac-set-trigger-key "<tab>")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -245,26 +245,28 @@
 ;; eclim                                ;;
 ;; https://github.com/senny/emacs-eclim ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (require 'eclim)
-;; (global-eclim-mode)
-;; (custom-set-variables
-;;  '(eclim-eclipse-dirs '("~/bin/eclipse"))
-;;  '(eclim-executable "~/bin/eclipse/eclim"))
-;; (require 'eclimd)
+(require 'eclim)
+(global-eclim-mode)
+(custom-set-variables
+ '(eclim-eclipse-dirs '("~/bin/eclipse"))
+ '(eclim-executable "~/bin/eclipse/eclim"))
+(require 'eclimd)
 
-;; ;; regular auto-complete initialization
-;; (require 'auto-complete-config)
-;; (ac-config-default)
+;; regular auto-complete initialization
+(require 'auto-complete-config)
+(ac-config-default)
 
-;; ;; add the emacs-eclim source
-;; (require 'ac-emacs-eclim-source)
-;; (ac-emacs-eclim-config)
+;; add the emacs-eclim source
+(require 'ac-emacs-eclim-source)
+(ac-emacs-eclim-config)
 
-;; ;; ;; configuring company-mode
-;; (require 'company)
-;; (require 'company-emacs-eclim)
-;; (company-emacs-eclim-setup)
-;; (global-company-mode t)
+;; configuring company-mode
+(require 'company)
+(require 'company-emacs-eclim)
+(company-emacs-eclim-setup)
+(global-company-mode t)
+
+(setq eclimd-default-workspace "~/CMU/Workspace")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -838,7 +840,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(zencoding-preview-output ((t (:background "dim gray")))))
 
 ;; package-activated-list
-;; (2048-game ac-cider auto-complete popup cider queue pkg-info epl dash clojure-mode afternoon-theme ample-theme anything archive-region async auto-complete popup auto-highlight-symbol autopair badger-theme base16-theme bash-completion bliss-theme bookmark+ boron-theme buffer-move buffer-stack capture cider-decompile javap-mode cider queue pkg-info epl dash clojure-mode cider-profile cider queue pkg-info epl dash clojure-mode cider-spy dash cider queue pkg-info epl dash clojure-mode clojure-mode clues-theme company csv-mode ctags cyberpunk-theme dakrone-theme dark-krystal-theme elisp-slime-nav emacs-eclim s emacs-setup ess-R-data-view ess popup ctable ess-R-object-popup ess popup ess-smart-underscore ess evil-args evil goto-chg undo-tree evil-easymotion noflet ace-jump-mode evil-escape evil goto-chg undo-tree evil-exchange evil goto-chg undo-tree evil-jumper evil goto-chg undo-tree evil-lisp-state smartparens dash evil-leader evil goto-chg undo-tree evil goto-chg undo-tree evil-matchit evil-org evil goto-chg undo-tree evil-paredit paredit evil goto-chg undo-tree evil-search-highlight-persist highlight evil-snipe evil goto-chg undo-tree evil-space evil goto-chg undo-tree evil-surround evil-tabs elscreen evil goto-chg undo-tree evil-terminal-cursor-changer evil goto-chg undo-tree evil-tutor evil goto-chg undo-tree evil-visual-mark-mode dash evil goto-chg undo-tree evil-visualstar evil goto-chg undo-tree firecode-theme foreign-regexp gitlab request pkg-info epl dash s golden-ratio google goto-chg groovy-mode gruvbox-theme heroku highlight ido-at-point ido-complete-space-or-hyphen ido-gnus ido-hacks ido-load-library pcache persistent-soft list-utils pcache ido-select-window ido-sort-mtime ido-ubiquitous ido-vertical-mode jabber javap-mode jtags magit git-rebase-mode git-commit-mode markdown-mode monokai-theme multiple-cursors noflet paredit persistent-soft list-utils pcache pkg-info epl popup purple-haze-theme queue rainbow-delimiters regex-tool request s smart-mode-line rich-minority dash smartparens dash smyx-theme soothe-theme sr-speedbar subatomic256-theme sublime-themes tango-2-theme toxi-theme undo-tree waher-theme warm-night-theme window-number wrap-region dash yasnippet zen-and-art-theme zenburn-theme zonokai-theme)
+;; (2048-game ac-cider auto-complete popup cider queue pkg-info epl dash clojure-mode ac-etags auto-complete popup ace-jump-mode afternoon-theme ag s dash ample-theme anything-exuberant-ctags anything archive-region auto-highlight-symbol autopair badger-theme base16-theme bash-completion bliss-theme bookmark+ boron-theme buffer-move buffer-stack capture cider-decompile javap-mode cider queue pkg-info epl dash clojure-mode cider-eval-sexp-fu eval-sexp-fu highlight highlight cider-profile cider queue pkg-info epl dash clojure-mode cider-spy dash cider queue pkg-info epl dash clojure-mode clj-refactor edn s peg dash cider queue pkg-info epl dash clojure-mode multiple-cursors paredit yasnippet dash s cljsbuild-mode clojure-cheatsheet cider queue pkg-info epl dash clojure-mode helm async clojure-mode-extra-font-locking clojure-mode clojure-quick-repls dash cider queue pkg-info epl dash clojure-mode clojure-snippets yasnippet clues-theme csv-mode ctags ctags-update cyberpunk-theme dakrone-theme darcula-theme dark-krystal-theme django-mode django-snippets yasnippet django-theme edn s peg dash elisp-slime-nav elpy yasnippet pyvenv highlight-indentation find-file-in-project company elscreen-persist revive elscreen emacs-eclim s emacs-setup ess-R-data-view ess popup ctable ess-R-object-popup ess popup ess-smart-underscore ess eval-in-repl paredit dash eval-sexp-fu highlight evil-anzu anzu evil goto-chg undo-tree evil-args evil goto-chg undo-tree evil-easymotion avy evil-escape evil goto-chg undo-tree evil-exchange evil goto-chg undo-tree evil-jumper evil goto-chg undo-tree evil-lisp-state smartparens dash evil-leader evil goto-chg undo-tree evil goto-chg undo-tree evil-matchit evil-org evil goto-chg undo-tree evil-paredit paredit evil goto-chg undo-tree evil-search-highlight-persist highlight evil-snipe evil goto-chg undo-tree evil-space evil goto-chg undo-tree evil-surround evil-tabs elscreen evil goto-chg undo-tree evil-terminal-cursor-changer evil goto-chg undo-tree evil-tutor evil goto-chg undo-tree evil-visual-mark-mode dash evil goto-chg undo-tree evil-visualstar evil goto-chg undo-tree expand-region find-file-in-project firecode-theme fish-mode foreign-regexp gitlab request pkg-info epl dash s groovy-mode gruvbox-theme helm-anything anything helm async helm-aws helm async helm-backup s helm async helm-c-yasnippet yasnippet helm async helm-chrome helm async helm-company company helm async helm-css-scss helm async helm-dictionary helm async helm-dirset s helm async f dash s helm-flycheck helm async flycheck let-alist pkg-info epl dash dash helm-flymake helm async helm-flyspell helm-git helm-git-files helm async helm-git-grep helm async helm-google google helm async helm-helm-commands helm async helm-package helm async helm-projectile dash projectile pkg-info epl dash helm async helm-pydoc helm async heroku highlight highlight-indentation hydra ido-at-point ido-complete-space-or-hyphen ido-gnus ido-hacks ido-load-library pcache persistent-soft list-utils pcache ido-select-window ido-sort-mtime ido-ubiquitous ido-completing-read+ ido-vertical-mode javap-mode jedi-direx direx jedi auto-complete popup jedi-core python-environment deferred epc ctable concurrent deferred jtags key-chord let-alist magit git-rebase-mode git-commit-mode markdown-mode material-theme molokai-theme monokai-theme multiple-cursors neotree noflet org-beautify-theme org-bullets paredit peg persistent-soft list-utils pcache popup-complete popup popup-kill-ring pos-tip popup popup-switcher popup popwin pos-tip powerline-evil powerline evil goto-chg undo-tree projectile pkg-info epl dash purple-haze-theme python-django python-environment deferred python-mode pyvenv queue rainbow-blocks rainbow-delimiters rainbow-identifiers rainbow-mode regex-tool request revive rich-minority s smartparens dash smooth-scrolling smyx-theme soothe-theme sr-speedbar subatomic256-theme sublime-themes tango-2-theme toxi-theme undo-tree vi-tilde-fringe virtualenv visual-regexp-steroids visual-regexp volatile-highlights waher-theme warm-night-theme web-mode window-number wrap-region dash yasnippet zen-and-art-theme zenburn-theme zencoding-mode zonokai-theme)
 
 ;; '(eclim-eclipse-dirs (quote ("~/Programs/eclipse")))
 ;; '(eclim-executable "~/Programs/eclipse/eclim")
@@ -938,3 +940,10 @@ Including indent-buffer, which should not be called automatically on save."
 
 (require 'popwin)
 (popwin-mode 1)
+
+;; javascript
+;; (add-hook 'js-mode-hook 'js2-minor-mode)
+;; (add-hook 'js2-mode-hook 'ac-js2-mode)
+;; (setq js2-highlight-level 3)
+;; (define-key js-mode-map "{" 'paredit-open-curly)
+;; (define-key js-mode-map "}" 'paredit-close-curly-and-newline)

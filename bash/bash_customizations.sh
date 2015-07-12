@@ -69,7 +69,8 @@ function ps1-use-fullpath {
 function ps1-use-cwd-basename {
     export PS1="\[$BGreen\]\u \[$BBlue\]\W\[$Color_Off\]> "
 }
-ps1-use-cwd-basename
+ps1-use-fullpath
+# ps1-use-cwd-basename
 
 # export PS1="\u \w> "
 export EDITOR="emacs"

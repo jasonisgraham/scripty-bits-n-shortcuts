@@ -1,7 +1,8 @@
 ;; Hyper & control duplicates while i get used to swapping Ctrl + Hyper
 (global-set-key (kbd "H-z")     'repeat)
 (global-set-key (kbd "C-M-*")   'buffer-menu)
-(global-set-key (kbd "H-*")     'ido-switch-buffer)
+;; (global-set-key (kbd "H-*")     'ido-switch-buffer)
+(global-set-key (kbd "C-*")     'ido-switch-buffer)
 (global-set-key (kbd "H-8")     'helm-mini)
 (global-set-key (kbd "H-y")     'helm--kill-ring)
 (global-set-key (kbd "H-r")     'rgrep)
@@ -125,6 +126,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evil stuff
+(define-key evil-normal-state-map (kbd "q") nil)
 (define-key evil-normal-state-map (kbd "gw") nil)
 (define-key evil-normal-state-map (kbd "gwh") 'split-window-right)
 (define-key evil-normal-state-map (kbd "gwl") 'split-window-right-and-make-active)
@@ -195,19 +197,54 @@
 ;;;;;;;;;;;;;;;;;
 
 ;; https://www.reddit.com/r/emacs/comments/3ba645/does_anybody_have_any_real_cool_hydras_to_share/cskdhte
+          ;; Split: _|_:vert  _-_:horz
+
+(require 'hydra)
+(defun hydra-move-splitter-left (arg)
+  "Move window splitter left."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+        (windmove-find-other-window 'right))
+      (shrink-window-horizontally arg)
+    (enlarge-window-horizontally arg)))
+
+(defun hydra-move-splitter-right (arg)
+  "Move window splitter right."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+        (windmove-find-other-window 'right))
+      (enlarge-window-horizontally arg)
+    (shrink-window-horizontally arg)))
+
+(defun hydra-move-splitter-up (arg)
+  "Move window splitter up."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+        (windmove-find-other-window 'up))
+      (enlarge-window arg)
+    (shrink-window arg)))
+
+(defun hydra-move-splitter-down (arg)
+  "Move window splitter down."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+        (windmove-find-other-window 'up))
+      (shrink-window arg)
+    (enlarge-window arg)))
+
 (defhydra hydra-windows (:hint nil)
   "
-          Split: _|_:vert  _-_:horz
          Delete: !:other )_:curr
+          Split: _wh_:left _wj_:down _wk_:up _wl_:right
   Switch Window: _h_:left  _j_:down  _k_:up  _l_:right
-        Buffers: _p_revious  _n_ext  _b_:select  _f_ind-file  _F_projectile _R_:helm-mini _K_ill-buffer
+        Buffers: _p_revious  _n_ext  _*_:select  _f_ind-file  _F_projectile _8_:helm-mini _K_ill-this-buffer _B_ury-uffer
+    Buffer Move: _M-h_:buf-move-left _M-j_:buf-move-down _M-k_:buf-move-up _M-l_:buf-move-right
          Winner: _u_ndo  _r_edo
          Resize: _H_:splitter left  _J_:splitter down  _K_:splitter up  _L_:splitter right
-           Move: _a_:up  _z_:down  _i_menu"
+           Move: _a_:up  _z_:down"
 
   ("z" scroll-up-line)
   ("a" scroll-down-line)
-  ("i" idomenu)
 
   ("u" winner-undo)
   ("r" winner-redo)
@@ -217,21 +254,24 @@
   ("k" windmove-up)
   ("l" windmove-right)
 
-  ("M-h" buf-move-left nil)
-  ("M-l" buf-move-right nil)
-  ("M-k" buf-move-up nil)
-  ("M-j" buf-move-down nil)
+  ("M-h" buf-move-left)
+  ("M-l" buf-move-right)
+  ("M-k" buf-move-up)
+  ("M-j" buf-move-down)
 
   ("p" previous-buffer)
   ("n" next-buffer)
-  ("b" ido-switch-buffer)
+  ("*" ido-switch-buffer)
   ("f" ido-find-file)
   ("F" projectile-find-file)
-  ("R" helm-mini)
+  ("8" helm-mini)
   ("K" kill-this-buffer)
+  ("B" bury-buffer)
 
-  ("-" split-window-below)
-  ("|" split-window-right)
+  ("wj" split-window-below-and-make-active)
+  ("wk" split-window-below)
+  ("wl" split-window-right-and-make-active)
+  ("wh" split-window-right)
 
   (")" delete-window)
   ("!" delete-other-windows)
@@ -243,4 +283,4 @@
 
   ("q" nil))
 
-(global-set-key (kbd "C-*")     'hydra-windows/body)
+(global-set-key (kbd "H-*")     'hydra-windows/body)
