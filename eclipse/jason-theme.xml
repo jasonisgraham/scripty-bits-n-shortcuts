@@ -37,7 +37,7 @@
     <typeArgument color="#BFA4A4" />
     <typeParameter color="#BFA4A4" />
     <background color="#1C1D1B" />
-    <currentLine color="#5B5A4E" />
+    <currentLine color="#2F2F2F" />
     <foreground color="#CFBFAD" />
     <lineNumber color="#999999" />
     <selectionBackground color="#CC9900" />

@@ -154,7 +154,7 @@ fi
 #xinput --set-prop "$logitech" "Device Accel Constant Deceleration" 2 # It defaults to 1
 
 ## autojump
-[[ -s /home/jason/.autojump/etc/profile.d/autojump.sh ]] && source /home/jason/.autojump/etc/profile.d/autojump.sh
+[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
 
 
 ##################################
