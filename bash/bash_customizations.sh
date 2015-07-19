@@ -69,23 +69,45 @@ function ps1-use-fullpath {
 function ps1-use-cwd-basename {
     export PS1="\[$BGreen\]\u \[$BBlue\]\W\[$Color_Off\]> "
 }
-ps1-use-fullpath
+function join { local IFS="$1"; shift; echo "$*"; }
+
+function smaller-ps1 {
+    local path_to_pwd=$(pwd | sed "s@$HOME@~@g" | sed -r 's@[^/~]+$@@')
+    if [[ "~" == "$path_to_pwd" ]]; then
+        echo "~"
+    else
+        local pwd_only=${PWD##*/}
+        local shortened_path_to_pwd=$(echo $path_to_pwd | sed -r "s@(/[^/]{2})[^/]+@\1@g")
+        echo ${shortened_path_to_pwd}${pwd_only}
+    fi
+}
+
+function ps1-use-smaller-fullpath {
+    PS1="\[$BGreen\]\u \[$BBlue\]$(smaller-ps1)\[$Color_Off\]> "
+}
+
+PROMPT_COMMAND=ps1-use-smaller-fullpath
+# ps1-use-cwd-basename
 # ps1-use-cwd-basename
 
 # export PS1="\u \w> "
-export EDITOR="emacs"
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
+export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
+#export EDITOR="emacs"
 
 # tell SCREEN to back off when setting TERM to "screen"
 # export TERM=xterm
 export TERM=xterm-256color
-
+export GREP_OPTIONS='--color=always'
+alias grep-iHrn='grep -irHn '
 # with "set -o vi", \ev opens emacs for some reason
 # this is a way to unbind
 bind '"\ev"':self-insert
 # # aliases
 # #  human readable, all files minus . and .., append indicator, ignore backups
 alias ls="ls -h --color=always"
-__BASE_LS_COMMAND='ls -hBF --ignore=#* --ignore=.svn --ignore=.git --color=always --group-directories-first'
+__BASE_LS_COMMAND='ls -hBF --ignore=#* --color=always --group-directories-first'
 alias l=$__BASE_LS_COMMAND
 alias la="${__BASE_LS_COMMAND} -A"
 alias lah="${__BASE_LS_COMMAND} -Ahg"

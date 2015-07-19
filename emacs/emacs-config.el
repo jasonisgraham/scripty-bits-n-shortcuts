@@ -95,6 +95,8 @@
 (eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
 
 ;; clojure/lispy stuff
+(setq cider-repl-history-file "~/.emacs.d/cider-history")
+
 (dolist (hook '(clojure-mode-hook
                 emacs-lisp-mode-hook
                 ielm-mode-hook
@@ -209,13 +211,6 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;;;;;;;;;;;;;
-;; golden ratio
-;; https://github.com/roman/golden-ratio.el
-;;;;;;;;;;;;;
-;; (require 'golden-ratio)
-;; (golden-ratio-mode 1)
-
-;;;;;;;;;;;;;
 ;; helm
 ;; http://tuhdo.github.io/helm-intro.html
 ;;;;;;;;;;;;;
@@ -239,7 +234,6 @@
 ;; enables man page at point
 (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
 (semantic-mode 1)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; eclim                                ;;
@@ -304,23 +298,6 @@
 (add-hook 'zencoding-mode 'zencoding-hooks)
 
 (setq vc-svn-diff-switches '("-x --ignore-eol-style" "-x -w"))
-
-;; (defcustom buffer-stack-ignore-pattern-exceptions nil
-;;   "see my-next-buffer for whatever is ignored when doing next-buffer & previous-buffer.  Good for things like *ielm* or *shell*"
-;;   :group 'buffer-stack
-;;   :type '(repeat string))
-
-;; (defun buffer-stack-filter-ignore-function (buffer)
-;;   (when (buffer-stack-filter-interesting-buffer-p (buffer-name buffer))
-;;     t))
-
-;; (defun buffer-stack-filter-interesting-buffer-p (name)
-;;   (or
-;;    (member name buffer-stack-ignore-pattern-exceptions)
-;;    (not (string-match "^\*" name))
-;;    ))
-
-;; (setq buffer-stack-filter 'buffer-stack-filter-ignore-function)
 
 ;; This pushes the backup files into an invisible directory named .~ in the directory of the corresponding file
 (setq backup-directory-alist '(("." . ".~")))
@@ -477,16 +454,6 @@
       (message "%s copied" new-kill-string)
       (kill-new new-kill-string))))
 
-;; (defun move-cursor-and-maintain-cursor-state (cursor-path)
-;;   "if in evil-insert mode, move cursor and stay in evil-insert mode"
-;;   (interactive)
-;;   (let ((initial-state (format "%s" (evil-state-property evil-state :mode))))
-;;     (setq some-fun (lambda () (message "do 1st thing") (message "do 2nd")))
-;;     (funcall some-fun)
-;;     (cond ((string= initial-state "evil-insert-state-minor-mode"))
-;;           )
-;;     (message (concat "state: " initial-state))))
-
 (setq-default c-basic-offset 2)
 (setq-default indent-tabs-mode nil)
 (setq js-indent-level 2)
@@ -522,11 +489,6 @@
 (setq ediff-diff-options "")
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;; (set-frame-font "Source Code Pro 10" nil t)
-;; (set-face-attribute 'default nil :font "Source Code Pro 9")
-
-(set-frame-font "Monaco 9" nil t)
-(set-face-attribute 'default nil :font "Monaco 9")
 
 (setq column-number-mode 't)
 (setq menu-bar-mode nil)
@@ -812,9 +774,8 @@ Including indent-buffer, which should not be called automatically on save."
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(yas-snippet-dirs
    (quote
-    (yas-installed-snippets-dir "/home/jason/.emacs.d/elpa/django-snippets-20131229.811/snippets")) nil (yasnippet)))
+    (yas-installed-snippets-dir "~/.emacs.d/elpa/django-snippets-20131229.811/snippets")) nil (yasnippet)))
 
-(setq cider-repl-history-file "~/.emacs.d/cider-history")
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -835,12 +796,6 @@ Including indent-buffer, which should not be called automatically on save."
  '(show-paren-match ((t (:background "#272822" :foreground "gray" :inverse-video t :underline "black" :weight thin))))
  '(term ((t (:inherit default :foreground "white smoke"))) t)
  '(zencoding-preview-output ((t (:background "dim gray")))))
-
-;; package-activated-list
-;; (2048-game ac-cider auto-complete popup cider queue pkg-info epl dash clojure-mode ac-etags auto-complete popup ace-jump-mode afternoon-theme ag s dash ample-theme anything-exuberant-ctags anything archive-region auto-highlight-symbol autopair badger-theme base16-theme bash-completion bliss-theme bookmark+ boron-theme buffer-move buffer-stack capture cider-decompile javap-mode cider queue pkg-info epl dash clojure-mode cider-eval-sexp-fu eval-sexp-fu highlight highlight cider-profile cider queue pkg-info epl dash clojure-mode cider-spy dash cider queue pkg-info epl dash clojure-mode clj-refactor edn s peg dash cider queue pkg-info epl dash clojure-mode multiple-cursors paredit yasnippet dash s cljsbuild-mode clojure-cheatsheet cider queue pkg-info epl dash clojure-mode helm async clojure-mode-extra-font-locking clojure-mode clojure-quick-repls dash cider queue pkg-info epl dash clojure-mode clojure-snippets yasnippet clues-theme csv-mode ctags ctags-update cyberpunk-theme dakrone-theme darcula-theme dark-krystal-theme django-mode django-snippets yasnippet django-theme edn s peg dash elisp-slime-nav elpy yasnippet pyvenv highlight-indentation find-file-in-project company elscreen-persist revive elscreen emacs-eclim s emacs-setup ess-R-data-view ess popup ctable ess-R-object-popup ess popup ess-smart-underscore ess eval-in-repl paredit dash eval-sexp-fu highlight evil-anzu anzu evil goto-chg undo-tree evil-args evil goto-chg undo-tree evil-easymotion avy evil-escape evil goto-chg undo-tree evil-exchange evil goto-chg undo-tree evil-jumper evil goto-chg undo-tree evil-lisp-state smartparens dash evil-leader evil goto-chg undo-tree evil goto-chg undo-tree evil-matchit evil-org evil goto-chg undo-tree evil-paredit paredit evil goto-chg undo-tree evil-search-highlight-persist highlight evil-snipe evil goto-chg undo-tree evil-space evil goto-chg undo-tree evil-surround evil-tabs elscreen evil goto-chg undo-tree evil-terminal-cursor-changer evil goto-chg undo-tree evil-tutor evil goto-chg undo-tree evil-visual-mark-mode dash evil goto-chg undo-tree evil-visualstar evil goto-chg undo-tree expand-region find-file-in-project firecode-theme fish-mode foreign-regexp gitlab request pkg-info epl dash s groovy-mode gruvbox-theme helm-anything anything helm async helm-aws helm async helm-backup s helm async helm-c-yasnippet yasnippet helm async helm-chrome helm async helm-company company helm async helm-css-scss helm async helm-dictionary helm async helm-dirset s helm async f dash s helm-flycheck helm async flycheck let-alist pkg-info epl dash dash helm-flymake helm async helm-flyspell helm-git helm-git-files helm async helm-git-grep helm async helm-google google helm async helm-helm-commands helm async helm-package helm async helm-projectile dash projectile pkg-info epl dash helm async helm-pydoc helm async heroku highlight highlight-indentation hydra ido-at-point ido-complete-space-or-hyphen ido-gnus ido-hacks ido-load-library pcache persistent-soft list-utils pcache ido-select-window ido-sort-mtime ido-ubiquitous ido-completing-read+ ido-vertical-mode javap-mode jedi-direx direx jedi auto-complete popup jedi-core python-environment deferred epc ctable concurrent deferred jtags key-chord let-alist magit git-rebase-mode git-commit-mode markdown-mode material-theme molokai-theme monokai-theme multiple-cursors neotree noflet org-beautify-theme org-bullets paredit peg persistent-soft list-utils pcache popup-complete popup popup-kill-ring pos-tip popup popup-switcher popup popwin pos-tip powerline-evil powerline evil goto-chg undo-tree projectile pkg-info epl dash purple-haze-theme python-django python-environment deferred python-mode pyvenv queue rainbow-blocks rainbow-delimiters rainbow-identifiers rainbow-mode regex-tool request revive rich-minority s smartparens dash smooth-scrolling smyx-theme soothe-theme sr-speedbar subatomic256-theme sublime-themes tango-2-theme toxi-theme undo-tree vi-tilde-fringe virtualenv visual-regexp-steroids visual-regexp volatile-highlights waher-theme warm-night-theme web-mode window-number wrap-region dash yasnippet zen-and-art-theme zenburn-theme zencoding-mode zonokai-theme)
-
-;; '(eclim-eclipse-dirs (quote ("~/Programs/eclipse")))
-;; '(eclim-executable "~/Programs/eclipse/eclim")
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "bindings.el"))
 
@@ -875,16 +830,11 @@ Including indent-buffer, which should not be called automatically on save."
 (setq my-background-color "grey8")
 (set-background-color my-background-color)
 
-;; shartfinder
-(load-file "~/Projects/shartfinder/config/set-env-vars.el")
-(set-shartfinder-env-vars)
-
 
 (global-hl-line-mode +1)
 (set-face-background hl-line-face "gray10")
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
 
 ;; http://emacswiki.org/emacs/TransposeWindows
 (defun transpose-windows (arg)
@@ -944,3 +894,13 @@ Including indent-buffer, which should not be called automatically on save."
 ;; (setq js2-highlight-level 3)
 ;; (define-key js-mode-map "{" 'paredit-open-curly)
 ;; (define-key js-mode-map "}" 'paredit-close-curly-and-newline)
+
+;; (set-frame-font "Source Code Pro 10" nil t)
+;; (set-face-attribute 'default nil :font "Source Code Pro 9")
+
+(set-frame-font "Monaco 9" nil t)
+(set-face-attribute 'default nil :font "Monaco 9")
+
+(let ((non-public-stuff "~/.emacs.d/non-public-stuff.el"))
+  (when (file-exists-p non-public-stuff)
+    (load-file non-public-stuff)))

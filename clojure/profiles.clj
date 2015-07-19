@@ -10,7 +10,8 @@
                        [leiningen #=(leiningen.core.main/leiningen-version)]
                        [io.aviso/pretty "0.1.18"]
                        [im.chit/vinyasa "0.3.4"]
-                       [clj-ns-browser "1.3.1"]]
+                       ;; [clj-ns-browser "1.3.1"]
+                       ]
 
         :global-vars {*print-length* 30}
 
