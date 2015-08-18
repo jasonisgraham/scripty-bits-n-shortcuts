@@ -123,12 +123,33 @@ function do-svn {
 		svn_st_arr[$count]=$entry
 		count=$(($count+1))
 	    done
+
+
+            local color_reset='\e[0m'
+            local black_text='\e[0;30m'
+            local white_bg='\e[47m'
+            local white_ul='\e[4;37m'
+            local should_color_line=
+            local hl_line_color=${white_ul} ##"$black_text$white_bg"
+            local current_line_color=$hl_line_color ## $color_reset
+
+
 	    for elem_key in ${!svn_st_arr[@]}
 	    do
-		echo -n "$elem_key "
-		echo ${svn_st_arr[$elem_key]} | grep -oP ".*$"
+
+                if [[ "${should_color_line}" ]]; then
+                    should_color_line=
+                    current_line_color=$hl_line_color
+                else
+                    should_color_line=1
+                    current_line_color=$color_reset
+                fi
+
+		echo -ne "${current_line_color}${elem_key}\t"
+                echo ${svn_st_arr[$elem_key]} | grep -oP ".*$" | awk '{print $1,  $2}'
+
 	    done
-	    echo -e "\nSelect file number(s).  If multiple, separate by space.\n Which file(s): "
+	    echo -e "\n${color_reset}Select file number(s).  If multiple, separate by space.\n Which file(s): "
 	    read _file_numbers
 
 	    IFS=" "
