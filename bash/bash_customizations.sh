@@ -91,10 +91,11 @@ PROMPT_COMMAND=ps1-use-smaller-fullpath
 # ps1-use-cwd-basename
 
 # export PS1="\u \w> "
-export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
-export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
+#export EDITOR="vim"
 #export EDITOR="emacs"
+
+alias e="emacsclient"
+export EDITOR="emacsclient"
 
 # tell SCREEN to back off when setting TERM to "screen"
 # export TERM=xterm
@@ -477,3 +478,8 @@ function copy-files-matching-pattern-contains-string-pattern-to {
 }
 
 alias tm="tmux attach || tmux new"
+
+function speedtest {
+    local dummy_file=http://speedtest.wdc01.softlayer.com/downloads/test10.zip
+    wget -O /dev/null ${dummy_file}
+}

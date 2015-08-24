@@ -53,18 +53,9 @@
 (global-set-key (kbd "C-c M-;")	'comment-box)
 (global-set-key (kbd "C-c r")   'revert-buffer-no-confirm)
 (global-set-key (kbd "C-r")     'isearch-backward)
-(global-set-key (kbd "M-C k")   'flyspell-correct-word-before-point)
 (global-set-key (kbd "M-5")     'query-replace)
 (global-set-key (kbd "M-%")     'digit-argument)
 
-
-(global-set-key (kbd "C-<f12>") 'sr-speedbar-toggle)
-
-(global-set-key (kbd "C-c t t") 'toggle-truncate-lines)
-
-;; use this when you don't know where your cursor is.  once to enable.  again to disable
-(global-set-key (kbd "<f6>") 'hl-line-mode)
-(global-set-key (kbd "<f5>") 'linum-mode)
 (global-set-key (kbd "<H-f7>") 'desktop-change-dir)
 
 (global-set-key (kbd "M-G d d") (lambda()
@@ -85,14 +76,6 @@
 (global-set-key (kbd "C-c M-K")  'buf-move-up)
 (global-set-key (kbd "C-c M-J")  'buf-move-down)
 
-;; toggle menu-bar-mode
-(global-set-key (kbd "C-M-S-<f1>") 'menu-bar-mode)
-
-;; toggle comments n stuff
-(global-set-key (kbd "M-G h C") 'hs-hide-all-comments)
-(global-set-key (kbd "M-G s B") 'hs-show-all)
-(global-set-key (kbd "M-G s b") 'hs-show-block)
-(global-set-key (kbd "M-G h b") 'hs-hide-block)
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 
 ;; Override this paredit keybindings
@@ -134,6 +117,7 @@
 (define-key evil-normal-state-map (kbd "gwj") 'split-window-below-and-make-active)
 
 (define-key evil-normal-state-map (kbd "gr") 'repeat)
+(define-key evil-normal-state-map (kbd "C-a") nil)
 
 (define-key evil-normal-state-map (kbd "qq") 'quit-window)
 (define-key evil-normal-state-map (kbd "gn") 'elscreen-previous)
@@ -156,6 +140,10 @@
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 (define-key evil-normal-state-map (kbd "g@")  'er/expand-region)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
+
+(define-key evil-normal-state-map (kbd "SPC SPC") 'evil-visual-char)
+(define-key evil-insert-state-map (kbd "C-a") nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; do with H-j, M-j what you could do with <return> but less pink moving
@@ -284,3 +272,24 @@
   ("q" nil))
 
 (global-set-key (kbd "H-*")     'hydra-windows/body)
+
+;; hide-show-things
+;; ;; toggle comments n stuff
+;; (global-set-key (kbd "M-G h C") 'hs-hide-all-comments)
+;; (global-set-key (kbd "M-G s B") 'hs-show-all)
+;; (global-set-key (kbd "M-G s b") 'hs-show-block)
+;; (global-set-key (kbd "M-G h b") 'hs-hide-block)
+
+(defhydra hydra-hide-show (:hint nil)
+  "
+               : _e_lscreen-toggle-tab _h_l-line-mode _m_enu-bar _l_inum-mode _s_r-speedbar-toggle _t_oggle-truncate-lines"
+
+  ("m" menu-bar-mode)
+  ("h" hl-line-mode)
+  ("l" linum-mode)
+  ("s" sr-speedbar-toggle)
+  ("t" toggle-truncate-lines)
+  ("e" elscreen-toggle-display-tab)
+  ("q" nil))
+
+(global-set-key (kbd "<f5>") 	'hydra-hide-show/body)

@@ -1,4 +1,4 @@
-{:user {:plugins [[cider/cider-nrepl "0.9.1"]
+{:user {:plugins [[cider/cider-nrepl "0.10.0-SNAPSHOT"]
 		  [lein-auto "0.1.2"]
 		  [com.jakemccrary/lein-test-refresh "0.10.0"]
                   [lein-localrepo "0.5.3"]
