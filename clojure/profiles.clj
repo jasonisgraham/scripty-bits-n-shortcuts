@@ -6,10 +6,11 @@
 
 	:dependencies [[org.clojure/tools.nrepl "0.2.10"]
                        [spyscope "0.1.5"]
-                       [org.clojure/tools.namespace "0.2.10"]
+                       ;; [org.clojure/tools.namespace "0.2.10"]
                        [leiningen #=(leiningen.core.main/leiningen-version)]
                        [io.aviso/pretty "0.1.18"]
                        [im.chit/vinyasa "0.3.4"]
+                       ;; [org.clojure/tools.reader "0.10.0-alpha1"]
                        ;; [clj-ns-browser "1.3.1"]
                        ]
 

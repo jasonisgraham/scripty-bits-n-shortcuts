@@ -97,6 +97,9 @@ PROMPT_COMMAND=ps1-use-smaller-fullpath
 alias e="emacsclient"
 export EDITOR="emacsclient"
 
+alias find-file="find . -iname "
+alias ps-grep="ps aux | grep "
+
 # tell SCREEN to back off when setting TERM to "screen"
 # export TERM=xterm
 export TERM=xterm-256color

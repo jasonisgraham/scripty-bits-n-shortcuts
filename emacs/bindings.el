@@ -140,10 +140,10 @@
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 (define-key evil-normal-state-map (kbd "g@")  'er/expand-region)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
+(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
 
 (define-key evil-normal-state-map (kbd "SPC SPC") 'evil-visual-char)
 (define-key evil-insert-state-map (kbd "C-a") nil)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; do with H-j, M-j what you could do with <return> but less pink moving
