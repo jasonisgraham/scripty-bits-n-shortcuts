@@ -14,6 +14,7 @@
 (global-set-key (kbd "H-<f6>")  'load-file)
 ;; (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
 (global-set-key (kbd "C-;")     'evil-normal-state-and-save-buffer)
+(global-set-key (kbd "<f5>")	'evil-normal-state-and-save-buffer)
 
 ;; requires elscree; nput some elscreen check here?
 (global-set-key (kbd "H-(")     'elscreen-previous)
@@ -292,4 +293,4 @@
   ("e" elscreen-toggle-display-tab)
   ("q" nil))
 
-(global-set-key (kbd "<f5>") 	'hydra-hide-show/body)
+(global-set-key (kbd "<H-f5>") 	'hydra-hide-show/body)

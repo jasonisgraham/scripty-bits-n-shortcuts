@@ -1,3 +1,5 @@
+(setq debug-on-error t)
+
 (setq version-controlled-stuff-dir "~/scripty-bits-n-shortcuts/emacs")
 
 (setq package-enable-at-startup nil)
@@ -35,9 +37,10 @@
 ;;; end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; melba
+;; melpa
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
 
 ;; elisp-slime-nav
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
@@ -908,6 +911,10 @@ Including indent-buffer, which should not be called automatically on save."
 (add-hook 'js2-mode-hook 'skewer-mode)
 (add-hook 'css-mode-hook 'skewer-css-mode)
 (add-hook 'html-mode-hook 'skewer-html-mode)
+
+(add-hook 'js-mode-hook (lambda ()
+                          (setq indent-tabs-mode t)
+                          (setq tab-width 4)))
 
 ;; (set-frame-font "Source Code Pro 10" nil t)
 ;; (set-face-attribute 'default nil :font "Source Code Pro 9")

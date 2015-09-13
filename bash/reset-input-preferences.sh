@@ -1,4 +1,4 @@
-xset r rate 180
+xset r rate 200
 setxkbmap -option "shift:both_shiftlock"
 xmodmap ~/.Xmodmap
 
