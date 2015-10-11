@@ -1,9 +1,14 @@
+;;; package --- Summary
+
+;;; Commentary:
+
+;;; Code:
 ;; Hyper & control duplicates while i get used to swapping Ctrl + Hyper
 (global-set-key (kbd "H-z")     'repeat)
 (global-set-key (kbd "C-M-*")   'buffer-menu)
 ;; (global-set-key (kbd "H-*")     'ido-switch-buffer)
-(global-set-key (kbd "C-*")     'ido-switch-buffer)
-(global-set-key (kbd "H-8")     'helm-mini)
+(global-set-key (kbd "C-*")     'helm-mini)
+(global-set-key (kbd "H-8")     'ido-switch-buffer)
 (global-set-key (kbd "H-y")     'helm--kill-ring)
 (global-set-key (kbd "H-r")     'rgrep)
 (global-set-key (kbd "H-M-\\")  'indent-buffer)
@@ -85,7 +90,10 @@
      (define-key paredit-mode-map (kbd "M-J") nil)
      (define-key paredit-mode-map (kbd "M-;") nil)
      (define-key paredit-mode-map (kbd "M-r") nil)
-     (define-key paredit-mode-map (kbd "M--") nil)))
+     (define-key paredit-mode-map (kbd "M--") nil)
+     (define-key paredit-mode-map (kbd "H-M-j") 'paredit-join-sexps)
+     (define-key paredit-mode-map (kbd "H-M-s") 'paredit-split-sexp)
+     (define-key paredit-mode-map (kbd "M-S") nil)))
 
 (defun zencoding-hooks ()
   (define-key zencoding-mode-map (kdb "C-j" nil))
@@ -116,17 +124,18 @@
 (define-key evil-normal-state-map (kbd "gwl") 'split-window-right-and-make-active)
 (define-key evil-normal-state-map (kbd "gwk") 'split-window-below)
 (define-key evil-normal-state-map (kbd "gwj") 'split-window-below-and-make-active)
-
+(define-key evil-normal-state-map (kbd "gwu") 'winner-undo)
+(define-key evil-normal-state-map (kbd "gwr") 'winner-redo)
 (define-key evil-normal-state-map (kbd "gr") 'repeat)
 (define-key evil-normal-state-map (kbd "C-a") nil)
 
 (define-key evil-normal-state-map (kbd "qq") 'quit-window)
-(define-key evil-normal-state-map (kbd "gn") 'elscreen-previous)
-(define-key evil-normal-state-map (kbd "gp") 'elscreen-next)
-(define-key evil-normal-state-map (kbd "gh") 'windmove-left)
-(define-key evil-normal-state-map (kbd "gl") 'windmove-right)
-(define-key evil-normal-state-map (kbd "gk") 'windmove-up)
-(define-key evil-normal-state-map (kbd "gj") 'windmove-down)
+(define-key evil-normal-state-map (kbd "g(") 'elscreen-previous)
+(define-key evil-normal-state-map (kbd "g)") 'elscreen-next)
+(define-key evil-normal-state-map (kbd "SPC h") 'windmove-left)
+(define-key evil-normal-state-map (kbd "SPC l") 'windmove-right)
+(define-key evil-normal-state-map (kbd "SPC k") 'windmove-up)
+(define-key evil-normal-state-map (kbd "SPC j") 'windmove-down)
 (define-key evil-normal-state-map (kbd "g-") 'hs-hide-block)
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
 
@@ -136,14 +145,13 @@
 (define-key evil-normal-state-map (kbd "qw)") 'delete-window)
 (define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
 
-(define-key evil-normal-state-map (kbd "g*")  'ido-switch-buffer)
+(define-key evil-normal-state-map (kbd "SPC *")  'helm-mini)
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
-(define-key evil-normal-state-map (kbd "g@")  'er/expand-region)
+(define-key evil-normal-state-map (kbd "SPC @")  'er/expand-region)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
-(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
 
-(define-key evil-normal-state-map (kbd "SPC SPC") 'evil-visual-char)
+;; (define-key evil-normal-state-map (kbd "SPC SPC") nil)
 (define-key evil-insert-state-map (kbd "C-a") nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -155,9 +163,9 @@
 ;;
 (key-chord-mode 1)
 (setq key-chord-two-keys-delay 0.05)
-(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-(key-chord-define evil-insert-state-map "q-" "_")
-(key-chord-define evil-insert-state-map "qg" 'evil-execute-in-normal-state)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state-and-save-buffer)
+(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "jl" 'evil-execute-in-normal-state)
 (key-chord-define evil-insert-state-map "q)" 'evil-digit-argument-or-evil-beginning-of-line)
 
 
@@ -186,7 +194,7 @@
 ;;;;;;;;;;;;;;;;;
 
 ;; https://www.reddit.com/r/emacs/comments/3ba645/does_anybody_have_any_real_cool_hydras_to_share/cskdhte
-          ;; Split: _|_:vert  _-_:horz
+;; Split: _|_:vert  _-_:horz
 
 (require 'hydra)
 (defun hydra-move-splitter-left (arg)
@@ -226,11 +234,18 @@
          Delete: !:other )_:curr
           Split: _wh_:left _wj_:down _wk_:up _wl_:right
   Switch Window: _h_:left  _j_:down  _k_:up  _l_:right
-        Buffers: _p_revious  _n_ext  _*_:select  _f_ind-file  _F_projectile _8_:helm-mini _K_ill-this-buffer _B_ury-uffer
+        Buffers: _p_revious  _n_ext  _*_:helm-mini  _f_ind-file  _F_projectile _8_:select _K_ill-this-buffer _B_ury-uffer
     Buffer Move: _M-h_:buf-move-left _M-j_:buf-move-down _M-k_:buf-move-up _M-l_:buf-move-right
          Winner: _u_ndo  _r_edo
          Resize: _H_:splitter left  _J_:splitter down  _K_:splitter up  _L_:splitter right
-           Move: _a_:up  _z_:down"
+           Move: _a_:up  _z_:down
+      Transpose: _tt_:transpose _tv_:vertical-flip _th_:horizontal-flip _tr_:rotate clockwise"
+
+  ;; http://www.emacswiki.org/emacs/TransposeFrame
+  ("tt" transpose-frame)
+  ("tv" flip-frame) ; flip vertically
+  ("th" flop-frame) ; flip horizontally
+  ("tr" rotate-frame-clockwise)
 
   ("z" scroll-up-line)
   ("a" scroll-down-line)
@@ -250,10 +265,10 @@
 
   ("p" previous-buffer)
   ("n" next-buffer)
-  ("*" ido-switch-buffer)
+  ("*" helm-mini)
   ("f" ido-find-file)
   ("F" projectile-find-file)
-  ("8" helm-mini)
+  ("8" ido-switch-buffer)
   ("K" kill-this-buffer)
   ("B" bury-buffer)
 
@@ -270,9 +285,13 @@
   ("K" hydra-move-splitter-up)
   ("L" hydra-move-splitter-right)
 
+  ("=" balance-windows)
+
+  ("g" nil)
   ("q" nil))
 
 (global-set-key (kbd "H-*")     'hydra-windows/body)
+(define-key evil-normal-state-map (kbd "SPC SPC *") 'hydra-windows/body)
 
 ;; hide-show-things
 ;; ;; toggle comments n stuff
@@ -293,4 +312,8 @@
   ("e" elscreen-toggle-display-tab)
   ("q" nil))
 
-(global-set-key (kbd "<H-f5>") 	'hydra-hide-show/body)
+(global-set-key (kbd "H-^") 	'hydra-hide-show/body)
+(define-key evil-normal-state-map (kbd "SPC SPC h") 'hydra-hide-show/body)
+
+(provide 'bindings)
+;;; bindings.el ends here

@@ -5,6 +5,12 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+;; melpa
+(require 'package)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq path-to-ctags "~/.emacs.d/TAGS") ;; <- your ctags path here
 (defun create-tags (dir-name)
@@ -20,7 +26,9 @@
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "open-resource.el"))
 (setq open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn")))
 
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "transpose-frame.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; enable recent files mode.
 (recentf-mode t)
 (setq recentf-max-saved-items 50)
@@ -37,10 +45,6 @@
 ;;; end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; melpa
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
 
 ;; elisp-slime-nav
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
@@ -106,6 +110,11 @@
                 cider-repl-mode
                 cider-repl-mode-hook))
   (add-hook hook 'lisp-hooks))
+
+;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
+;; (eval-after-load 'flycheck
+;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 (setq cider-test-show-report-on-success nil)
 (add-hook 'cider-mode-hook #'eldoc-mode)
@@ -276,7 +285,7 @@
     ("dog" "-%*- %15b --"
      (-3 . "%p")
      "--%[(" mode-name minor-mode-alist "%n" mode-line-process ")%]%-")))
- '(Linum-format "%7i ")
+ ;; '(Linum-format "%7i ")
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ansi-color-faces-vector
@@ -306,13 +315,13 @@
  '(custom-enabled-themes (quote (monokai)))
  '(custom-safe-themes
    (quote
-    ("1c57936ffb459ad3de4f2abbc39ef29bfb109eade28405fa72734df1bc252c13" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
+    ("19352d62ea0395879be564fc36bc0b4780d9768a964d26dfae8aad218062858d" "ad9fc392386f4859d28fe4ef3803585b51557838dbc072762117adad37e83585" "1c57936ffb459ad3de4f2abbc39ef29bfb109eade28405fa72734df1bc252c13" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-listing-switches
    "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
  '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
  '(eclim-executable "~/bin/eclipse/eclim")
- '(ediff-split-window-function (quote split-window-horizontally))
+ '(ediff-split-window-function (quote split-window-horizontally) t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(electric-indent-mode t)
  '(electric-pair-mode t)
@@ -320,13 +329,12 @@
  '(evil-move-cursor-back t)
  '(fci-rule-character-color "#202020")
  '(fci-rule-color "#49483E")
- '(font-use-system-font t)
  '(foreground-color "#cccccc")
  '(fringe-mode 0 nil (fringe))
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
- '(global-linum-mode nil)
+ ;; '(global-linum-mode nil)
  '(global-undo-tree-mode t)
  '(global-vi-tilde-fringe-mode t)
  '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
@@ -365,7 +373,7 @@
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(ispell-highlight-face (quote flyspell-incorrect))
- '(linum-format "%d ")
+ ;; '(linum-format "%d ")
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(main-line-color1 "#1E1E1E")
@@ -675,14 +683,15 @@
 (setq menu-bar-mode nil)
 
 (setq global-linum-mode nil)
-(dolist (hook '(c-mode-common-hook
-                sgml-mode-hook
-                clojure-mode-hook
-                sh-script-mode-hook
-                emacs-lisp-mode-hook
-                lisp-mode-hook))
+;; (dolist (hook '(c-mode-common-hook
+;;                 sgml-mode-hook
+;;                 clojure-mode-hook
+;;                 sh-script-mode-hook
+;;                 emacs-lisp-mode-hook
+;;                 lisp-mode-hook))
 
-  (add-hook hook (lambda () (linum-mode 1))))
+;;   (add-hook hook (lambda () (linum-mode 1)))
+;;   )
 
 ;; open 2 files as side-by-side windows
 (defun 2-windows-vertical-to-horizontal ()
@@ -798,7 +807,6 @@ Including indent-buffer, which should not be called automatically on save."
  '(evil-search-highlight-persist-highlight-face ((t (:inherit nil :background "yellow1" :foreground "black"))))
  '(helm-selection ((t (:inherit nil :inverse-video t :underline t))))
  '(highlight ((t (:background "lawn green" :foreground "black"))))
- '(linum ((t (:background "gray9" :foreground "#75715E"))))
  '(mode-line ((t (:background "#444488" :foreground "#ffffff" :box (:line-width 1 :color "#3E3D31" :style unspecified)))))
  '(mode-line-buffer-id ((t (:background "black" :foreground "gainsboro" :weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
@@ -844,8 +852,9 @@ Including indent-buffer, which should not be called automatically on save."
 (set-background-color my-background-color)
 
 
+(global-visual-line-mode 1)
 (global-hl-line-mode +1)
-(set-face-background hl-line-face "gray10")
+(set-face-background hl-line-face "gray15")
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
@@ -873,8 +882,9 @@ Including indent-buffer, which should not be called automatically on save."
           '(lambda () (add-hook 'after-save-hook
                                 '(lambda ()
                                    (if (and (boundp 'cider-mode) cider-mode)
-                                       (cider-namespace-refresh)
-                                     )))))
+                                       (cider-namespace-refresh))))))
+
+(setq cider-repl-display-in-current-window nil)
 
 (defun cider-namespace-refresh ()
   (interactive)
@@ -887,8 +897,8 @@ Including indent-buffer, which should not be called automatically on save."
             (define-key clojure-mode-map (kbd "C-c C-r") 'cider-namespace-refresh)
             (define-key clojure-mode-map (kbd "<H-f1>") 'clojure-cheatsheet)
             (define-key clojure-mode-map (kbd "C-c d") 'cider-debug-defun-at-point)
-            (auto-highlight-symbol-mode t)
-            (linum-mode 1)))
+            (define-key clojure-mode-map (kbd "C-c .") "->> ")
+            (auto-highlight-symbol-mode t)))
 
 ;; (define-key clojure-mode-map (kbd "<C-f9>") 'cider-namespace-refresh)
 
@@ -902,26 +912,43 @@ Including indent-buffer, which should not be called automatically on save."
 (popwin-mode 1)
 
 ;; javascript
-(add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js2-mode-hook 'ac-js2-mode)
-(setq js2-highlight-level 3)
-(define-key js-mode-map "{" 'paredit-open-curly)
-(define-key js-mode-map "}" 'paredit-close-curly-and-newline)
+;; (add-hook 'js-mode-hook 'js2-minor-mode)
+;; (add-hook 'js2-mode-hook 'ac-js2-mode)
+;; (setq js2-highlight-level 3)
+;; (define-key js-mode-map "{" 'paredit-open-curly)
+;; (define-key js-mode-map "}" 'paredit-close-curly-and-newline)
 
-(add-hook 'js2-mode-hook 'skewer-mode)
-(add-hook 'css-mode-hook 'skewer-css-mode)
-(add-hook 'html-mode-hook 'skewer-html-mode)
+;; (add-hook 'js2-mode-hook 'skewer-mode)
+;; (add-hook 'css-mode-hook 'skewer-css-mode)
+;; (add-hook 'html-mode-hook 'skewer-html-mode)
 
-(add-hook 'js-mode-hook (lambda ()
-                          (setq indent-tabs-mode t)
-                          (setq tab-width 4)))
-
-;; (set-frame-font "Source Code Pro 10" nil t)
-;; (set-face-attribute 'default nil :font "Source Code Pro 9")
+;; (add-hook 'js-mode-hook (lambda ()
+;;                           (setq indent-tabs-mode t)
+;;                           (setq tab-width 4)))
 
 (set-frame-font "Monaco 9" nil t)
 (set-face-attribute 'default nil :font "Monaco 9")
 
+;; (set-frame-font "Monaco 8" nil t)
+;; (set-face-attribute 'default nil :font "Monaco 8")
+
+
 (let ((non-public-stuff "~/.emacs.d/non-public-stuff.el"))
   (when (file-exists-p non-public-stuff)
     (load-file non-public-stuff)))
+
+(setq powerline-center-theme t)
+
+(vimish-fold-global-mode 1)
+
+;; octave
+(autoload 'octave-mode "octave-mod" nil t)
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+(add-hook 'octave-mode-hook
+          (lambda ()
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            (if (eq window-system 'x)
+                (font-lock-mode 1))))

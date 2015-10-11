@@ -10,6 +10,11 @@
 # exclude a string regex
 # echo "select sjiofjeifoej from DOG jfidofjdfoidjf select fjdisofjoidfj from CAT " | grep -oiP 'select(.(?!from))*\s+from\s+\w+' ; prints DOG, CAT
 
+## if capslock key is toggled in a bad way
+function capslock-toggle {
+    xdotool key Caps_Lock
+}
+
 # BASH_FILES_DIR will be equal to the dir holding this file
 BASH_FILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -91,14 +96,15 @@ PROMPT_COMMAND=ps1-use-smaller-fullpath
 # ps1-use-cwd-basename
 
 # export PS1="\u \w> "
-#export EDITOR="vim"
+export EDITOR="vim"
 #export EDITOR="emacs"
 
 alias e="emacsclient"
-export EDITOR="emacsclient"
+# export EDITOR="emacsclient"
 
 alias find-file="find . -iname "
-alias ps-grep="ps aux | grep "
+alias psg="ps aux | grep "
+alias psgi="ps aux | grep -i"
 
 # tell SCREEN to back off when setting TERM to "screen"
 # export TERM=xterm
