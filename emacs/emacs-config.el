@@ -285,7 +285,7 @@
     ("dog" "-%*- %15b --"
      (-3 . "%p")
      "--%[(" mode-name minor-mode-alist "%n" mode-line-process ")%]%-")))
- ;; '(Linum-format "%7i ")
+ '(ag-highlight-search t)
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ansi-color-faces-vector
@@ -334,7 +334,6 @@
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
- ;; '(global-linum-mode nil)
  '(global-undo-tree-mode t)
  '(global-vi-tilde-fringe-mode t)
  '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
@@ -373,7 +372,6 @@
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(ispell-highlight-face (quote flyspell-incorrect))
- ;; '(linum-format "%d ")
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(main-line-color1 "#1E1E1E")
@@ -895,6 +893,8 @@ Including indent-buffer, which should not be called automatically on save."
 (add-hook 'clojure-mode-hook
           (lambda ()
             (define-key clojure-mode-map (kbd "C-c C-r") 'cider-namespace-refresh)
+            (define-key clojure-mode-map (kbd "H-r") 'cider-eval-region)
+            (define-key clojure-mode-map (kbd "H-e") 'cider-eval-last-sexp)
             (define-key clojure-mode-map (kbd "<H-f1>") 'clojure-cheatsheet)
             (define-key clojure-mode-map (kbd "C-c d") 'cider-debug-defun-at-point)
             (define-key clojure-mode-map (kbd "C-c .") "->> ")
@@ -952,3 +952,30 @@ Including indent-buffer, which should not be called automatically on save."
             (auto-fill-mode 1)
             (if (eq window-system 'x)
                 (font-lock-mode 1))))
+
+
+(defun projectile-ag-regex (search-term &optional arg)
+  "Like projectile-ag, but honors regexp.  This is only hear b/c I don't know elisp well enough to use prefix args
+
+   Run an ag search with SEARCH-TERM in the project.
+
+With an optional prefix argument ARG SEARCH-TERM is interpreted as a
+regular expression."
+  (interactive
+   (list (read-from-minibuffer
+          (projectile-prepend-project-name (format "Ag %ssearch for: " (if current-prefix-arg "regexp " "")))
+          (projectile-symbol-at-point))
+         current-prefix-arg))
+  (if (require 'ag nil 'noerror)
+      (let ((ag-command 'ag-regexp)
+            (ag-ignore-list (-union ag-ignore-list
+                                    (append
+                                     (projectile-ignored-files-rel) (projectile-ignored-directories-rel)
+                                     grep-find-ignored-files grep-find-ignored-directories)))
+            ;; reset the prefix arg, otherwise it will affect the ag-command
+            (current-prefix-arg nil))
+        (funcall ag-command search-term (projectile-project-root)))
+    (error "Package 'ag' is not available")))
+
+;; this isn't a
+(global-set-key (kbd "C-c p s r") 'projectile-ag-regex)

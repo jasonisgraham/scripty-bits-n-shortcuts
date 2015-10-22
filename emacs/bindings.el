@@ -167,6 +167,8 @@
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "jl" 'evil-execute-in-normal-state)
 (key-chord-define evil-insert-state-map "q)" 'evil-digit-argument-or-evil-beginning-of-line)
+(key-chord-define evil-insert-state-map "()" "[")
+(key-chord-define evil-insert-state-map "jn" 'newline-and-indent)
 
 
 ;; Magit rules!
@@ -188,6 +190,7 @@
              [mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]))
   (global-unset-key k))
 ;; (global-set-key (kbd "<down-mouse-1>") 'mouse-select-window)
+
 
 ;;;;;;;;;;;;;;;;;
 ;; hydra stuff ;;
