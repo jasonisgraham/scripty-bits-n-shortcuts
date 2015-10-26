@@ -106,6 +106,7 @@ alias find-file="find . -iname "
 alias psg="ps aux | grep "
 alias psgi="ps aux | grep -i"
 
+
 # tell SCREEN to back off when setting TERM to "screen"
 # export TERM=xterm
 export TERM=xterm-256color
@@ -126,6 +127,11 @@ alias lt="${__BASE_LS_COMMAND} -tAl"
 function ls-only-hidden-dirs {
     local _dir="$1"
     l -A --color=never $_dir | grep \/$ | grep '^\.'
+}
+
+function docker-get-ipaddress {
+    local container_id="$1"
+    docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${container_id}
 }
 
 # binds

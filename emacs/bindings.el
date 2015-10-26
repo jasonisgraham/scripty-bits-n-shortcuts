@@ -237,7 +237,7 @@
          Delete: !:other )_:curr
           Split: _wh_:left _wj_:down _wk_:up _wl_:right
   Switch Window: _h_:left  _j_:down  _k_:up  _l_:right
-        Buffers: _p_revious  _n_ext  _*_:helm-mini  _f_ind-file  _F_projectile _8_:select _K_ill-this-buffer _B_ury-uffer
+        Buffers: _p_revious  _n_ext  _*_:helm-mini  _i_buffer _f_ind-file  _F_projectile _8_:select _K_ill-this-buffer _B_ury-uffer
     Buffer Move: _M-h_:buf-move-left _M-j_:buf-move-down _M-k_:buf-move-up _M-l_:buf-move-right
          Winner: _u_ndo  _r_edo
          Resize: _H_:splitter left  _J_:splitter down  _K_:splitter up  _L_:splitter right
@@ -269,6 +269,7 @@
   ("p" previous-buffer)
   ("n" next-buffer)
   ("*" helm-mini)
+  ("i" ibuffer)
   ("f" ido-find-file)
   ("F" projectile-find-file)
   ("8" ido-switch-buffer)

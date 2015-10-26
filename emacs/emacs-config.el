@@ -27,6 +27,7 @@
 (setq open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn")))
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "transpose-frame.el"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; enable recent files mode.
@@ -462,8 +463,8 @@
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "H-e") 'eir-eval-in-python)
 
-(require 'django-html-mode)
-(require 'django-mode)
+;; (require 'django-html-mode)
+;; (require 'django-mode)
 ;;(yas/load-directory "~/.emacs.d/elpa/django-snippets-20131229.811/snippets")
 ;;(add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -479,7 +480,7 @@
 (require 'zencoding-mode)
 (dolist (hook '(sgml-mode-hook
                 html-mode-hook
-                django-html-mode
+                ;; django-html-mode
                 clojure-mode))
   (add-hook hook 'zencoding-hooks))
 (add-hook 'zencoding-mode 'zencoding-hooks)
@@ -680,7 +681,17 @@
 (setq column-number-mode 't)
 (setq menu-bar-mode nil)
 
+;; (setq linum-mode 't)
+;; (linum-on)
+;; (require 'linum-relative)
+;; (linum-relative-toggle)
 (setq global-linum-mode nil)
+
+;; (global-set-key (kbd "<f6>") 'linum-relative-toggle)
+
+;; (add-hook 'prog-mode-hook #'linum-mode)
+;; (add-hook 'prog-mode-hook #'linum-relative-toggle)
+
 ;; (dolist (hook '(c-mode-common-hook
 ;;                 sgml-mode-hook
 ;;                 clojure-mode-hook
@@ -977,5 +988,13 @@ regular expression."
         (funcall ag-command search-term (projectile-project-root)))
     (error "Package 'ag' is not available")))
 
+
 ;; this isn't a
 (global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
+
+(require 'guide-key)
+(setq guide-key/guide-key-sequence '("C-x" "C-c" "g" "SPC" "q"))
+(setq guide-key/recursive-key-sequence-flag t)
+(setq guide-key/idle-delay 0.1)
+(setq guide-key/popup-window-position 'bottom)
+(guide-key-mode 1)  ; Enable guide-key-mode
