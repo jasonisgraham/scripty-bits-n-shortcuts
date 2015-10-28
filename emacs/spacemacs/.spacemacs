@@ -207,11 +207,55 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ag-highlight-search t)
+ '(ahs-case-fold-search nil)
+ '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ansi-color-names-vector
    ["#272822" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ '(browse-url-browser-function (quote browse-url-chromium))
+ '(buffer-stack-filter (quote buffer-stack-filter-regexp))
+ '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
+ '(buffer-stack-untracked
+   (quote
+    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
+ '(column-number-mode t)
  '(compilation-message-face (quote default))
+ '(completion-ignored-extensions
+   (quote
+    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
  '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-safe-themes
+   (quote
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ '(desktop-save t)
+ '(desktop-save-mode t)
+ '(diary-entry-marker (quote font-lock-variable-name-face))
+ '(dired-listing-switches
+   "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
+ '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
+ '(eclim-executable "~/bin/eclipse/eclim")
+ '(ediff-split-window-function (quote split-window-horizontally) t)
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain) t)
+ '(electric-indent-mode t)
+ '(evil-default-cursor (quote (hbar)))
  '(fci-rule-color "#49483E" t)
+ '(global-anzu-mode t)
+ '(global-auto-highlight-symbol-mode t)
+ '(global-evil-search-highlight-persist t)
+ '(global-undo-tree-mode t)
+ '(global-vi-tilde-fringe-mode t)
+ '(golden-ratio-mode nil)
+ '(grep-command "grep -n -e ")
+ '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
+ '(grep-find-ignored-files
+   (quote
+    (".#*" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
+ '(grep-find-template "find . <X> -type f <F> -exec grep <C> -nH -e <R> {} +")
+ '(grep-highlight-matches (quote auto))
+ '(grep-template "grep <X> <C> -n -e <R> <F>")
+ '(grep-use-null-device t)
+ '(helm-recentf-fuzzy-match t)
  '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
  '(highlight-tail-colors
    (quote
@@ -223,7 +267,27 @@ layers configuration. You are free to put any user code."
      ("#A45E0A" . 70)
      ("#A41F99" . 85)
      ("#49483E" . 100))))
+ '(hl-paren-delay 0.2)
+ '(ispell-highlight-face (quote flyspell-incorrect))
  '(magit-diff-use-overlays nil)
+ '(magit-use-overlays nil)
+ '(main-line-separator-style (quote chamfer))
+ '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
+ '(org-startup-truncated nil)
+ '(projectile-enable-caching t)
+ '(projectile-global-mode t)
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*" ".metadata" "*.metadata*")))
+ '(projectile-globally-ignored-files (quote ("TAGS" ".gitignore" ".emacs.desktop" "*#*#")))
+ '(read-buffer-completion-ignore-case t)
+ '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
+ '(recentf-keep (quote (recentf-keep-default-predicate)))
+ '(recentf-max-saved-items 50)
+ '(recentf-mode t)
+ '(safe-local-variable-values (quote ((require-final-newline))))
+ '(show-paren-mode t)
+ '(tool-bar-mode nil)
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -253,4 +317,5 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 98 :width normal)))))
+ '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 98 :width normal))))
+ '(show-paren-match ((t (:background "#272822" :inverse-video t :underline "cyan" :weight extra-bold)))))
