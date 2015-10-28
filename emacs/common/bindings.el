@@ -17,20 +17,12 @@
 (global-set-key (kbd "H-o j")   'evil-next-line-first-non-blank)
 (global-set-key (kbd "H-o k")   'evil-previous-line-first-non-blank)
 (global-set-key (kbd "H-<f6>")  'load-file)
-;; (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
 (global-set-key (kbd "C-;")     'evil-normal-state-and-save-buffer)
 (global-set-key (kbd "<f5>")	'evil-normal-state-and-save-buffer)
 
-;; requires elscree; nput some elscreen check here?
-(global-set-key (kbd "H-(")     'elscreen-previous)
-(global-set-key (kbd "H-)")     'elscreen-next)
-(global-set-key (kbd "H-v c")   'elscreen-create)
-(global-set-key (kbd "H-v k")   'elscreen-kill)
-(global-set-key (kbd "H-v f")   'elscreen-find-file)
-(global-set-key (kbd "H-v '")   'elscreen-select-and-goto)
-(global-set-key (kbd "H-v H-v") 'elscreen-toggle)
-(global-set-key (kbd "H-v v")   'elscreen-toggle)
-(global-set-key (kbd "H-v A")   'elscreen-screen-nickname)
+;; perspective-el
+(global-set-key (kbd "H-(")     'persp-prev)
+(global-set-key (kbd "H-)")     'persp-next)
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 
@@ -118,6 +110,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evil stuff
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define-key evil-normal-state-map (kbd "q") nil)
 (define-key evil-normal-state-map (kbd "gw") nil)
 (define-key evil-normal-state-map (kbd "gwh") 'split-window-right)
@@ -130,17 +123,9 @@
 (define-key evil-normal-state-map (kbd "C-a") nil)
 
 (define-key evil-normal-state-map (kbd "qq") 'quit-window)
-(define-key evil-normal-state-map (kbd "g(") 'elscreen-previous)
-(define-key evil-normal-state-map (kbd "g)") 'elscreen-next)
-(define-key evil-normal-state-map (kbd "SPC h") 'windmove-left)
-(define-key evil-normal-state-map (kbd "SPC l") 'windmove-right)
-(define-key evil-normal-state-map (kbd "SPC k") 'windmove-up)
-(define-key evil-normal-state-map (kbd "SPC j") 'windmove-down)
 (define-key evil-normal-state-map (kbd "g-") 'hs-hide-block)
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
-
 (define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
-(define-key evil-normal-state-map (kbd "g SPC") 'ace-jump-mode)
 
 (define-key evil-normal-state-map (kbd "qw)") 'delete-window)
 (define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
@@ -169,7 +154,7 @@
 (key-chord-define evil-insert-state-map "q)" 'evil-digit-argument-or-evil-beginning-of-line)
 (key-chord-define evil-insert-state-map "()" "[")
 (key-chord-define evil-insert-state-map "jn" 'newline-and-indent)
-
+(setq-default evil-escape-key-sequence "jk")
 
 ;; Magit rules!
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -196,6 +181,7 @@
 ;; hydra stuff ;;
 ;;;;;;;;;;;;;;;;;
 
+;;
 ;; https://www.reddit.com/r/emacs/comments/3ba645/does_anybody_have_any_real_cool_hydras_to_share/cskdhte
 ;; Split: _|_:vert  _-_:horz
 
@@ -297,27 +283,21 @@
 (global-set-key (kbd "H-*")     'hydra-windows/body)
 (define-key evil-normal-state-map (kbd "SPC SPC *") 'hydra-windows/body)
 
-;; hide-show-things
-;; ;; toggle comments n stuff
-;; (global-set-key (kbd "M-G h C") 'hs-hide-all-comments)
-;; (global-set-key (kbd "M-G s B") 'hs-show-all)
-;; (global-set-key (kbd "M-G s b") 'hs-show-block)
-;; (global-set-key (kbd "M-G h b") 'hs-hide-block)
-
 (defhydra hydra-hide-show (:hint nil)
   "
-               : _e_lscreen-toggle-tab _h_l-line-mode _m_enu-bar _l_inum-mode _s_r-speedbar-toggle _t_oggle-truncate-lines"
+               : _h_l-line-mode _m_enu-bar _l_inum-mode _s_r-speedbar-toggle _t_oggle-truncate-lines"
 
   ("m" menu-bar-mode)
   ("h" hl-line-mode)
   ("l" linum-mode)
   ("s" sr-speedbar-toggle)
   ("t" toggle-truncate-lines)
-  ("e" elscreen-toggle-display-tab)
   ("q" nil))
 
 (global-set-key (kbd "H-^") 	'hydra-hide-show/body)
 (define-key evil-normal-state-map (kbd "SPC SPC h") 'hydra-hide-show/body)
+
+(global-set-key (kbd "<f6>") 'linum-mode)
 
 (provide 'bindings)
 ;;; bindings.el ends here

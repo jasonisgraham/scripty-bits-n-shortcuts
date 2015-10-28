@@ -2,15 +2,7 @@
 
 (setq version-controlled-stuff-dir "~/scripty-bits-n-shortcuts/emacs")
 
-(setq package-enable-at-startup nil)
-(package-initialize)
-
-;; melpa
-(require 'package)
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/package-init.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq path-to-ctags "~/.emacs.d/TAGS") ;; <- your ctags path here
 (defun create-tags (dir-name)
@@ -21,7 +13,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; open resource
-(add-to-list 'load-path "~/.emacs.d/recentf.el")
+;; (add-to-list 'load-path "~/.emacs.d/recentf.el")
 (require 'recentf)
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "open-resource.el"))
 (setq open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn")))
@@ -82,8 +74,8 @@
 
 ;;; auto complete mod
 ;;; should be loaded after yasnippet so that they can work together
-(require 'auto-complete-config)
 (auto-complete-mode 1)
+(require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 ;;; set the trigger key so that it can work together with yasnippet on tab key,
@@ -129,6 +121,10 @@
 ;; (setq cider-lein-parameters "with-profile +1.6 repl :headless")
 ;; add the pretty lambda symbols
 (setq global-prettify-symbols-mode t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; EVIL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'evil)
 (evil-mode 1)
@@ -139,32 +135,6 @@
 (require 'highlight)
 (require 'evil-search-highlight-persist)
 (global-evil-search-highlight-persist t)
-;;;;;;;;;;;;;;;;;;;;;;;
-;; colors up the cursor
-;;;;;;;;;;;;;;;;;;;;;;;
-(setq evil-default-cursor '("white" hbar))
-(setq evil-normal-state-cursor '("white" box))
-(setq evil-insert-state-cursor '("green" bar))
-(setq evil-emacs-state-cursor '("blue" box))
-(setq evil-visual-state-cursor '("violet"))
-(setq evil-replace-state-cursor '("red" hbar))
-(setq evil-operator-state-cursor '("orange"))
-(setq evil-motion-state-cursor '("magenta"))
-
-;; http://www.emacswiki.org/emacs/Evil
-;; change mode-line color by evil state
-(lexical-let ((default-color (cons (face-background 'mode-line)
-                                   (face-foreground 'mode-line))))
-  (add-hook 'post-command-hook
-            (lambda ()
-              (let ((color (cond ((minibufferp) default-color)
-                                 ((evil-insert-state-p) '("green" . "#000000"))
-                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                                 ((evil-visual-state-p) '("red" . "#000000"))
-                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                 (t default-color))))
-                (set-face-background 'mode-line (car color))
-                (set-face-foreground 'mode-line (cdr color))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; left at column 0 puts cursor on last column of previous line
@@ -175,7 +145,7 @@
 (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
 (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-(setq-default evil-cross-lines t)
+;; (setq-default evil-cross-lines t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; overriding annoying stuff when in insert or normal mode
@@ -206,10 +176,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; this gives the vim tabs stuff
-(load "elscreen" "ElScreen" t)
-(elscreen-start)
-(setq elscreen-display-tab nil)
-(elscreen-persist-mode 1)
+(persp-mode)
 
 (require 'sr-speedbar)
 ;; Start Sr-Speedbar in buffer mode by default
@@ -281,21 +248,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(2C-mode-line-format
-   (quote
-    ("dog" "-%*- %15b --"
-     (-3 . "%p")
-     "--%[(" mode-name minor-mode-alist "%n" mode-line-process ")%]%-")))
  '(ag-highlight-search t)
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#c0c0c0" "#336c6c" "#806080" "#0f2050" "#732f2c" "#23733c" "#6c1f1c" "#232333"])
- '(ansi-term-color-vector
-   [unspecified "#081724" "#ff694d" "#68f6cb" "#fffe4e" "#bad6e2" "#afc0fd" "#d2f1ff" "#d3f9ee"] t)
- '(background-mode dark)
+ ;; '(ansi-color-faces-vector
+ ;;   [default default default italic underline success warning error])
+ ;; '(ansi-color-names-vector
+ ;;   ["#c0c0c0" "#336c6c" "#806080" "#0f2050" "#732f2c" "#23733c" "#6c1f1c" "#232333"])
+ ;; '(ansi-term-color-vector
+ ;;   [unspecified "#081724" "#ff694d" "#68f6cb" "#fffe4e" "#bad6e2" "#afc0fd" "#d2f1ff" "#d3f9ee"] t)
+ ;; '(background-mode dark)
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
  '(browse-url-browser-function (quote browse-url-chromium))
  '(buffer-stack-filter (quote buffer-stack-filter-regexp))
@@ -308,15 +270,11 @@
  '(completion-ignored-extensions
    (quote
     (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#839496")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
- '(cursor-color "#cccccc")
- '(custom-enabled-themes (quote (monokai)))
- '(custom-safe-themes
-   (quote
-    ("19352d62ea0395879be564fc36bc0b4780d9768a964d26dfae8aad218062858d" "ad9fc392386f4859d28fe4ef3803585b51557838dbc072762117adad37e83585" "1c57936ffb459ad3de4f2abbc39ef29bfb109eade28405fa72734df1bc252c13" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
+ ;; '(cursor-color "#cccccc")
+ ;; '(custom-enabled-themes (quote (monokai)))
+ ;; '(custom-safe-themes
+ ;;   (quote
+ ;;    ("19352d62ea0395879be564fc36bc0b4780d9768a964d26dfae8aad218062858d" "ad9fc392386f4859d28fe4ef3803585b51557838dbc072762117adad37e83585" "1c57936ffb459ad3de4f2abbc39ef29bfb109eade28405fa72734df1bc252c13" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-listing-switches
    "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
@@ -325,19 +283,18 @@
  '(ediff-split-window-function (quote split-window-horizontally) t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(electric-indent-mode t)
- '(electric-pair-mode t)
+ ;; '(electric-pair-mode t)
  '(evil-default-cursor (quote (hbar)))
- '(evil-move-cursor-back t)
- '(fci-rule-character-color "#202020")
- '(fci-rule-color "#49483E")
- '(foreground-color "#cccccc")
- '(fringe-mode 0 nil (fringe))
+ ;; '(fci-rule-character-color "#202020")
+ ;; '(fci-rule-color "#49483E")
+ ;; '(foreground-color "#cccccc")
+ ;; '(fringe-mode 0 nil (fringe))
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
  '(global-undo-tree-mode t)
  '(global-vi-tilde-fringe-mode t)
- '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
+ ;; '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
  '(golden-ratio-mode nil)
  '(grep-command "grep -n -e ")
  '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
@@ -349,42 +306,35 @@
  '(grep-template "grep <X> <C> -n -e <R> <F>")
  '(grep-use-null-device t)
  '(helm-recentf-fuzzy-match t)
- '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#002b36" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
- '(highlight-symbol-foreground-color "#93a1a1")
- '(highlight-tail-colors
-   (quote
-    (("#073642" . 0)
-     ("#546E00" . 20)
-     ("#00736F" . 30)
-     ("#00629D" . 50)
-     ("#7B6000" . 60)
-     ("#8B2C02" . 70)
-     ("#93115C" . 85)
-     ("#073642" . 100))))
- '(hl-bg-colors
-   (quote
-    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
- '(hl-fg-colors
-   (quote
-    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ ;; '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ ;; '(highlight-symbol-colors
+ ;;   (--map
+ ;;    (solarized-color-blend it "#002b36" 0.25)
+ ;;    (quote
+ ;;     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ ;; '(highlight-symbol-foreground-color "#93a1a1")
+ ;; '(highlight-tail-colors
+ ;;   (quote
+ ;;    (("#073642" . 0)
+ ;;     ("#546E00" . 20)
+ ;;     ("#00736F" . 30)
+ ;;     ("#00629D" . 50)
+ ;;     ("#7B6000" . 60)
+ ;;     ("#8B2C02" . 70)
+ ;;     ("#93115C" . 85)
+ ;;     ("#073642" . 100))))
+ ;; '(hl-bg-colors
+ ;;   (quote
+ ;;    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
+ ;; '(hl-fg-colors
+ ;;   (quote
+ ;;    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(ispell-highlight-face (quote flyspell-incorrect))
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
- '(main-line-color1 "#1E1E1E")
- '(main-line-color2 "#111111")
+ ;; '(main-line-color1 "#1E1E1E")
+ ;; '(main-line-color2 "#111111")
  '(main-line-separator-style (quote chamfer))
- '(mode-line-format
-   (quote
-    (" " "%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position evil-mode-line-tag
-     (elscreen-display-screen-number
-      (" " elscreen-mode-line-string))
-     (vc-mode vc-mode)
-     "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
  '(org-startup-truncated nil)
  '(projectile-enable-caching t)
@@ -399,54 +349,57 @@
  '(recentf-max-saved-items 50)
  '(recentf-mode t)
  '(safe-local-variable-values (quote ((require-final-newline))))
- '(show-paren-mode t)
- '(syslog-debug-face
-   (quote
-    ((t :background unspecified :foreground "#A1EFE4" :weight bold))))
- '(syslog-error-face
-   (quote
-    ((t :background unspecified :foreground "#F92672" :weight bold))))
- '(syslog-hour-face (quote ((t :background unspecified :foreground "#A6E22E"))))
- '(syslog-info-face
-   (quote
-    ((t :background unspecified :foreground "#66D9EF" :weight bold))))
- '(syslog-ip-face (quote ((t :background unspecified :foreground "#E6DB74"))))
- '(syslog-su-face (quote ((t :background unspecified :foreground "#FD5FF0"))))
- '(syslog-warn-face
-   (quote
-    ((t :background unspecified :foreground "#FD971F" :weight bold))))
- '(term-default-bg-color "#002b36")
- '(term-default-fg-color "#839496")
+ ;; '(show-paren-mode t)
+ ;; '(syslog-debug-face
+ ;;   (quote
+ ;;    ((t :background unspecified :foreground "#A1EFE4" :weight bold))))
+ ;; '(syslog-error-face
+ ;;   (quote
+ ;;    ((t :background unspecified :foreground "#F92672" :weight bold))))
+ ;; '(syslog-hour-face (quote ((t :background unspecified :foreground "#A6E22E"))))
+ ;; '(syslog-info-face
+ ;;   (quote
+ ;;    ((t :background unspecified :foreground "#66D9EF" :weight bold))))
+ ;; '(syslog-ip-face (quote ((t :background unspecified :foreground "#E6DB74"))))
+ ;; '(syslog-su-face (quote ((t :background unspecified :foreground "#FD5FF0"))))
+ ;; '(syslog-warn-face
+ ;;   (quote
+ ;;    ((t :background unspecified :foreground "#FD971F" :weight bold))))
+ ;; '(term-default-bg-color "#002b36")
+ ;; '(term-default-fg-color "#839496")
  '(tool-bar-mode nil)
- '(vc-annotate-background "#202020")
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#C99090")
-     (40 . "#D9A0A0")
-     (60 . "#ECBC9C")
-     (80 . "#DDCC9C")
-     (100 . "#EDDCAC")
-     (120 . "#FDECBC")
-     (140 . "#6C8C6C")
-     (160 . "#8CAC8C")
-     (180 . "#9CBF9C")
-     (200 . "#ACD2AC")
-     (220 . "#BCE5BC")
-     (240 . "#CCF8CC")
-     (260 . "#A0EDF0")
-     (280 . "#79ADB0")
-     (300 . "#89C5C8")
-     (320 . "#99DDE0")
-     (340 . "#9CC7FB")
-     (360 . "#E090C7"))))
- '(vc-annotate-very-old-color "#E090C7")
- '(view-highlight-face (quote highlight))
- '(weechat-color-list
-   (quote
-    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
- '(yas-snippet-dirs
-   (quote
-    (yas-installed-snippets-dir "~/.emacs.d/elpa/django-snippets-20131229.811/snippets")) nil (yasnippet)))
+ ;; '(vc-annotate-background "#202020")
+ ;; '(vc-annotate-color-map
+ ;;   (quote
+ ;;    ((20 . "#C99090")
+ ;;     (40 . "#D9A0A0")
+ ;;     (60 . "#ECBC9C")
+ ;;     (80 . "#DDCC9C")
+ ;;     (100 . "#EDDCAC")
+ ;;     (120 . "#FDECBC")
+ ;;     (140 . "#6C8C6C")
+ ;;     (160 . "#8CAC8C")
+ ;;     (180 . "#9CBF9C")
+ ;;     (200 . "#ACD2AC")
+ ;;     (220 . "#BCE5BC")
+ ;;     (240 . "#CCF8CC")
+ ;;     (260 . "#A0EDF0")
+ ;;     (280 . "#79ADB0")
+ ;;     (300 . "#89C5C8")
+ ;;     (320 . "#99DDE0")
+ ;;     (340 . "#9CC7FB")
+ ;;     (360 . "#E090C7"))))
+ ;; '(vc-annotate-very-old-color "#E090C7")
+ ;; '(view-highlight-face (quote highlight))
+ ;; '(weechat-color-list
+ ;;   (quote
+ ;;    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
+ ;; '(yas-snippet-dirs
+ ;;   (quote
+ ;;    (yas-installed-snippets-dir)) nil (yasnippet))
+ ;; '(fringe ((t (:background "grey8" :foreground "#F8F8F2"))))
+ '(desktop-save t)
+ '(desktop-save-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;; python stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -462,11 +415,6 @@
 (require 'eval-in-repl)
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "H-e") 'eir-eval-in-python)
-
-;; (require 'django-html-mode)
-;; (require 'django-mode)
-;;(yas/load-directory "~/.emacs.d/elpa/django-snippets-20131229.811/snippets")
-;;(add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -495,8 +443,8 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(electric-pair-mode t)
-(setq electric-pair-mode t) ;; add matching parens, braces, etc
+;; (electric-pair-mode t)
+;; (setq electric-pair-mode t) ;; add matching parens, braces, etc
 
 ;; print directory of file
 (defun get-dir-of-file ()
@@ -646,7 +594,8 @@
 (setq-default indent-tabs-mode nil)
 (setq js-indent-level 2)
 
-(require 'paren) (show-paren-mode t)
+(require 'paren)
+(show-paren-mode t)
 (setq read-file-name-completion-ignore-case t)
 
 ;; give cp & sc files c-mode highlighting n schtuf
@@ -677,30 +626,14 @@
 (setq ediff-diff-options "")
 (setq ediff-split-window-function 'split-window-horizontally)
 
-
 (setq column-number-mode 't)
 (setq menu-bar-mode nil)
 
-;; (setq linum-mode 't)
-;; (linum-on)
-;; (require 'linum-relative)
-;; (linum-relative-toggle)
+(setq linum-mode nil)
+(require 'linum-relative)
+(linum-relative-on)
 (setq global-linum-mode nil)
-
-;; (global-set-key (kbd "<f6>") 'linum-relative-toggle)
-
-;; (add-hook 'prog-mode-hook #'linum-mode)
-;; (add-hook 'prog-mode-hook #'linum-relative-toggle)
-
-;; (dolist (hook '(c-mode-common-hook
-;;                 sgml-mode-hook
-;;                 clojure-mode-hook
-;;                 sh-script-mode-hook
-;;                 emacs-lisp-mode-hook
-;;                 lisp-mode-hook))
-
-;;   (add-hook hook (lambda () (linum-mode 1)))
-;;   )
+(setq linum-mode nil)
 
 ;; open 2 files as side-by-side windows
 (defun 2-windows-vertical-to-horizontal ()
@@ -772,10 +705,6 @@ Move point to the beginning of the line, and run the normal hook
 
 (put 'scroll-left 'disabled nil)
 
-;; http://emacs.stackexchange.com/questions/7225/visual-selection-highlighting-invisible-with-evil-and-color-theme
-;; (region ((t (:background "#1D1E2C"))))
-;; (speedbar-file-face ((t (:foreground "#1D1E2C"))))
-
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L144-166
 (defun untabify-buffer ()
   (interactive)
@@ -802,31 +731,9 @@ Including indent-buffer, which should not be called automatically on save."
 
 (setq tags-revert-without-query 't)
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/monokai-theme-20150112.442/")
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/monokai-theme-20151022.703/monokai-theme.el")
 
-
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Monaco" :foundry "apple" :slant normal :weight normal :height 90 :width normal))))
- '(anzu-mode-line ((t (:background "black" :foreground "white" :weight bold))))
- '(evil-search-highlight-persist-highlight-face ((t (:inherit nil :background "yellow1" :foreground "black"))))
- '(helm-selection ((t (:inherit nil :inverse-video t :underline t))))
- '(highlight ((t (:background "lawn green" :foreground "black"))))
- '(mode-line ((t (:background "#444488" :foreground "#ffffff" :box (:line-width 1 :color "#3E3D31" :style unspecified)))))
- '(mode-line-buffer-id ((t (:background "black" :foreground "gainsboro" :weight bold))))
- '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
- '(mode-line-inactive ((t (:inherit mode-line :background "#000000" :foreground "#BCBCBC"))))
- '(paren-face-match ((t (:inverse-video nil :weight light))) t)
- '(semantic-highlight-edits-face ((t (:background "gray21"))))
- '(show-paren-match ((t (:background "#272822" :foreground "gray" :inverse-video t :underline "black" :weight thin))))
- '(term ((t (:inherit default :foreground "white smoke"))) t)
- '(zencoding-preview-output ((t (:background "dim gray")))))
-
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "bindings.el"))
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
 
 (defun evil-normal-state-and-save-buffer ()
   (interactive)
@@ -845,21 +752,12 @@ Including indent-buffer, which should not be called automatically on save."
      nil 'fullscreen
      (when (not (frame-parameter nil 'fullscreen)) 'fullboth))))
 
-;; '(paren-face-match ((t (:background "#272822" :foreground "#A1EFE4" :inverse-video nil :weight light))) t)
-;; '(show-paren-match ((t (:background "#272822" :foreground "#A1EFE4" :underline t :weight normal))))
-;; '(show-paren-match-face ((t (:background "#272822" :foreground "#A1EFE4" :underline t :weight normal))) t)
-;; '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
-;; '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
-
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 
-
 (set-frame-parameter (selected-frame) 'alpha '(98 90))
-;; (set-frame-parameter (selected-frame) 'alpha '(90 80))
-(setq my-background-color "grey8")
-(set-background-color my-background-color)
-
+;; (setq my-background-color "grey8")
+;; (set-background-color my-background-color)
 
 (global-visual-line-mode 1)
 (global-hl-line-mode +1)
@@ -911,8 +809,6 @@ Including indent-buffer, which should not be called automatically on save."
             (define-key clojure-mode-map (kbd "C-c .") "->> ")
             (auto-highlight-symbol-mode t)))
 
-;; (define-key clojure-mode-map (kbd "<C-f9>") 'cider-namespace-refresh)
-
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
@@ -939,16 +835,12 @@ Including indent-buffer, which should not be called automatically on save."
 
 (set-frame-font "Monaco 9" nil t)
 (set-face-attribute 'default nil :font "Monaco 9")
-
-;; (set-frame-font "Monaco 8" nil t)
-;; (set-face-attribute 'default nil :font "Monaco 8")
-
+;; (set-face-attribute 'fringe nil :background my-background-color)
+;; (set-face-attribute 'linum nil :background my-background-color)
 
 (let ((non-public-stuff "~/.emacs.d/non-public-stuff.el"))
   (when (file-exists-p non-public-stuff)
     (load-file non-public-stuff)))
-
-(setq powerline-center-theme t)
 
 (vimish-fold-global-mode 1)
 
@@ -988,13 +880,13 @@ regular expression."
         (funcall ag-command search-term (projectile-project-root)))
     (error "Package 'ag' is not available")))
 
-
-;; this isn't a
 (global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
 
-(require 'guide-key)
-(setq guide-key/guide-key-sequence '("C-x" "C-c" "g" "SPC" "q"))
-(setq guide-key/recursive-key-sequence-flag t)
-(setq guide-key/idle-delay 0.1)
-(setq guide-key/popup-window-position 'bottom)
-(guide-key-mode 1)  ; Enable guide-key-mode
+;; http://stackoverflow.com/questions/3815467/stripping-duplicate-elements-in-a-list-of-strings-in-elisp
+(defun strip-duplicates (list)
+  (let ((new-list nil))
+    (while list
+      (when (and (car list) (not (member (car list) new-list)))
+        (setq new-list (cons (car list) new-list)))
+      (setq list (cdr list)))
+    (nreverse new-list)))
