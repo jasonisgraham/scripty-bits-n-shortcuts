@@ -145,7 +145,7 @@
 (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
 (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-;; (setq-default evil-cross-lines t)
+(setq-default evil-cross-lines t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; overriding annoying stuff when in insert or normal mode
@@ -618,10 +618,10 @@
   (replace-regexp "^\n\n+" "\n"))
 
 ;; diff mode
-(eval-after-load 'diff-mode
-  '(progn
-     (set-face-foreground 'diff-added "green4")
-     (set-face-foreground 'diff-added "red3")))
+;; (eval-after-load 'diff-mode
+;;   '(progn
+;;      (set-face-foreground 'diff-added "green4")
+;;      (set-face-foreground 'diff-added "red3")))
 ;; (setq ediff-diff-options "-w")
 (setq ediff-diff-options "")
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -756,14 +756,16 @@ Including indent-buffer, which should not be called automatically on save."
       browse-url-generic-program "google-chrome")
 
 (set-frame-parameter (selected-frame) 'alpha '(98 90))
-;; (setq my-background-color "grey8")
-;; (set-background-color my-background-color)
+(setq my-background-color "grey8")
+(set-background-color my-background-color)
 
 (global-visual-line-mode 1)
 (global-hl-line-mode +1)
 (set-face-background hl-line-face "gray15")
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(require 'hl-anything)
+(global-hl-line-mode 1)
 
 ;; http://emacswiki.org/emacs/TransposeWindows
 (defun transpose-windows (arg)
@@ -835,8 +837,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 (set-frame-font "Monaco 9" nil t)
 (set-face-attribute 'default nil :font "Monaco 9")
-;; (set-face-attribute 'fringe nil :background my-background-color)
-;; (set-face-attribute 'linum nil :background my-background-color)
+(set-face-attribute 'fringe nil :background my-background-color)
+(set-face-attribute 'linum nil :background my-background-color)
 
 (let ((non-public-stuff "~/.emacs.d/non-public-stuff.el"))
   (when (file-exists-p non-public-stuff)
@@ -890,3 +892,6 @@ regular expression."
         (setq new-list (cons (car list) new-list)))
       (setq list (cdr list)))
     (nreverse new-list)))
+
+(indent-guide-global-mode)
+(add-hook 'prog-mode-hook 'highlight-indentation-current-column-mode)

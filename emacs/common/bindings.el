@@ -133,7 +133,6 @@
 (define-key evil-normal-state-map (kbd "SPC *")  'helm-mini)
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
-(define-key evil-normal-state-map (kbd "SPC @")  'er/expand-region)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
 
 ;; (define-key evil-normal-state-map (kbd "SPC SPC") nil)
