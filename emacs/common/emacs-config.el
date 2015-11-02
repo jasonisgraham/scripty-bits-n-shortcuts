@@ -90,7 +90,8 @@
 (defun lisp-hooks ()
   (interactive)
   (paredit-mode t)
-  (rainbow-delimiters-mode t))
+  (rainbow-delimiters-mode t)
+  (define-key evil-insert-state-map "{" 'paredit-open-curly))
 
 (eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
 
@@ -102,7 +103,11 @@
                 ielm-mode-hook
                 cider-repl-mode
                 cider-repl-mode-hook))
-  (add-hook hook 'lisp-hooks))
+
+  (add-hook hook 'lisp-hooks)
+  ;; (add-hook 'nrepl-mode-hook 'paredit-mode)
+  ;; (define-key clojure-mode-map "{" 'paredit-open-curly)
+  )
 
 ;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
 ;; (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -174,9 +179,6 @@
 ;; when exiting insert mode, the cursor doesn't move back a column
 (setq evil-move-cursor-back nil)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; this gives the vim tabs stuff
-(persp-mode)
 
 (require 'sr-speedbar)
 ;; Start Sr-Speedbar in buffer mode by default
@@ -733,7 +735,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/monokai-theme-20151022.703/monokai-theme.el")
 
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
+;; (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
 
 (defun evil-normal-state-and-save-buffer ()
   (interactive)
@@ -895,3 +897,23 @@ regular expression."
 
 (indent-guide-global-mode)
 (add-hook 'prog-mode-hook 'highlight-indentation-current-column-mode)
+
+
+;; workspaces, tabs, perspective, stuff like that
+(workgroups-mode 1)
+
+(setq wg-emacs-exit-save-behavior 'save)
+(setq wg-workgroups-mode-exit-save-behavior 'save)
+
+(setq wg-prefix-key (kbd "C-x x"))
+
+;; (setq wg-mode-line-display-on 'powerline)
+(setq wg-mode-line-display-on t)
+
+
+(setq wg-flag-modified t)
+(setq wg-mode-line-decor-left-brace "[" wg-mode-line-decor-right-brace "]"
+      wg-mode-line-decor-divider ":")
+
+
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))

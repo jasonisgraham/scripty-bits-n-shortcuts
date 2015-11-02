@@ -20,9 +20,9 @@
 (global-set-key (kbd "C-;")     'evil-normal-state-and-save-buffer)
 (global-set-key (kbd "<f5>")	'evil-normal-state-and-save-buffer)
 
-;; perspective-el
-(global-set-key (kbd "H-(")     'persp-prev)
-(global-set-key (kbd "H-)")     'persp-next)
+;; workspaces n stuff
+(global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
+(global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 

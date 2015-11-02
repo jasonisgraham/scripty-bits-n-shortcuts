@@ -26,21 +26,23 @@ values."
      ;; auto-completion
      ;; better-defaults
      emacs-lisp
-     ;; git
-     ;; markdown
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
-     ;; syntax-checking
-     ;; version-control
+     git
+     markdown
+     org
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
+     spell-checking
+     syntax-checking
+     version-control
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(perspective 4clojure request ac-cider auto-complete popup cider seq spinner queue pkg-info epl clojure-mode ac-etags ac-octave ag s dash anything-exuberant-ctags anything archive-region autopair badger-theme bash-completion bliss-theme bookmark+ boron-theme buffer-stack capture cider-decompile javap-mode cider-eval-sexp-fu eval-sexp-fu highlight cider-profile cider-spy clj-refactor hydra inflections edn peg multiple-cursors paredit yasnippet cljsbuild-mode clojure-cheatsheet helm helm-core async clojure-mode-extra-font-locking clojure-quick-repls clojure-snippets csv-mode ctags ctags-update darcula-theme dark-krystal-theme docker magit-popup docker-tramp dockerfile-mode elpy pyvenv highlight-indentation find-file-in-project swiper company multi-term revive emacs-eclim emacs-setup eval-in-repl evil-easymotion avy evil-org evil goto-chg undo-tree evil-paredit evil-snipe evil-space evil-tabs evil-terminal-cursor-changer evil-visual-mark-mode firecode-theme fish-mode flycheck-pos-tip flycheck let-alist foreign-regexp gitlab groovy-mode gruvbox-theme guide-key-tip pos-tip guide-key popwin helm-anything helm-aws helm-backup helm-c-yasnippet helm-chrome helm-company helm-css-scss helm-dictionary helm-dirset f helm-flycheck helm-flymake helm-flyspell helm-git helm-git-files helm-git-grep helm-google google helm-helm-commands helm-package helm-pydoc heroku hexrgb ido-at-point ido-complete-space-or-hyphen ido-gnus ido-hacks ido-load-library pcache persistent-soft list-utils ido-select-window ido-sort-mtime ido-ubiquitous ido-completing-read+ jedi-direx direx jedi jedi-core python-environment deferred epc ctable concurrent jtags julia-mode key-chord magit with-editor markdown-mode material-theme molokai-theme monokai-theme noflet nrepl-eval-sexp-fu smartparens org-beautify-theme org-bullets org-trello dash-functional request-deferred popup-complete popup-kill-ring popup-switcher powerline-evil powerline purple-haze-theme python-django python-mode rainbow-blocks rainbow-identifiers rainbow-mode regex-tool rich-minority skewer-mode js2-mode simple-httpd skype smyx-theme soothe-theme sr-speedbar subatomic256-theme sublime-themes tango-2-theme toxi-theme vimish-fold virtualenv visual-regexp-steroids visual-regexp waher-theme warm-night-theme web-mode window-number wrap-region yaml-mode zen-and-art-theme zenburn-theme zencoding-mode zonokai-theme window-numbering which-key volatile-highlights vi-tilde-fringe use-package diminish bind-key spray spacemacs-theme smooth-scrolling rainbow-delimiters quelpa package-build pcre2el paradox page-break-lines open-junk-file neotree move-text macrostep linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete highlight-parentheses highlight-numbers paren-mode helm-themes helm-swoop helm-projectile projectile helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-leader evil-jumper evil-indent-textobject evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu elisp-slime-nav define-word clean-aindent-mode buffer-move auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link)
+   dotspacemacs-additional-packages '(perspective 4clojure request ac-cider auto-complete popup cider seq spinner queue pkg-info epl clojure-mode ac-etags ac-octave ag s dash anything-exuberant-ctags anything archive-region autopair badger-theme bash-completion bliss-theme bookmark+ boron-theme buffer-stack capture cider-decompile javap-mode cider-eval-sexp-fu eval-sexp-fu highlight cider-profile cider-spy clj-refactor hydra inflections edn peg multiple-cursors paredit yasnippet cljsbuild-mode clojure-cheatsheet helm helm-core async clojure-mode-extra-font-locking clojure-quick-repls clojure-snippets csv-mode ctags ctags-update darcula-theme dark-krystal-theme docker magit-popup docker-tramp dockerfile-mode elpy pyvenv highlight-indentation find-file-in-project swiper company multi-term revive emacs-eclim emacs-setup eval-in-repl evil-easymotion avy evil-org evil goto-chg undo-tree evil-paredit evil-snipe evil-space evil-tabs evil-terminal-cursor-changer evil-visual-mark-mode firecode-theme fish-mode flycheck-pos-tip flycheck let-alist foreign-regexp gitlab groovy-mode gruvbox-theme guide-key-tip pos-tip guide-key popwin helm-anything helm-aws helm-backup helm-c-yasnippet helm-chrome helm-company helm-css-scss helm-dictionary helm-dirset f helm-flycheck helm-flymake helm-flyspell helm-git helm-git-files helm-git-grep helm-google google helm-helm-commands helm-package helm-pydoc heroku hexrgb ido-at-point ido-complete-space-or-hyphen ido-gnus ido-hacks ido-load-library pcache persistent-soft list-utils ido-select-window ido-sort-mtime ido-ubiquitous ido-completing-read+ jedi-direx direx jedi jedi-core python-environment deferred epc ctable concurrent jtags julia-mode key-chord magit with-editor markdown-mode material-theme molokai-theme monokai-theme noflet nrepl-eval-sexp-fu smartparens org-beautify-theme org-bullets org-trello dash-functional request-deferred popup-complete popup-kill-ring popup-switcher powerline-evil powerline purple-haze-theme python-django python-mode rainbow-blocks rainbow-identifiers rainbow-mode regex-tool rich-minority skewer-mode js2-mode simple-httpd skype smyx-theme soothe-theme sr-speedbar subatomic256-theme sublime-themes tango-2-theme toxi-theme vimish-fold virtualenv visual-regexp-steroids visual-regexp waher-theme warm-night-theme web-mode window-number wrap-region yaml-mode zen-and-art-theme zenburn-theme zencoding-mode zonokai-theme window-numbering which-key volatile-highlights vi-tilde-fringe use-package diminish bind-key spray spacemacs-theme smooth-scrolling rainbow-delimiters quelpa package-build pcre2el paradox page-break-lines open-junk-file neotree move-text macrostep linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete highlight-parentheses highlight-numbers helm-themes helm-swoop helm-projectile projectile helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-leader evil-jumper evil-indent-textobject evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu elisp-slime-nav define-word clean-aindent-mode buffer-move auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link)
+   ;;paren-mode
+
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(yasnippet)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -240,6 +242,7 @@ layers configuration. You are free to put any user code."
  '(electric-indent-mode t)
  '(evil-default-cursor (quote (hbar)))
  '(fci-rule-color "#49483E" t)
+ '(fringe-mode 0 nil (fringe))
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
@@ -322,4 +325,4 @@ layers configuration. You are free to put any user code."
  '(highlight-indentation-current-column-face ((t (:background "gray13"))))
  '(highlight-indentation-face ((t (:background "gray14"))))
  '(show-paren-match ((t (:background "#272822" :inverse-video t :underline "cyan" :weight extra-bold))))
- '(sp-show-pair-match-face ((t (:background "white" :foreground "gray17" :underline "cyan" :weight extra-bold)))))
+ '(sp-show-pair-match-face ((t (:background "green" :foreground "gray17" :underline "green" :weight extra-bold)))))

@@ -1,13 +1,16 @@
 {:user {:plugins [[cider/cider-nrepl "0.10.0-SNAPSHOT"]
-		  [lein-auto "0.1.2"]
-		  [com.jakemccrary/lein-test-refresh "0.11.0"]
+                  [lein-auto "0.1.2"]
+                  [com.jakemccrary/lein-test-refresh "0.11.0"]
                   [lein-localrepo "0.5.3"]
                   [lein-ancient "0.6.7"]]
 
-	:dependencies [[org.clojure/tools.nrepl "0.2.11"]
-                       [im.chit/vinyasa "0.4.2"] ; pull
-                       [org.clojure/tools.namespace "0.2.10"] ; refresh
-                       [spyscope "0.1.5"] ; fancy println
+        :dependencies [[org.clojure/tools.nrepl "0.2.12"]
+                       ;; pull
+                       [im.chit/vinyasa "0.4.2"]
+                       ;; refresh
+                       [org.clojure/tools.namespace "0.2.10"]
+                       ;; fancy println
+                       [spyscope "0.1.5"]
                        [leiningen "2.5.3"]
                        [io.aviso/pretty "0.1.19"]
                        [org.clojure/tools.reader "0.10.0"]
