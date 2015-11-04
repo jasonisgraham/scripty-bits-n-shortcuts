@@ -16,20 +16,21 @@
                        [org.clojure/tools.reader "0.10.0"]
                        [pjstadig/humane-test-output "0.7.0"]
                        ;; [aprint "0.1.3"]
-                       [org.clojure/tools.trace "0.7.9"]]
+                       [org.clojure/tools.trace "0.7.9"]
+                       [alembic "0.3.2"]
+                       [difform "1.1.2"]
+                       [clj-ns-browser "1.3.1"]]
 
         :ultra {:color-scheme :solarized_dark}
 
         :global-vars {*print-length* 100}
 
-        :injections [(require '[vinyasa.inject :as inject])
-                     (inject/in clojure.core
-                                [vinyasa.reflection .> .? .* .% .%> .& .>ns .>var]
-                                clojure.core >
-                                ;; [vinyasa.pull pull]
-                                [clojure.tools.namespace.repl refresh]
-                                [clojure.repl doc source]
-                                [clojure.pprint pprint pp])
+        :injections [(require 'spyscope.core)
+                     (require '[vinyasa.inject :as inject])
+                     (require 'io.aviso.repl)
+                     (require 'com.georgejahad.difform)
+                     (require 'clj-ns-browser.sdoc)
+
 
                      ;; better test output
                      (require 'pjstadig.humane-test-output)
@@ -45,5 +46,30 @@
                                      (constantly @#'io.aviso.repl/pretty-pst))
 
                      (require '[clojure.tools.trace :as ttrace])
-                     (require '[spyscope.core :as ss])]
+                     (require '[spyscope.core :as ss])
+
+                     (inject/in ;; the default injected namespace is `.`
+
+                      ;; note that `:refer, :all and :exclude can be used
+                      [vinyasa.inject :refer [inject [in inject-in]]]
+                      [vinyasa.lein :exclude [*project*]]
+
+                      ;; imports all functions in vinyasa.pull
+                      [alembic.still [distill pull]]
+
+                      ;; inject into clojure.core
+                      clojure.core
+                      [vinyasa.reflection .> .? .* .% .%> .& .>ns .>var]
+                      [clojure.repl doc]
+
+                      ;; inject into clojure.core with prefix
+                      clojure.core >
+                      [clojure.pprint pprint]
+                      [clojure.java.shell sh]
+                      [clojure.tools.namespace.repl refresh]
+                      [clojure.repl doc source]
+                      [clojure.pprint pprint pp]
+                      [com.georgejahad.difform difform]
+                      [clj-ns-browser.sdoc sdoc])]
+
         :aliases {"slamhound" ["run" "-m" "slam.hound"]}}}
