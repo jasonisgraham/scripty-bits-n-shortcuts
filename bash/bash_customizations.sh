@@ -10,6 +10,11 @@
 # exclude a string regex
 # echo "select sjiofjeifoej from DOG jfidofjdfoidjf select fjdisofjoidfj from CAT " | grep -oiP 'select(.(?!from))*\s+from\s+\w+' ; prints DOG, CAT
 
+## some common stuff
+function useful-stuff {
+echo "find ~ -size +1G"
+}
+
 ## if capslock key is toggled in a bad way
 function capslock-toggle {
     xdotool key Caps_Lock
@@ -110,7 +115,7 @@ alias psgi="ps aux | grep -i"
 # tell SCREEN to back off when setting TERM to "screen"
 # export TERM=xterm
 export TERM=xterm-256color
-export GREP_OPTIONS='--color=always'
+#export GREP_OPTIONS='--color=always'
 alias grep-iHrn='grep -irHn '
 # with "set -o vi", \ev opens emacs for some reason
 # this is a way to unbind
@@ -127,11 +132,6 @@ alias lt="${__BASE_LS_COMMAND} -tAl"
 function ls-only-hidden-dirs {
     local _dir="$1"
     l -A --color=never $_dir | grep \/$ | grep '^\.'
-}
-
-function docker-get-ipaddress {
-    local container_id="$1"
-    docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${container_id}
 }
 
 # binds
@@ -198,11 +198,12 @@ fi
 ##################################
 #HISTORY_CUSTOMIZATIONS
 ##################################
-HISTCONTROL=ignoredups:ignorespace # don't put duplicate lines in the history.
+HISTCONTROL=ignoredups:ignorespace:erasedups # don't put duplicate lines in the history.
 HISTIGNORE="__move-down-directory:__move-up-directory:__ls-type:pwd:ls:cd:fg:top:source *:"
 shopt -s histappend # append to the history file, don't overwrite it
-HISTSIZE=5000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTFILESIZE=10000
+HISTSIZE=50000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTFILESIZE=20000
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
 ####################################################################
 # "useful" functions that are called with the binds from above
@@ -498,3 +499,7 @@ function speedtest {
     local dummy_file=http://speedtest.wdc01.softlayer.com/downloads/test10.zip
     wget -O /dev/null ${dummy_file}
 }
+
+#xbacklight -set 50
+export LEIN_FAST_TRAMPOLINE=y
+

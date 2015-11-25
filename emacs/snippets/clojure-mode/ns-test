@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ns-test
+# key: ns-test
+# mode: clojure-mode
+# --
+
+(ns `(clojure-expected-ns)`
+  (:require [clojure.test :refer :all]
+            [`(replace-regexp-in-string "-test$" "" (clojure-expected-ns))` :refer :all]))
+
+$0

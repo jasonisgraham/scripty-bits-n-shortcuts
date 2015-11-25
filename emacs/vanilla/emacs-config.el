@@ -186,9 +186,4 @@
 
 (set-face-background hl-line-face "gray15")
 
-(require 'guide-key)
-(setq guide-key/guide-key-sequence '("C-x" "C-c" "g" "SPC" "q"))
-(setq guide-key/recursive-key-sequence-flag t)
-(setq guide-key/idle-delay 1.0)
-(setq guide-key/popup-window-position 'bottom)
-(guide-key-mode 1)  ; Enable guide-key-mode
+(which-key-mode 1)

@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: spock-tc-ew
+# key: spock-tc-ew
+# mode: groovy-mode
+# --
+def "test ${1:method}"() {
+    expect:
+    ${2:expected} == `(replace-regexp-in-string "Test" "" (file-name-sans-extension (file-name-nondirectory buffer-file-name)))`.$1(${3:input})
+
+    where:
+    $2	| ${3:$(replace-regexp-in-string ",\s*" "	| " yas-text)}
+}

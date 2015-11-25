@@ -1,0 +1,6 @@
+# name: dtest
+# key: dtest
+# --
+(deftest $1
+  (is (= $2))$>
+  $0)$>

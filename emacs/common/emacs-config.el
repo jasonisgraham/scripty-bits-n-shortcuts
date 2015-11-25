@@ -72,6 +72,8 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
+(setq yas-snippet-dirs (append yas-snippet-dirs  '("~/scripty-bits-n-shortcuts/emacs/snippets")))
+
 ;;; auto complete mod
 ;;; should be loaded after yasnippet so that they can work together
 (auto-complete-mode 1)
@@ -89,7 +91,8 @@
 ;; lisp stuff
 (defun lisp-hooks ()
   (interactive)
-  (paredit-mode t)
+  (enable-paredit-mode)
+  ;; (paredit-mode t)
   (rainbow-delimiters-mode t)
   (define-key evil-insert-state-map "{" 'paredit-open-curly))
 
@@ -431,7 +434,8 @@
 (dolist (hook '(sgml-mode-hook
                 html-mode-hook
                 ;; django-html-mode
-                clojure-mode))
+                ;; clojure-mode
+                ))
   (add-hook hook 'zencoding-hooks))
 (add-hook 'zencoding-mode 'zencoding-hooks)
 
@@ -811,6 +815,7 @@ Including indent-buffer, which should not be called automatically on save."
             (define-key clojure-mode-map (kbd "<H-f1>") 'clojure-cheatsheet)
             (define-key clojure-mode-map (kbd "C-c d") 'cider-debug-defun-at-point)
             (define-key clojure-mode-map (kbd "C-c .") "->> ")
+            (define-key clojure-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
             (auto-highlight-symbol-mode t)))
 
 (require 'org-bullets)

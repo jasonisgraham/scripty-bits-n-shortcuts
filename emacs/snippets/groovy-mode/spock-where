@@ -1,0 +1,9 @@
+# -*- mode: snippet; -*-
+# name: spock-where
+# key: spock-where
+# mode: groovy-mode
+# --
+	where:
+        ${1:$$(mapconcat 'identity (split-string yas-text ",") "\t| ")}
+        ${1:$(replace-regexp-in-string "[^|\t]" " " yas-text)}
+        $0

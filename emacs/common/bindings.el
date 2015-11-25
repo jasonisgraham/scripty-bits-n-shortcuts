@@ -23,6 +23,7 @@
 ;; workspaces n stuff
 (global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
 (global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
+(global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 
@@ -104,6 +105,7 @@
           (lambda ()
             (interactive)
             ;; (setq flyspell-mode t)
+            (setq auto-highlight-symbol-mode nil)
             (define-key org-mode-map (kbd "M-S-<return>") 'org-insert-subheading)
             (define-key org-mode-map (kbd "C-<return>")   'org-insert-heading-after-current)))
 
@@ -297,6 +299,8 @@
 (define-key evil-normal-state-map (kbd "SPC SPC h") 'hydra-hide-show/body)
 
 (global-set-key (kbd "<f6>") 'linum-mode)
+
+(global-set-key (kbd "M-S-%") 'query-replace-regexp)
 
 (provide 'bindings)
 ;;; bindings.el ends here

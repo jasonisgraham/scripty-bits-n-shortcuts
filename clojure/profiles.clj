@@ -53,6 +53,7 @@
                       ;; note that `:refer, :all and :exclude can be used
                       [vinyasa.inject :refer [inject [in inject-in]]]
                       [vinyasa.lein :exclude [*project*]]
+                      [vinyasa.reimport :refer [reimport]]
 
                       ;; imports all functions in vinyasa.pull
                       [alembic.still [distill pull]]

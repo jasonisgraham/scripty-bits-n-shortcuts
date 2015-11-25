@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: testClass
+# key: spock-test
+# mode: groovy-mode
+# --
+import spock.lang.*
+
+class ${1:`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`} extends Specification {
+	$0
+}
