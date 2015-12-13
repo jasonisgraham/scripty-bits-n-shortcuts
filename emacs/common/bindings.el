@@ -18,7 +18,7 @@
 (global-set-key (kbd "H-o k")   'evil-previous-line-first-non-blank)
 (global-set-key (kbd "H-<f6>")  'load-file)
 (global-set-key (kbd "C-;")     'evil-normal-state-and-save-buffer)
-(global-set-key (kbd "<f5>")	'evil-normal-state-and-save-buffer)
+(global-set-key (kbd "<f5>")	  'evil-normal-state-and-save-buffer)
 
 ;; workspaces n stuff
 (global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
@@ -75,8 +75,6 @@
 (global-set-key (kbd "C-c M-K")  'buf-move-up)
 (global-set-key (kbd "C-c M-J")  'buf-move-down)
 
-(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
-
 ;; Override this paredit keybindings
 (eval-after-load 'paredit
   '(progn
@@ -132,7 +130,7 @@
 (define-key evil-normal-state-map (kbd "qw)") 'delete-window)
 (define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
 
-(define-key evil-normal-state-map (kbd "SPC *")  'helm-mini)
+;; (define-key evil-normal-state-map (kbd "SPC *")  'helm-mini)
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
@@ -282,7 +280,6 @@
   ("q" nil))
 
 (global-set-key (kbd "H-*")     'hydra-windows/body)
-(define-key evil-normal-state-map (kbd "SPC SPC *") 'hydra-windows/body)
 
 (defhydra hydra-hide-show (:hint nil)
   "
@@ -296,7 +293,6 @@
   ("q" nil))
 
 (global-set-key (kbd "H-^") 	'hydra-hide-show/body)
-(define-key evil-normal-state-map (kbd "SPC SPC h") 'hydra-hide-show/body)
 
 (global-set-key (kbd "<f6>") 'linum-mode)
 

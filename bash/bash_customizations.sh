@@ -93,7 +93,7 @@ function smaller-ps1 {
 }
 
 function ps1-use-smaller-fullpath {
-    PS1="\[$BGreen\]\u \[$BBlue\]$(smaller-ps1)\[$Color_Off\]> "
+    PS1="\[$BGreen\]\u \t \[$BBlue\]$(smaller-ps1)\[$Color_Off\]> "
 }
 
 PROMPT_COMMAND=ps1-use-smaller-fullpath
@@ -500,6 +500,17 @@ function speedtest {
     wget -O /dev/null ${dummy_file}
 }
 
+function grep-in-file-pattern {
+    local _file_pattern=${1}
+    local _grep_pattern=${2}
+
+    find . -name "${_file_pattern}" -exec grep -iHn "${_grep_pattern}" {} \;
+}
+
+function update-upgrade-dist-upgrade {
+    sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y
+}
+
+
 #xbacklight -set 50
 export LEIN_FAST_TRAMPOLINE=y
-

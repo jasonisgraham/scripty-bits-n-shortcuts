@@ -1,3 +1,4 @@
+
 ;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
@@ -23,27 +24,59 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; auto-completion
+     auto-completion
      ;; better-defaults
      emacs-lisp
-     git
-
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
+     ;; git
+     ;; markdown
+     org
+     ;; (shell :variables
+     ;;        shell-default-height 30
+     ;;        shell-default-position 'bottom)
      ;; spell-checking
-     ;; syntax-checking
-     version-control
+     syntax-checking
+     ;; version-control
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(zencoding-mode request ac-cider auto-complete popup cider seq spinner queue pkg-info epl clojure-mode ac-etags ace-link avy ace-window adaptive-wrap ag s dash aggressive-indent anything-exuberant-ctags anything archive-region auto-dictionary auto-highlight-symbol autopair bash-completion bookmark+ buffer-move buffer-stack capture cider-decompile javap-mode cider-eval-sexp-fu eval-sexp-fu highlight cider-profile cider-spy clean-aindent-mode clj-refactor hydra inflections edn peg multiple-cursors paredit yasnippet cljsbuild-mode clojure-cheatsheet helm helm-core async clojure-mode-extra-font-locking clojure-quick-repls clojure-snippets csv-mode ctags ctags-update cyberpunk-theme define-word diff-hl docker magit-popup docker-tramp dockerfile-mode elisp-slime-nav elpy pyvenv highlight-indentation find-file-in-project swiper company multi-term revive emacs-eclim emacs-setup esh-help eshell-prompt-extras eval-in-repl evil-anzu anzu evil goto-chg undo-tree evil-args evil-easymotion evil-escape evil-exchange evil-iedit-state iedit evil-indent-textobject evil-jumper evil-lisp-state smartparens evil-leader evil-matchit evil-nerd-commenter evil-numbers evil-org org evil-paredit evil-search-highlight-persist evil-snipe evil-space evil-surround evil-tabs evil-terminal-cursor-changer evil-tutor evil-visual-mark-mode evil-visualstar exec-path-from-shell expand-region fancy-battery fill-column-indicator fish-mode flx-ido flx flycheck-pos-tip flycheck let-alist foreign-regexp gh-md git-messenger git-timemachine gitattributes-mode gitconfig-mode gitlab gnuplot golden-ratio google-translate groovy-mode guide-key-tip pos-tip guide-key popwin helm-ag helm-anything helm-aws helm-backup helm-c-yasnippet helm-chrome helm-company helm-css-scss helm-descbinds helm-dictionary helm-dirset f helm-flycheck helm-flymake helm-flyspell helm-git helm-git-files helm-git-grep helm-gitignore gitignore-mode helm-google google helm-helm-commands helm-make projectile helm-mode-manager helm-package helm-projectile helm-pydoc helm-swoop helm-themes heroku hexrgb highlight-numbers parent-mode highlight-parentheses hl-anything htmlize hungry-delete ido-at-point ido-complete-space-or-hyphen ido-gnus ido-hacks ido-load-library pcache persistent-soft list-utils ido-select-window ido-sort-mtime ido-ubiquitous ido-completing-read+ ido-vertical-mode indent-guide info+ direx deferred epc ctable concurrent jtags key-chord linum-relative macrostep magit-gitflow magit git-commit with-editor markdown-toc markdown-mode material-theme mmm-mode molokai-theme monokai-theme move-text neotree noflet nrepl-eval-sexp-fu open-junk-file org-beautify-theme org-bullets alert log4e gntp org-present org-repo-todo org-trello dash-functional request-deferred page-break-lines paradox pcre2el perspective popup-complete popup-kill-ring popup-switcher powerline-evil powerline quelpa package-build rainbow-blocks rainbow-delimiters rainbow-identifiers rainbow-mode regex-tool rich-minority shell-pop skewer-mode js2-mode simple-httpd skype smeargle smooth-scrolling spacemacs-theme spray sr-speedbar sublime-themes toc-org use-package diminish bind-key vi-tilde-fringe vimish-fold virtualenv visual-regexp-steroids visual-regexp volatile-highlights web-mode which-key window-number window-numbering workgroups2 anaphora wrap-region yaml-mode)
-   ;;paren-mode
+   dotspacemacs-additional-packages '(workgroups2 zencoding-mode yasnippet auto-complete
+                                                  vimish-fold 
+                                                  ;; clojure/lisps
+                                                  clj-refactor clojure-mode rainbow-delimiters
+                                                  clojure-mode-extra-font-locking clojure-quick-repls clojure-snippets
+
+                                                  nrepl-eval-sexp-fu 
+                                                  ac-cider
+                                                  cider cider-decompile cider-eval-sexp-fu cider-profile cider-spy 
+                                                  eval-in-repl 
+
+                                                  ;;
+                                                  magit
+                                                  key-chord
+                                                  gitconfig-mode
+                                                  docker dockerfile-mode
+                                                  sr-speedbar 
+
+                                                  ;; misc modes
+                                                  yaml-mode
+                                                  markdown-mode 
+                                                  groovy-mode
+
+                                                  ;; display stuff
+                                                  volatile-highlights
+                                                  rainbow-blocks  rainbow-identifiers rainbow-mode
+                                                  org-bullets org-beautify-theme
+                                                  highlight-parentheses hl-anything
+                                                  highlight-numbers 
+                                                  f
+                                                  emacs-eclim 
+                                                  company
+                                                  )
 
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '(yasnippet)
+   dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -64,7 +97,7 @@ values."
    ;; unchanged. (default 'vim)
    dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading 't
+   dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -84,13 +117,16 @@ values."
                          lush ; like a lot
                          molokai ; like a lot . prob fave
                          spacemacs-dark
-                         )
+                         spacemacs-light
+                         solarized-light
+                         solarized-dark)
+
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -111,7 +147,7 @@ values."
    ;; with `:' and Emacs commands are executed with `<leader> :'.
    dotspacemacs-command-key ":"
    ;; If non nil `Y' is remapped to `y$'. (default t)
-   dotspacemacs-remap-Y-to-y$ nil
+   dotspacemacs-remap-Y-to-y$ t
    ;; Location where to auto-save files. Possible values are `original' to
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
@@ -192,14 +228,14 @@ values."
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init'.  You are free to put any
 user code."
-  ;; (setq debug-on-error t)
-  (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el"))
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el"))
+  (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el")
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -208,48 +244,49 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ag-highlight-search t)
- '(ahs-case-fold-search nil)
- '(ahs-default-range (quote ahs-range-whole-buffer))
- '(ansi-color-names-vector
-   ["#272822" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
- '(browse-url-browser-function (quote browse-url-chromium))
- '(buffer-stack-filter (quote buffer-stack-filter-regexp))
- '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
- '(buffer-stack-untracked
-   (quote
-    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
- '(column-number-mode t)
- '(compilation-message-face (quote default))
- '(completion-ignored-extensions
-   (quote
-    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
- '(custom-enabled-themes (quote (spacemacs-dark)))
- '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(desktop-save t)
- '(desktop-save-mode t)
- '(diary-entry-marker (quote font-lock-variable-name-face))
- '(dired-listing-switches
-   "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
- '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
- '(eclim-executable "~/bin/eclipse/eclim")
- '(ediff-split-window-function (quote split-window-horizontally) t)
- '(ediff-window-setup-function (quote ediff-setup-windows-plain) t)
- '(electric-indent-mode t)
- '(evil-default-cursor (quote (hbar)))
- '(fci-rule-color "#49483E" t)
+
+ ;; '(ag-highlight-search t)
+ ;; '(ahs-case-fold-search nil)
+ ;; '(ahs-default-range (quote ahs-range-whole-buffer))
+ ;; '(ansi-color-names-vector
+ ;;   ["#272822" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
+ ;; '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ ;; '(browse-url-browser-function (quote browse-url-chromium))
+ ;; '(buffer-stack-filter (quote buffer-stack-filter-regexp))
+ ;; '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
+ ;; '(buffer-stack-untracked
+ ;;   (quote
+ ;;    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
+ ;; '(column-number-mode t)
+ ;; '(compilation-message-face (quote default))
+ ;; '(completion-ignored-extensions
+ ;;   (quote
+ ;;    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
+ ;; '(custom-enabled-themes (quote (spacemacs-dark)))
+ ;; '(custom-safe-themes
+ ;;   (quote
+ ;;    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ ;; '(desktop-save t)
+ ;; '(desktop-save-mode t)
+ ;; '(diary-entry-marker (quote font-lock-variable-name-face))
+ ;; '(dired-listing-switches
+ ;;   "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
+ ;; '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
+ ;; '(eclim-executable "~/bin/eclipse/eclim")
+ ;; '(ediff-split-window-function (quote split-window-horizontally) t)
+ ;; '(ediff-window-setup-function (quote ediff-setup-windows-plain) t)
+ ;; '(electric-indent-mode t)
+ ;; '(evil-default-cursor (quote (hbar)))
+ ;; '(fci-rule-color "#49483E" t)
  '(fringe-mode 0 nil (fringe))
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
  '(global-undo-tree-mode t)
  '(global-vi-tilde-fringe-mode t)
- '(golden-ratio-mode nil)
- '(grep-command "grep -n -e ")
- '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
+ ;; '(golden-ratio-mode nil)
+ ;; '(grep-command "grep -n -e ")
+ ;; '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
  '(grep-find-ignored-files
    (quote
     (".#*" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
@@ -257,63 +294,62 @@ layers configuration. You are free to put any user code."
  '(grep-highlight-matches (quote auto))
  '(grep-template "grep <X> <C> -n -e <R> <F>")
  '(grep-use-null-device t)
- '(helm-recentf-fuzzy-match t)
- '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
- '(highlight-tail-colors
-   (quote
-    (("#49483E" . 0)
-     ("#67930F" . 20)
-     ("#349B8D" . 30)
-     ("#21889B" . 50)
-     ("#968B26" . 60)
-     ("#A45E0A" . 70)
-     ("#A41F99" . 85)
-     ("#49483E" . 100))))
+ ;; ;; '(helm-recentf-fuzzy-match t)
+ ;; '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
+ ;; '(highlight-tail-colors
+ ;;   (quote
+ ;;    (("#49483E" . 0)
+ ;;     ("#67930F" . 20)
+ ;;     ("#349B8D" . 30)
+ ;;     ("#21889B" . 50)
+ ;;     ("#968B26" . 60)
+ ;;     ("#A45E0A" . 70)
+ ;;     ("#A41F99" . 85)
+ ;;     ("#49483E" . 100))))
  '(hl-paren-delay 0.2)
- '(ispell-highlight-face (quote flyspell-incorrect))
- '(magit-diff-use-overlays nil)
- '(magit-use-overlays nil)
- '(main-line-separator-style (quote chamfer))
- '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
- '(org-startup-truncated nil)
- '(projectile-enable-caching t)
- '(projectile-global-mode t)
- '(projectile-globally-ignored-directories
-   (quote
-    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*" ".metadata" "*.metadata*")))
- '(projectile-globally-ignored-files (quote ("TAGS" ".gitignore" ".emacs.desktop" "*#*#")))
- '(read-buffer-completion-ignore-case t)
- '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
- '(recentf-keep (quote (recentf-keep-default-predicate)))
- '(recentf-max-saved-items 50)
- '(recentf-mode t)
- '(safe-local-variable-values (quote ((require-final-newline))))
- '(show-paren-mode t)
- '(tool-bar-mode nil)
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#F92672")
-     (40 . "#CF4F1F")
-     (60 . "#C26C0F")
-     (80 . "#E6DB74")
-     (100 . "#AB8C00")
-     (120 . "#A18F00")
-     (140 . "#989200")
-     (160 . "#8E9500")
-     (180 . "#A6E22E")
-     (200 . "#729A1E")
-     (220 . "#609C3C")
-     (240 . "#4E9D5B")
-     (260 . "#3C9F79")
-     (280 . "#A1EFE4")
-     (300 . "#299BA6")
-     (320 . "#2896B5")
-     (340 . "#2790C3")
-     (360 . "#66D9EF"))))
+ ;; '(ispell-highlight-face (quote flyspell-incorrect))
+ ;; '(magit-diff-use-overlays nil)
+ ;; '(magit-use-overlays nil)
+ ;; '(main-line-separator-style (quote chamfer))
+ ;; '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
+ ;; '(org-startup-truncated nil)
+ ;; '(projectile-enable-caching t)
+ ;; '(projectile-global-mode t)
+ ;; '(projectile-globally-ignored-directories
+ ;;   (quote
+ ;;    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*" ".metadata" "*.metadata*")))
+ ;; '(projectile-globally-ignored-files (quote ("TAGS" ".gitignore" ".emacs.desktop" "*#*#")))
+ ;; '(read-buffer-completion-ignore-case t)
+ ;; '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
+ ;; '(recentf-keep (quote (recentf-keep-default-predicate)))
+ ;; '(recentf-max-saved-items 50)
+ ;; '(recentf-mode t)
+ ;; '(safe-local-variable-values (quote ((require-final-newline))))
+ ;; '(show-paren-mode t)
+ ;; '(tool-bar-mode nil)
+ ;; '(vc-annotate-background nil)
+ ;; '(vc-annotate-color-map
+ ;;   (quote
+ ;;    ((20 . "#F92672")
+ ;;     (40 . "#CF4F1F")
+ ;;     (60 . "#C26C0F")
+ ;;     (80 . "#E6DB74")
+ ;;     (100 . "#AB8C00")
+ ;;     (120 . "#A18F00")
+ ;;     (140 . "#989200")
+ ;;     (160 . "#8E9500")
+ ;;     (180 . "#A6E22E")
+ ;;     (200 . "#729A1E")
+ ;;     (220 . "#609C3C")
+ ;;     (240 . "#4E9D5B")
+ ;;     (260 . "#3C9F79")
+ ;;     (280 . "#A1EFE4")
+ ;;     (300 . "#299BA6")
+ ;;     (320 . "#2896B5")
+ ;;     (340 . "#2790C3")
+ ;;     (360 . "#66D9EF"))))
  '(vc-annotate-very-old-color nil)
- '(weechat-color-list
-   (unspecified "#272822" "#49483E" "#A20C41" "#F92672" "#67930F" "#A6E22E" "#968B26" "#E6DB74" "#21889B" "#66D9EF" "#A41F99" "#FD5FF0" "#349B8D" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
+ )
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -2,7 +2,7 @@
 
 (setq version-controlled-stuff-dir "~/scripty-bits-n-shortcuts/emacs")
 
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/package-init.el"))
+;; (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/package-init.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq path-to-ctags "~/.emacs.d/TAGS") ;; <- your ctags path here
 (defun create-tags (dir-name)
@@ -97,6 +97,18 @@
   (define-key evil-insert-state-map "{" 'paredit-open-curly))
 
 (eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
+
+
+(require 'clj-refactor)
+
+(defun my-clojure-mode-hook ()
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1) ; for adding require/use/import statements
+  ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+  (cljr-add-keybindings-with-prefix "H-m")
+  (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests))
+
+(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
 ;; clojure/lispy stuff
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
@@ -205,19 +217,19 @@
 
 (setq helm-M-x-fuzzy-match t)
 (helm-autoresize-mode t)
-;; (setq helm-mini)
+;; ;; (setq helm-mini)
 (setq helm-buffers-fuzzy-matching t)
 (setq helm-recentf-fuzzy-match t)
 (setq helm-semantic-fuzzy-match t)
 (setq helm-imenu-fuzzy-match t)
 (helm-autoresize-mode t)
 
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+;; (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
 ;; enables man page at point
-(add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
 (semantic-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -310,7 +322,7 @@
  '(grep-highlight-matches (quote auto))
  '(grep-template "grep <X> <C> -n -e <R> <F>")
  '(grep-use-null-device t)
- '(helm-recentf-fuzzy-match t)
+ ;; '(helm-recentf-fuzzy-match t)
  ;; '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  ;; '(highlight-symbol-colors
  ;;   (--map
