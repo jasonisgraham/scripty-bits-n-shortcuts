@@ -41,42 +41,47 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(workgroups2 zencoding-mode yasnippet auto-complete
-                                                  vimish-fold 
-                                                  ;; clojure/lisps
-                                                  clj-refactor clojure-mode rainbow-delimiters
-                                                  clojure-mode-extra-font-locking clojure-quick-repls clojure-snippets
+   dotspacemacs-additional-packages '(;workgroups2
+                                      elisp-slime-nav
 
-                                                  nrepl-eval-sexp-fu 
-                                                  ac-cider
-                                                  cider cider-decompile cider-eval-sexp-fu cider-profile cider-spy 
-                                                  eval-in-repl 
+                                      zencoding-mode yasnippet auto-complete
+                                      vimish-fold
+                                      ;; clojure/lisps
+                                      clj-refactor clojure-mode rainbow-delimiters
+                                      clojure-mode-extra-font-locking clojure-quick-repls clojure-snippets
 
-                                                  ;;
-                                                  magit
-                                                  key-chord
-                                                  gitconfig-mode
-                                                  docker dockerfile-mode
-                                                  sr-speedbar 
+                                      nrepl-eval-sexp-fu
+                                      ac-cider
+                                      cider cider-decompile cider-eval-sexp-fu cider-profile cider-spy
+                                      eval-in-repl
+                                      buffer-stack
 
-                                                  ;; misc modes
-                                                  yaml-mode
-                                                  markdown-mode 
-                                                  groovy-mode
+                                      ;;
+                                      magit
+                                      key-chord
+                                      gitconfig-mode
+                                      docker dockerfile-mode
+                                      sr-speedbar
 
-                                                  ;; display stuff
-                                                  volatile-highlights
-                                                  rainbow-blocks  rainbow-identifiers rainbow-mode
-                                                  org-bullets org-beautify-theme
-                                                  highlight-parentheses hl-anything
-                                                  highlight-numbers 
-                                                  f
-                                                  emacs-eclim 
-                                                  company
-                                                  )
+                                      ;; misc modes
+                                      yaml-mode
+                                      markdown-mode
+                                      groovy-mode
+
+                                      ;; display stuff
+                                      volatile-highlights
+                                      rainbow-blocks  rainbow-identifiers rainbow-mode
+                                      org-bullets org-beautify-theme
+                                      highlight-parentheses hl-anything
+                                      highlight-numbers
+                                      f
+                                      emacs-eclim
+                                      company
+                                      ag)
 
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
+
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -221,21 +226,20 @@ values."
    ;; The default package repository used if no explicit repository has been
    ;; specified with an installed package.
    ;; Not used for now. (default nil)
-   dotspacemacs-default-package-repository nil
-   ))
+   dotspacemacs-default-package-repository nil))
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init'.  You are free to put any
 user code."
-  )
+  (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el"))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
   (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el")
-)
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -244,12 +248,9 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-
  ;; '(ag-highlight-search t)
  ;; '(ahs-case-fold-search nil)
  ;; '(ahs-default-range (quote ahs-range-whole-buffer))
- ;; '(ansi-color-names-vector
- ;;   ["#272822" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
  ;; '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
  ;; '(browse-url-browser-function (quote browse-url-chromium))
  ;; '(buffer-stack-filter (quote buffer-stack-filter-regexp))
@@ -262,10 +263,6 @@ layers configuration. You are free to put any user code."
  ;; '(completion-ignored-extensions
  ;;   (quote
  ;;    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
- ;; '(custom-enabled-themes (quote (spacemacs-dark)))
- ;; '(custom-safe-themes
- ;;   (quote
- ;;    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  ;; '(desktop-save t)
  ;; '(desktop-save-mode t)
  ;; '(diary-entry-marker (quote font-lock-variable-name-face))
@@ -327,7 +324,6 @@ layers configuration. You are free to put any user code."
  ;; '(safe-local-variable-values (quote ((require-final-newline))))
  ;; '(show-paren-mode t)
  ;; '(tool-bar-mode nil)
- ;; '(vc-annotate-background nil)
  ;; '(vc-annotate-color-map
  ;;   (quote
  ;;    ((20 . "#F92672")
@@ -348,16 +344,4 @@ layers configuration. You are free to put any user code."
  ;;     (320 . "#2896B5")
  ;;     (340 . "#2790C3")
  ;;     (360 . "#66D9EF"))))
- '(vc-annotate-very-old-color nil)
- )
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 98 :width normal))))
- '(highlight-indentation-current-column-face ((t (:background "gray13"))))
- '(highlight-indentation-face ((t (:background "gray14"))))
- '(show-paren-match ((t (:background "#272822" :inverse-video t :underline "cyan" :weight extra-bold))))
- '(sp-show-pair-match-face ((t (:background "green" :foreground "gray17" :underline "green" :weight extra-bold)))))
+ '(vc-annotate-very-old-color nil))

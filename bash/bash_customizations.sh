@@ -203,7 +203,8 @@ HISTIGNORE="__move-down-directory:__move-up-directory:__ls-type:pwd:ls:cd:fg:top
 shopt -s histappend # append to the history file, don't overwrite it
 HISTSIZE=50000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTFILESIZE=20000
-export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+# export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}"
 
 ####################################################################
 # "useful" functions that are called with the binds from above
@@ -514,3 +515,4 @@ function update-upgrade-dist-upgrade {
 
 #xbacklight -set 50
 export LEIN_FAST_TRAMPOLINE=y
+export TOMCAT_HOME=~/bin/apache-tomcat

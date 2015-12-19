@@ -2,7 +2,7 @@
 
 (setq version-controlled-stuff-dir "~/scripty-bits-n-shortcuts/emacs")
 
-;; (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/package-init.el"))
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/package-init.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq path-to-ctags "~/.emacs.d/TAGS") ;; <- your ctags path here
 (defun create-tags (dir-name)
@@ -38,10 +38,17 @@
 ;;; end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun reset-my-colors ()
+  (interactive)
+  (set-frame-parameter (selected-frame) 'alpha '(98 90))
+  (setq my-background-color "grey8")
+  (set-background-color my-background-color))
+
+(reset-my-colors)
 
 ;; elisp-slime-nav
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-  (add-hook hook 'turn-on-elisp-slime-nav-mode))
+  (add-hook hook 'elisp-slime-nav-mode))
 
 ;; Save point position between sessions
 (require 'saveplace)
@@ -89,6 +96,22 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; lisp stuff
+(require 'clj-refactor)
+
+(defun clojure-mode-hooks ()
+  (interactive)
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1) ; for adding require/use/import statements
+  ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+  (cljr-add-keybindings-with-prefix "H-m")
+  (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests))
+
+(dolist (hook '(clojure-mode-hook
+                cider-repl-mode
+                cider-repl-mode-hook))
+  (add-hook hook 'clojure-mode-hooks))
+
+;; clojure/lispy stuff
 (defun lisp-hooks ()
   (interactive)
   (enable-paredit-mode)
@@ -98,19 +121,6 @@
 
 (eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
 
-
-(require 'clj-refactor)
-
-(defun my-clojure-mode-hook ()
-  (clj-refactor-mode 1)
-  (yas-minor-mode 1) ; for adding require/use/import statements
-  ;; This choice of keybinding leaves cider-macroexpand-1 unbound
-  (cljr-add-keybindings-with-prefix "H-m")
-  (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests))
-
-(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
-
-;; clojure/lispy stuff
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
 
 (dolist (hook '(clojure-mode-hook
@@ -417,6 +427,25 @@
  ;; '(fringe ((t (:background "grey8" :foreground "#F8F8F2"))))
  '(desktop-save t)
  '(desktop-save-mode t))
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 98 :width normal))))
+ '(anzu-mode-line ((t (:background "black" :foreground "white" :weight bold))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(evil-search-highlight-persist-highlight-face ((t (:background "yellow" :foreground "black"))))
+ '(highlight ((t (:background "lawn green" :foreground "black"))))
+ '(highlight-indentation-current-column-face ((t (:background "gray13"))))
+ '(highlight-indentation-face ((t (:background "gray14"))))
+ '(show-paren-match ((t (:background "#272822" :inverse-video t :underline "cyan" :weight extra-bold))))
+ '(sp-show-pair-match-face ((t (:background "green" :foreground "gray17" :underline "green" :weight extra-bold))))
+ '(aw-leading-char-face
+   ((t (:inherit ace-jump-face-foreground :height 3.0 :color "#49483E" :foreground "#49483E" :background "firebrick1")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;; python stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -773,9 +802,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 
-(set-frame-parameter (selected-frame) 'alpha '(98 90))
-(setq my-background-color "grey8")
-(set-background-color my-background-color)
+
 
 (global-visual-line-mode 1)
 (global-hl-line-mode +1)
@@ -903,6 +930,10 @@ regular expression."
 
 (global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
 
+;; (global-set-key (kbd "C-c p ^") (lambda ()
+;;                                   (interactive)
+;;                                   (find-file "project.clj")))
+
 ;; http://stackoverflow.com/questions/3815467/stripping-duplicate-elements-in-a-list-of-strings-in-elisp
 (defun strip-duplicates (list)
   (let ((new-list nil))
@@ -917,20 +948,20 @@ regular expression."
 
 
 ;; workspaces, tabs, perspective, stuff like that
-(workgroups-mode 1)
+;; (workgroups-mode 1)
 
-(setq wg-emacs-exit-save-behavior 'save)
-(setq wg-workgroups-mode-exit-save-behavior 'save)
+;; (setq wg-emacs-exit-save-behavior 'save)
+;; (setq wg-workgroups-mode-exit-save-behavior 'save)
 
-(setq wg-prefix-key (kbd "C-x x"))
+;; (setq wg-prefix-key (kbd "C-x x"))
 
-;; (setq wg-mode-line-display-on 'powerline)
-(setq wg-mode-line-display-on t)
+;; ;; (setq wg-mode-line-display-on 'powerline)
+;; (setq wg-mode-line-display-on t)
 
 
-(setq wg-flag-modified t)
-(setq wg-mode-line-decor-left-brace "[" wg-mode-line-decor-right-brace "]"
-      wg-mode-line-decor-divider ":")
+;; (setq wg-flag-modified t)
+;; (setq wg-mode-line-decor-left-brace "[" wg-mode-line-decor-right-brace "]"
+;;       wg-mode-line-decor-divider ":")
 
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))

@@ -21,9 +21,13 @@
 (global-set-key (kbd "<f5>")	  'evil-normal-state-and-save-buffer)
 
 ;; workspaces n stuff
-(global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
-(global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
-(global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
+;; (global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
+;; (global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
+;; (global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
+(global-set-key (kbd "C-x x c") (lambda ()
+                                  (interactive)
+                                  (make-frame)
+                                  (reset-my-colors)))
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 
@@ -297,6 +301,8 @@
 (global-set-key (kbd "<f6>") 'linum-mode)
 
 (global-set-key (kbd "M-S-%") 'query-replace-regexp)
+
+(global-set-key (kbd "H-c") 'reset-my-colors)
 
 (provide 'bindings)
 ;;; bindings.el ends here
