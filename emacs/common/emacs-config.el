@@ -1,5 +1,7 @@
 (setq debug-on-error t)
 
+(setq my-background-color "grey8")
+
 (setq version-controlled-stuff-dir "~/scripty-bits-n-shortcuts/emacs")
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/package-init.el"))
@@ -41,7 +43,6 @@
 (defun reset-my-colors ()
   (interactive)
   (set-frame-parameter (selected-frame) 'alpha '(98 90))
-  (setq my-background-color "grey8")
   (set-background-color my-background-color))
 
 (reset-my-colors)
@@ -434,6 +435,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(background-color my-background-color)
  '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 98 :width normal))))
  '(anzu-mode-line ((t (:background "black" :foreground "white" :weight bold))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
@@ -778,7 +780,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 (setq tags-revert-without-query 't)
 
-;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/monokai-theme-20151022.703/monokai-theme.el")
+;; (add-to-list 'custom-theme-load-path "/home/jason/scripty-bits-n-shortcuts/emacs/themes/jason-theme")
 
 ;; (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
 

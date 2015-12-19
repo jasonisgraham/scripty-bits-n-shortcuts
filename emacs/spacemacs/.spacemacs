@@ -1,4 +1,3 @@
-
 ;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
@@ -118,13 +117,13 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(monokai
+                         ;; jason
                          dakrone ; like a lot
+
+
                          lush ; like a lot
                          molokai ; like a lot . prob fave
-                         spacemacs-dark
-                         spacemacs-light
-                         solarized-light
-                         solarized-dark)
+                         )
 
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -238,8 +237,7 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el")
-  )
+  (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el"))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -248,42 +246,48 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;; '(ag-highlight-search t)
- ;; '(ahs-case-fold-search nil)
- ;; '(ahs-default-range (quote ahs-range-whole-buffer))
- ;; '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
- ;; '(browse-url-browser-function (quote browse-url-chromium))
- ;; '(buffer-stack-filter (quote buffer-stack-filter-regexp))
- ;; '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
- ;; '(buffer-stack-untracked
- ;;   (quote
- ;;    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
- ;; '(column-number-mode t)
- ;; '(compilation-message-face (quote default))
- ;; '(completion-ignored-extensions
- ;;   (quote
- ;;    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
- ;; '(desktop-save t)
- ;; '(desktop-save-mode t)
- ;; '(diary-entry-marker (quote font-lock-variable-name-face))
- ;; '(dired-listing-switches
- ;;   "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
- ;; '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
- ;; '(eclim-executable "~/bin/eclipse/eclim")
- ;; '(ediff-split-window-function (quote split-window-horizontally) t)
- ;; '(ediff-window-setup-function (quote ediff-setup-windows-plain) t)
- ;; '(electric-indent-mode t)
- ;; '(evil-default-cursor (quote (hbar)))
- ;; '(fci-rule-color "#49483E" t)
+ '(ag-highlight-search t)
+ '(ahs-case-fold-search nil)
+ '(ahs-default-range (quote ahs-range-whole-buffer))
+ '(ansi-color-names-vector
+   ["grey8" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ '(browse-url-browser-function (quote browse-url-chromium))
+ '(buffer-stack-filter (quote buffer-stack-filter-regexp))
+ '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
+ '(buffer-stack-untracked
+   (quote
+    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
+ '(column-number-mode t)
+ '(compilation-message-face (quote default))
+ '(completion-ignored-extensions
+   (quote
+    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
+ '(custom-enabled-themes (quote (monokai)))
+ '(custom-safe-themes
+   (quote
+    ("0fb6369323495c40b31820ec59167ac4c40773c3b952c264dd8651a3b704f6b5" "203da418e89792a1d5daef1af4058461a4432e9aa5e211c1a28e1f727162efd8" default)))
+ '(desktop-save t)
+ '(desktop-save-mode t)
+ '(diary-entry-marker (quote font-lock-variable-name-face))
+ '(dired-listing-switches
+   "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
+ '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
+ '(eclim-executable "~/bin/eclipse/eclim")
+ '(ediff-split-window-function (quote split-window-horizontally) t)
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain) t)
+ '(electric-indent-mode t)
+ '(evil-default-cursor (quote (hbar)))
+ '(fci-rule-color "#49483E" t)
  '(fringe-mode 0 nil (fringe))
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
  '(global-undo-tree-mode t)
  '(global-vi-tilde-fringe-mode t)
- ;; '(golden-ratio-mode nil)
- ;; '(grep-command "grep -n -e ")
- ;; '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
+ '(golden-ratio-mode nil)
+ '(grep-command "grep -n -e ")
+ '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
  '(grep-find-ignored-files
    (quote
     (".#*" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
@@ -291,57 +295,78 @@ layers configuration. You are free to put any user code."
  '(grep-highlight-matches (quote auto))
  '(grep-template "grep <X> <C> -n -e <R> <F>")
  '(grep-use-null-device t)
- ;; ;; '(helm-recentf-fuzzy-match t)
- ;; '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
- ;; '(highlight-tail-colors
- ;;   (quote
- ;;    (("#49483E" . 0)
- ;;     ("#67930F" . 20)
- ;;     ("#349B8D" . 30)
- ;;     ("#21889B" . 50)
- ;;     ("#968B26" . 60)
- ;;     ("#A45E0A" . 70)
- ;;     ("#A41F99" . 85)
- ;;     ("#49483E" . 100))))
+ '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
+ '(highlight-tail-colors
+   (quote
+    (("#49483E" . 0)
+     ("#67930F" . 20)
+     ("#349B8D" . 30)
+     ("#21889B" . 50)
+     ("#968B26" . 60)
+     ("#A45E0A" . 70)
+     ("#A41F99" . 85)
+     ("#49483E" . 100))))
  '(hl-paren-delay 0.2)
- ;; '(ispell-highlight-face (quote flyspell-incorrect))
- ;; '(magit-diff-use-overlays nil)
- ;; '(magit-use-overlays nil)
- ;; '(main-line-separator-style (quote chamfer))
- ;; '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
- ;; '(org-startup-truncated nil)
- ;; '(projectile-enable-caching t)
- ;; '(projectile-global-mode t)
- ;; '(projectile-globally-ignored-directories
- ;;   (quote
- ;;    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*" ".metadata" "*.metadata*")))
- ;; '(projectile-globally-ignored-files (quote ("TAGS" ".gitignore" ".emacs.desktop" "*#*#")))
- ;; '(read-buffer-completion-ignore-case t)
- ;; '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
- ;; '(recentf-keep (quote (recentf-keep-default-predicate)))
- ;; '(recentf-max-saved-items 50)
- ;; '(recentf-mode t)
- ;; '(safe-local-variable-values (quote ((require-final-newline))))
- ;; '(show-paren-mode t)
- ;; '(tool-bar-mode nil)
- ;; '(vc-annotate-color-map
- ;;   (quote
- ;;    ((20 . "#F92672")
- ;;     (40 . "#CF4F1F")
- ;;     (60 . "#C26C0F")
- ;;     (80 . "#E6DB74")
- ;;     (100 . "#AB8C00")
- ;;     (120 . "#A18F00")
- ;;     (140 . "#989200")
- ;;     (160 . "#8E9500")
- ;;     (180 . "#A6E22E")
- ;;     (200 . "#729A1E")
- ;;     (220 . "#609C3C")
- ;;     (240 . "#4E9D5B")
- ;;     (260 . "#3C9F79")
- ;;     (280 . "#A1EFE4")
- ;;     (300 . "#299BA6")
- ;;     (320 . "#2896B5")
- ;;     (340 . "#2790C3")
- ;;     (360 . "#66D9EF"))))
- '(vc-annotate-very-old-color nil))
+ '(ispell-highlight-face (quote flyspell-incorrect))
+ '(magit-diff-use-overlays nil)
+ '(magit-use-overlays nil)
+ '(main-line-separator-style (quote chamfer))
+ '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
+ '(org-startup-truncated nil)
+ '(pos-tip-background-color "#A6E22E")
+ '(pos-tip-foreground-color "grey8")
+ '(projectile-enable-caching t)
+ '(projectile-global-mode t)
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*" ".metadata" "*.metadata*")))
+ '(projectile-globally-ignored-files (quote ("TAGS" ".gitignore" ".emacs.desktop" "*#*#")))
+ '(read-buffer-completion-ignore-case t)
+ '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
+ '(recentf-keep (quote (recentf-keep-default-predicate)))
+ '(recentf-max-saved-items 50)
+ '(recentf-mode t)
+ '(safe-local-variable-values (quote ((require-final-newline))))
+ '(tool-bar-mode nil)
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#F92672")
+     (40 . "#CF4F1F")
+     (60 . "#C26C0F")
+     (80 . "#E6DB74")
+     (100 . "#AB8C00")
+     (120 . "#A18F00")
+     (140 . "#989200")
+     (160 . "#8E9500")
+     (180 . "#A6E22E")
+     (200 . "#729A1E")
+     (220 . "#609C3C")
+     (240 . "#4E9D5B")
+     (260 . "#3C9F79")
+     (280 . "#A1EFE4")
+     (300 . "#299BA6")
+     (320 . "#2896B5")
+     (340 . "#2790C3")
+     (360 . "#66D9EF"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (unspecified "grey8" "#49483E" "#A20C41" "#F92672" "#67930F" "#A6E22E" "#968B26" "#E6DB74" "#21889B" "#66D9EF" "#A41F99" "#FD5FF0" "#349B8D" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 98 :width normal))))
+ '(anzu-mode-line ((t (:background "black" :foreground "white" :weight bold))))
+ '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0 :color "#49483E" :foreground "#49483E" :background "firebrick1"))))
+ '(background-color my-background-color)
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(evil-search-highlight-persist-highlight-face ((t (:background "yellow" :foreground "black"))))
+ '(highlight ((t (:background "lawn green" :foreground "black"))))
+ '(highlight-indentation-current-column-face ((t (:background "gray13"))))
+ '(highlight-indentation-face ((t (:background "gray14"))))
+ '(show-paren-match ((t (:background "#272822" :inverse-video t :underline "cyan" :weight extra-bold))))
+ '(sp-show-pair-match-face ((t (:background "green" :foreground "gray17" :underline "green" :weight extra-bold)))))
