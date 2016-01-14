@@ -10,6 +10,12 @@
 # exclude a string regex
 # echo "select sjiofjeifoej from DOG jfidofjdfoidjf select fjdisofjoidfj from CAT " | grep -oiP 'select(.(?!from))*\s+from\s+\w+' ; prints DOG, CAT
 
+function find-files-greater-than {
+    local dir="${1}"
+    local size="${2}"
+    find "${dir}" -size +${size} -printf "%k\t%p\n"
+}
+
 ## some common stuff
 function useful-stuff {
 echo "find ~ -size +1G"

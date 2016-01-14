@@ -46,7 +46,7 @@ function fish_prompt
   set -l white (set_color -o white)
 
   if test $last_status = 0
-    # set arrow (fish_vi_prompt_cm)
+    set arrow (fish_vi_prompt_cm)
     # set arrow "$green➜ "
   else
     set arrow "$red➜ "
@@ -213,8 +213,11 @@ function my_vi_key_bindings
   bind \e\> 'popd >> /dev/null; commandline -f repaint'
   bind \e\> -M insert 'popd >> /dev/null; commandline -f repaint'
 
-  # bind '"\e!"' "\"\C-a\C-kla\C-j\""
-  # bind '"\e@"' "\"\C-a\C-klt\C-j\""
+  bind \e! 'la'
+  bind -M insert \e! 'la'
+
+  bind \e@ 'lt'
+  bind -M insert \e@ 'lt'
 
   bind \ck kill-line
   bind -M insert \ck kill-line
@@ -231,4 +234,4 @@ function my_vi_key_bindings
   bind -M insert \cd delete-char
 end
 
-# set -g fish_key_bindings my_vi_key_bindings
+set -g fish_key_bindings my_vi_key_bindings

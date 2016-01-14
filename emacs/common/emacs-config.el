@@ -42,7 +42,7 @@
 
 (defun reset-my-colors ()
   (interactive)
-  (set-frame-parameter (selected-frame) 'alpha '(98 90))
+  (set-frame-parameter (selected-frame) 'alpha '(97 90))
   (set-background-color my-background-color))
 
 (reset-my-colors)
@@ -105,7 +105,11 @@
   (yas-minor-mode 1) ; for adding require/use/import statements
   ;; This choice of keybinding leaves cider-macroexpand-1 unbound
   (cljr-add-keybindings-with-prefix "H-m")
-  (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests))
+  (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests)
+  ;; (linum-mode 't)
+  )
+
+(add-hook 'prog-mode-hook 'linum-mode)
 
 (dolist (hook '(clojure-mode-hook
                 cider-repl-mode
@@ -121,6 +125,16 @@
   (define-key evil-insert-state-map "{" 'paredit-open-curly))
 
 (eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
+(eval-after-load 'clojurescript-mode '(require 'clojure-mode-extra-font-locking))
+
+(setq clojure-defun-style-default-indent nil)
+;; (setq clojure-defun-style-default-indent t)
+
+;; (defvar endless/clojure-prettify-alist '())
+;; (add-to-list 'endless/clojure-prettify-alist
+;;              '(">=" . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥)))
+;; (add-to-list 'endless/clojure-prettify-alist
+;;              '("<=" . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤)))
 
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
 
@@ -419,10 +433,7 @@
  ;;     (360 . "#E090C7"))))
  ;; '(vc-annotate-very-old-color "#E090C7")
  ;; '(view-highlight-face (quote highlight))
- ;; '(weechat-color-list
- ;;   (quote
- ;;    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
- ;; '(yas-snippet-dirs
+  ;; '(yas-snippet-dirs
  ;;   (quote
  ;;    (yas-installed-snippets-dir)) nil (yasnippet))
  ;; '(fringe ((t (:background "grey8" :foreground "#F8F8F2"))))
@@ -859,6 +870,15 @@ Including indent-buffer, which should not be called automatically on save."
             (define-key clojure-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
             (auto-highlight-symbol-mode t)))
 
+(setq nrepl-hide-special-buffers t
+      cider-repl-pop-to-buffer-on-connect t
+      cider-popup-stacktraces t
+      cider-repl-popup-stacktraces t
+      nrepl-buffer-name-show-port t
+      cider-auto-select-error-buffer nil
+      cider-ovelays-use-font-lock t
+      cider-repl-use-pretty-printing t)
+
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
@@ -948,22 +968,11 @@ regular expression."
 (indent-guide-global-mode)
 (add-hook 'prog-mode-hook 'highlight-indentation-current-column-mode)
 
-
 ;; workspaces, tabs, perspective, stuff like that
-;; (workgroups-mode 1)
-
-;; (setq wg-emacs-exit-save-behavior 'save)
-;; (setq wg-workgroups-mode-exit-save-behavior 'save)
-
-;; (setq wg-prefix-key (kbd "C-x x"))
-
-;; ;; (setq wg-mode-line-display-on 'powerline)
-;; (setq wg-mode-line-display-on t)
-
-
-;; (setq wg-flag-modified t)
-;; (setq wg-mode-line-decor-left-brace "[" wg-mode-line-decor-right-brace "]"
-;;       wg-mode-line-decor-divider ":")
-
+(persp-mode)
+(require 'persp-projectile)
+(persp-turn-on-modestring)
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
+
+(global-flycheck-mode)

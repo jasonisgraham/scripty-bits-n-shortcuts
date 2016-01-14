@@ -24,10 +24,10 @@
 ;; (global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
 ;; (global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
 ;; (global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
-(global-set-key (kbd "C-x x c") (lambda ()
-                                  (interactive)
-                                  (make-frame)
-                                  (reset-my-colors)))
+
+(global-set-key (kbd "H-(")     'persp-prev)
+(global-set-key (kbd "H-)")     'persp-next)
+(global-set-key (kbd "H-'")     'persp-switch)
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 
@@ -115,6 +115,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evil stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define-key evil-normal-state-map (kbd "C-u") nil)
 (define-key evil-normal-state-map (kbd "q") nil)
 (define-key evil-normal-state-map (kbd "gw") nil)
 (define-key evil-normal-state-map (kbd "gwh") 'split-window-right)
@@ -131,8 +132,11 @@
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
 (define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
 
-(define-key evil-normal-state-map (kbd "qw)") 'delete-window)
-(define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
+;; SPC-w-c
+;; (define-key evil-normal-state-map (kbd "qw0") 'delete-window)
+
+;; SPC-w-m
+;; (define-key evil-normal-state-map (kbd "qw1") 'delete-other-windows)
 
 ;; (define-key evil-normal-state-map (kbd "SPC *")  'helm-mini)
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)

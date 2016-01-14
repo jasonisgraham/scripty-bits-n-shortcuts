@@ -42,6 +42,8 @@ values."
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages '(;workgroups2
                                       elisp-slime-nav
+                                      perspective
+                                      persp-projectile
 
                                       zencoding-mode yasnippet auto-complete
                                       vimish-fold
@@ -274,8 +276,8 @@ layers configuration. You are free to put any user code."
    "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
  '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
  '(eclim-executable "~/bin/eclipse/eclim")
- '(ediff-split-window-function (quote split-window-horizontally) t)
- '(ediff-window-setup-function (quote ediff-setup-windows-plain) t)
+ '(ediff-split-window-function (quote split-window-horizontally))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(electric-indent-mode t)
  '(evil-default-cursor (quote (hbar)))
  '(fci-rule-color "#49483E" t)
@@ -308,6 +310,8 @@ layers configuration. You are free to put any user code."
      ("#49483E" . 100))))
  '(hl-paren-delay 0.2)
  '(ispell-highlight-face (quote flyspell-incorrect))
+ '(linum-format (quote linum-relative))
+ '(linum-relative-current-symbol "")
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(main-line-separator-style (quote chamfer))
@@ -321,6 +325,7 @@ layers configuration. You are free to put any user code."
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*" ".metadata" "*.metadata*")))
  '(projectile-globally-ignored-files (quote ("TAGS" ".gitignore" ".emacs.desktop" "*#*#")))
+ '(projectile-indexing-method (quote native))
  '(read-buffer-completion-ignore-case t)
  '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
  '(recentf-keep (quote (recentf-keep-default-predicate)))
@@ -368,5 +373,6 @@ layers configuration. You are free to put any user code."
  '(highlight ((t (:background "lawn green" :foreground "black"))))
  '(highlight-indentation-current-column-face ((t (:background "gray13"))))
  '(highlight-indentation-face ((t (:background "gray14"))))
+;; '(linum ((t (:background "grey8" :foreground "dark gray"))))
  '(show-paren-match ((t (:background "#272822" :inverse-video t :underline "cyan" :weight extra-bold))))
  '(sp-show-pair-match-face ((t (:background "green" :foreground "gray17" :underline "green" :weight extra-bold)))))
