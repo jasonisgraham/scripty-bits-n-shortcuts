@@ -105,9 +105,11 @@
   (yas-minor-mode 1) ; for adding require/use/import statements
   ;; This choice of keybinding leaves cider-macroexpand-1 unbound
   (cljr-add-keybindings-with-prefix "H-m")
-  (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests)
   ;; (linum-mode 't)
-  )
+
+  ;; (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests)
+  (define-key clojure-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test)
+  (define-key cider-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test))
 
 (add-hook 'prog-mode-hook 'linum-mode)
 
@@ -157,7 +159,7 @@
 (setq cider-test-show-report-on-success nil)
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (setq nrepl-log-messages t)
-(setq nrepl-hide-special-buffers nil)
+;; (setq nrepl-hide-special-buffers nil)
 (setq cider-repl-display-in-current-window t)
 (setq cider-repl-result-prefix ";;=> ")
 (setq cider-prompt-save-file-on-load nil)
@@ -433,7 +435,7 @@
  ;;     (360 . "#E090C7"))))
  ;; '(vc-annotate-very-old-color "#E090C7")
  ;; '(view-highlight-face (quote highlight))
-  ;; '(yas-snippet-dirs
+ ;; '(yas-snippet-dirs
  ;;   (quote
  ;;    (yas-installed-snippets-dir)) nil (yasnippet))
  ;; '(fringe ((t (:background "grey8" :foreground "#F8F8F2"))))
@@ -851,8 +853,6 @@ Including indent-buffer, which should not be called automatically on save."
                                    (if (and (boundp 'cider-mode) cider-mode)
                                        (cider-namespace-refresh))))))
 
-(setq cider-repl-display-in-current-window nil)
-
 (defun cider-namespace-refresh ()
   (interactive)
   (cider-interactive-eval
@@ -870,14 +870,14 @@ Including indent-buffer, which should not be called automatically on save."
             (define-key clojure-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
             (auto-highlight-symbol-mode t)))
 
-(setq nrepl-hide-special-buffers t
-      cider-repl-pop-to-buffer-on-connect t
-      cider-popup-stacktraces t
-      cider-repl-popup-stacktraces t
-      nrepl-buffer-name-show-port t
-      cider-auto-select-error-buffer nil
-      cider-ovelays-use-font-lock t
-      cider-repl-use-pretty-printing t)
+;; (setq nrepl-hide-special-buffers t
+;;       cider-repl-pop-to-buffer-on-connect t
+;;       cider-popup-stacktraces t
+;;       cider-repl-popup-stacktraces t
+;;       nrepl-buffer-name-show-port t
+;;       cider-auto-select-error-buffer nil
+;;       cider-ovelays-use-font-lock t
+;;       cider-repl-use-pretty-printing t)
 
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -926,6 +926,25 @@ Including indent-buffer, which should not be called automatically on save."
             (if (eq window-system 'x)
                 (font-lock-mode 1))))
 
+
+(defun cider-projectile-run-clojure-test ()
+  "If active buffer is test file, run tests.  If not test file, find that buffer and run test.  If not a file, re-run last test"
+  (interactive)
+
+  (if-let ((bfn (buffer-file-name)))
+      (progn
+        (when (null (->> (split-string bfn "/")
+                         last
+                         first
+                         (string-match "_test.clj$")))
+
+          ;; if not test file, open it if not open in new window, then make it active. no error checking
+          (->> (projectile-find-implementation-or-test bfn)
+               find-file-other-window))
+
+        (cider-test-run-tests 't))
+
+    (cider-test-rerun-tests)))
 
 (defun projectile-ag-regex (search-term &optional arg)
   "Like projectile-ag, but honors regexp.  This is only hear b/c I don't know elisp well enough to use prefix args
@@ -976,3 +995,8 @@ regular expression."
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
 
 (global-flycheck-mode)
+
+
+(defun print-major-mode ()
+  (interactive)
+  (message "%s" major-mode))
