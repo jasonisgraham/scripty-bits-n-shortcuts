@@ -18,12 +18,16 @@
 (global-set-key (kbd "H-o k")   'evil-previous-line-first-non-blank)
 (global-set-key (kbd "H-<f6>")  'load-file)
 (global-set-key (kbd "C-;")     'evil-normal-state-and-save-buffer)
-(global-set-key (kbd "<f5>")	'evil-normal-state-and-save-buffer)
+(global-set-key (kbd "<f5>")	  'evil-normal-state-and-save-buffer)
 
 ;; workspaces n stuff
-(global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
-(global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
-(global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
+;; (global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
+;; (global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
+;; (global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
+
+(global-set-key (kbd "H-(")     'persp-prev)
+(global-set-key (kbd "H-)")     'persp-next)
+(global-set-key (kbd "H-'")     'persp-switch)
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 
@@ -75,8 +79,6 @@
 (global-set-key (kbd "C-c M-K")  'buf-move-up)
 (global-set-key (kbd "C-c M-J")  'buf-move-down)
 
-(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
-
 ;; Override this paredit keybindings
 (eval-after-load 'paredit
   '(progn
@@ -113,6 +115,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evil stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define-key evil-normal-state-map (kbd "C-u") nil)
 (define-key evil-normal-state-map (kbd "q") nil)
 (define-key evil-normal-state-map (kbd "gw") nil)
 (define-key evil-normal-state-map (kbd "gwh") 'split-window-right)
@@ -129,10 +132,13 @@
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
 (define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
 
-(define-key evil-normal-state-map (kbd "qw)") 'delete-window)
-(define-key evil-normal-state-map (kbd "qw!") 'delete-other-windows)
+;; SPC-w-c
+;; (define-key evil-normal-state-map (kbd "qw0") 'delete-window)
 
-(define-key evil-normal-state-map (kbd "SPC *")  'helm-mini)
+;; SPC-w-m
+;; (define-key evil-normal-state-map (kbd "qw1") 'delete-other-windows)
+
+;; (define-key evil-normal-state-map (kbd "SPC *")  'helm-mini)
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
@@ -171,10 +177,10 @@
 (global-set-key (kbd "C-c H-r") 'transpose-windows)
 
 ;; disable mouse clicks
-(dolist (k '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
-             [mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
-             [mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]))
-  (global-unset-key k))
+;; (dolist (k '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
+;;              [mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
+;;              [mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]))
+;;   (global-unset-key k))
 ;; (global-set-key (kbd "<down-mouse-1>") 'mouse-select-window)
 
 
@@ -282,7 +288,6 @@
   ("q" nil))
 
 (global-set-key (kbd "H-*")     'hydra-windows/body)
-(define-key evil-normal-state-map (kbd "SPC SPC *") 'hydra-windows/body)
 
 (defhydra hydra-hide-show (:hint nil)
   "
@@ -296,11 +301,12 @@
   ("q" nil))
 
 (global-set-key (kbd "H-^") 	'hydra-hide-show/body)
-(define-key evil-normal-state-map (kbd "SPC SPC h") 'hydra-hide-show/body)
 
 (global-set-key (kbd "<f6>") 'linum-mode)
 
 (global-set-key (kbd "M-S-%") 'query-replace-regexp)
+
+(global-set-key (kbd "H-c") 'reset-my-colors)
 
 (provide 'bindings)
 ;;; bindings.el ends here

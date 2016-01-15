@@ -10,6 +10,12 @@
 # exclude a string regex
 # echo "select sjiofjeifoej from DOG jfidofjdfoidjf select fjdisofjoidfj from CAT " | grep -oiP 'select(.(?!from))*\s+from\s+\w+' ; prints DOG, CAT
 
+function find-files-greater-than {
+    local dir="${1}"
+    local size="${2}"
+    find "${dir}" -size +${size} -printf "%k\t%p\n"
+}
+
 ## some common stuff
 function useful-stuff {
 echo "find ~ -size +1G"
@@ -93,7 +99,7 @@ function smaller-ps1 {
 }
 
 function ps1-use-smaller-fullpath {
-    PS1="\[$BGreen\]\u \[$BBlue\]$(smaller-ps1)\[$Color_Off\]> "
+    PS1="\[$BGreen\]\u \t \[$BBlue\]$(smaller-ps1)\[$Color_Off\]> "
 }
 
 PROMPT_COMMAND=ps1-use-smaller-fullpath
@@ -203,7 +209,8 @@ HISTIGNORE="__move-down-directory:__move-up-directory:__ls-type:pwd:ls:cd:fg:top
 shopt -s histappend # append to the history file, don't overwrite it
 HISTSIZE=50000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTFILESIZE=20000
-export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+# export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}"
 
 ####################################################################
 # "useful" functions that are called with the binds from above
@@ -500,6 +507,18 @@ function speedtest {
     wget -O /dev/null ${dummy_file}
 }
 
+function grep-in-file-pattern {
+    local _file_pattern=${1}
+    local _grep_pattern=${2}
+
+    find . -name "${_file_pattern}" -exec grep -iHn "${_grep_pattern}" {} \;
+}
+
+function update-upgrade-dist-upgrade {
+    sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y
+}
+
+
 #xbacklight -set 50
 export LEIN_FAST_TRAMPOLINE=y
-
+export TOMCAT_HOME=~/bin/apache-tomcat

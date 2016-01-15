@@ -177,10 +177,7 @@
  '(view-highlight-face (quote highlight))
  '(weechat-color-list
    (quote
-    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
- '(yas-snippet-dirs
-   (quote
-    (yas-installed-snippets-dir "~/.emacs.d/elpa/django-snippets-20131229.811/snippets")) nil (yasnippet)))
+    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))))
 
 (set-background-color my-background-color)
 

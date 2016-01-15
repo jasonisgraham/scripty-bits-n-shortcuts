@@ -1,5 +1,7 @@
 (setq debug-on-error t)
 
+(setq my-background-color "grey8")
+
 (setq version-controlled-stuff-dir "~/scripty-bits-n-shortcuts/emacs")
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/package-init.el"))
@@ -38,10 +40,16 @@
 ;;; end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun reset-my-colors ()
+  (interactive)
+  (set-frame-parameter (selected-frame) 'alpha '(97 90))
+  (set-background-color my-background-color))
+
+(reset-my-colors)
 
 ;; elisp-slime-nav
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-  (add-hook hook 'turn-on-elisp-slime-nav-mode))
+  (add-hook hook 'elisp-slime-nav-mode))
 
 ;; Save point position between sessions
 (require 'saveplace)
@@ -89,6 +97,28 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; lisp stuff
+(require 'clj-refactor)
+
+(defun clojure-mode-hooks ()
+  (interactive)
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1) ; for adding require/use/import statements
+  ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+  (cljr-add-keybindings-with-prefix "H-m")
+  ;; (linum-mode 't)
+
+  ;; (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests)
+  (define-key clojure-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test)
+  (define-key cider-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test))
+
+(add-hook 'prog-mode-hook 'linum-mode)
+
+(dolist (hook '(clojure-mode-hook
+                cider-repl-mode
+                cider-repl-mode-hook))
+  (add-hook hook 'clojure-mode-hooks))
+
+;; clojure/lispy stuff
 (defun lisp-hooks ()
   (interactive)
   (enable-paredit-mode)
@@ -97,8 +127,17 @@
   (define-key evil-insert-state-map "{" 'paredit-open-curly))
 
 (eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
+(eval-after-load 'clojurescript-mode '(require 'clojure-mode-extra-font-locking))
 
-;; clojure/lispy stuff
+(setq clojure-defun-style-default-indent nil)
+;; (setq clojure-defun-style-default-indent t)
+
+;; (defvar endless/clojure-prettify-alist '())
+;; (add-to-list 'endless/clojure-prettify-alist
+;;              '(">=" . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥)))
+;; (add-to-list 'endless/clojure-prettify-alist
+;;              '("<=" . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤)))
+
 (setq cider-repl-history-file "~/.emacs.d/cider-history")
 
 (dolist (hook '(clojure-mode-hook
@@ -120,7 +159,7 @@
 (setq cider-test-show-report-on-success nil)
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (setq nrepl-log-messages t)
-(setq nrepl-hide-special-buffers nil)
+;; (setq nrepl-hide-special-buffers nil)
 (setq cider-repl-display-in-current-window t)
 (setq cider-repl-result-prefix ";;=> ")
 (setq cider-prompt-save-file-on-load nil)
@@ -205,19 +244,19 @@
 
 (setq helm-M-x-fuzzy-match t)
 (helm-autoresize-mode t)
-;; (setq helm-mini)
+;; ;; (setq helm-mini)
 (setq helm-buffers-fuzzy-matching t)
 (setq helm-recentf-fuzzy-match t)
 (setq helm-semantic-fuzzy-match t)
 (setq helm-imenu-fuzzy-match t)
 (helm-autoresize-mode t)
 
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+;; (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
 ;; enables man page at point
-(add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
 (semantic-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -310,7 +349,7 @@
  '(grep-highlight-matches (quote auto))
  '(grep-template "grep <X> <C> -n -e <R> <F>")
  '(grep-use-null-device t)
- '(helm-recentf-fuzzy-match t)
+ ;; '(helm-recentf-fuzzy-match t)
  ;; '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  ;; '(highlight-symbol-colors
  ;;   (--map
@@ -396,15 +435,32 @@
  ;;     (360 . "#E090C7"))))
  ;; '(vc-annotate-very-old-color "#E090C7")
  ;; '(view-highlight-face (quote highlight))
- ;; '(weechat-color-list
- ;;   (quote
- ;;    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  ;; '(yas-snippet-dirs
  ;;   (quote
  ;;    (yas-installed-snippets-dir)) nil (yasnippet))
  ;; '(fringe ((t (:background "grey8" :foreground "#F8F8F2"))))
  '(desktop-save t)
  '(desktop-save-mode t))
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(background-color my-background-color)
+ '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 98 :width normal))))
+ '(anzu-mode-line ((t (:background "black" :foreground "white" :weight bold))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(evil-search-highlight-persist-highlight-face ((t (:background "yellow" :foreground "black"))))
+ '(highlight ((t (:background "lawn green" :foreground "black"))))
+ '(highlight-indentation-current-column-face ((t (:background "gray13"))))
+ '(highlight-indentation-face ((t (:background "gray14"))))
+ '(show-paren-match ((t (:background "#272822" :inverse-video t :underline "cyan" :weight extra-bold))))
+ '(sp-show-pair-match-face ((t (:background "green" :foreground "gray17" :underline "green" :weight extra-bold))))
+ '(aw-leading-char-face
+   ((t (:inherit ace-jump-face-foreground :height 3.0 :color "#49483E" :foreground "#49483E" :background "firebrick1")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;; python stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -737,7 +793,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 (setq tags-revert-without-query 't)
 
-;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/monokai-theme-20151022.703/monokai-theme.el")
+;; (add-to-list 'custom-theme-load-path "/home/jason/scripty-bits-n-shortcuts/emacs/themes/jason-theme")
 
 ;; (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
 
@@ -761,9 +817,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome")
 
-(set-frame-parameter (selected-frame) 'alpha '(98 90))
-(setq my-background-color "grey8")
-(set-background-color my-background-color)
+
 
 (global-visual-line-mode 1)
 (global-hl-line-mode +1)
@@ -799,8 +853,6 @@ Including indent-buffer, which should not be called automatically on save."
                                    (if (and (boundp 'cider-mode) cider-mode)
                                        (cider-namespace-refresh))))))
 
-(setq cider-repl-display-in-current-window nil)
-
 (defun cider-namespace-refresh ()
   (interactive)
   (cider-interactive-eval
@@ -817,6 +869,15 @@ Including indent-buffer, which should not be called automatically on save."
             (define-key clojure-mode-map (kbd "C-c .") "->> ")
             (define-key clojure-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
             (auto-highlight-symbol-mode t)))
+
+;; (setq nrepl-hide-special-buffers t
+;;       cider-repl-pop-to-buffer-on-connect t
+;;       cider-popup-stacktraces t
+;;       cider-repl-popup-stacktraces t
+;;       nrepl-buffer-name-show-port t
+;;       cider-auto-select-error-buffer nil
+;;       cider-ovelays-use-font-lock t
+;;       cider-repl-use-pretty-printing t)
 
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -866,6 +927,25 @@ Including indent-buffer, which should not be called automatically on save."
                 (font-lock-mode 1))))
 
 
+(defun cider-projectile-run-clojure-test ()
+  "If active buffer is test file, run tests.  If not test file, find that buffer and run test.  If not a file, re-run last test"
+  (interactive)
+
+  (if-let ((bfn (buffer-file-name)))
+      (progn
+        (when (null (->> (split-string bfn "/")
+                         last
+                         first
+                         (string-match "_test.clj$")))
+
+          ;; if not test file, open it if not open in new window, then make it active. no error checking
+          (->> (projectile-find-implementation-or-test bfn)
+               find-file-other-window))
+
+        (cider-test-run-tests 't))
+
+    (cider-test-rerun-tests)))
+
 (defun projectile-ag-regex (search-term &optional arg)
   "Like projectile-ag, but honors regexp.  This is only hear b/c I don't know elisp well enough to use prefix args
 
@@ -891,6 +971,10 @@ regular expression."
 
 (global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
 
+;; (global-set-key (kbd "C-c p ^") (lambda ()
+;;                                   (interactive)
+;;                                   (find-file "project.clj")))
+
 ;; http://stackoverflow.com/questions/3815467/stripping-duplicate-elements-in-a-list-of-strings-in-elisp
 (defun strip-duplicates (list)
   (let ((new-list nil))
@@ -903,22 +987,16 @@ regular expression."
 (indent-guide-global-mode)
 (add-hook 'prog-mode-hook 'highlight-indentation-current-column-mode)
 
-
 ;; workspaces, tabs, perspective, stuff like that
-(workgroups-mode 1)
-
-(setq wg-emacs-exit-save-behavior 'save)
-(setq wg-workgroups-mode-exit-save-behavior 'save)
-
-(setq wg-prefix-key (kbd "C-x x"))
-
-;; (setq wg-mode-line-display-on 'powerline)
-(setq wg-mode-line-display-on t)
-
-
-(setq wg-flag-modified t)
-(setq wg-mode-line-decor-left-brace "[" wg-mode-line-decor-right-brace "]"
-      wg-mode-line-decor-divider ":")
-
+(persp-mode)
+(require 'persp-projectile)
+(persp-turn-on-modestring)
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
+
+(global-flycheck-mode)
+
+
+(defun print-major-mode ()
+  (interactive)
+  (message "%s" major-mode))
