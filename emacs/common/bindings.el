@@ -5,9 +5,9 @@
 ;;; Code:
 ;; Hyper & control duplicates while i get used to swapping Ctrl + Hyper
 (global-set-key (kbd "H-z")     'repeat)
-(global-set-key (kbd "C-M-*")   'buffer-menu)
+(global-set-key (kbd "C-M-8")   'buffer-menu)
 ;; (global-set-key (kbd "H-*")     'ido-switch-buffer)
-(global-set-key (kbd "C-*")     'helm-mini)
+(global-set-key (kbd "C-8")     'helm-mini)
 (global-set-key (kbd "H-8")     'ido-switch-buffer)
 (global-set-key (kbd "H-y")     'helm--kill-ring)
 (global-set-key (kbd "H-r")     'rgrep)
@@ -25,8 +25,8 @@
 ;; (global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
 ;; (global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
 
-(global-set-key (kbd "H-(")     'persp-prev)
-(global-set-key (kbd "H-)")     'persp-next)
+(global-set-key (kbd "H-9")     'persp-prev)
+(global-set-key (kbd "H-0")     'persp-next)
 (global-set-key (kbd "H-'")     'persp-switch)
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
@@ -138,7 +138,7 @@
 ;; SPC-w-m
 ;; (define-key evil-normal-state-map (kbd "qw1") 'delete-other-windows)
 
-;; (define-key evil-normal-state-map (kbd "SPC *")  'helm-mini)
+;; (define-key evil-normal-state-map (kbd "SPC 8")  'helm-mini)
 (define-key evil-insert-state-map (kbd "M-j") 'newline-and-indent)
 (define-key evil-normal-state-map (kbd "qm")  'evil-record-macro)
 (define-key evil-insert-state-map (kbd "C-;") 'evil-normal-state-and-save-buffer)
@@ -159,8 +159,20 @@
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "jl" 'evil-execute-in-normal-state)
 (key-chord-define evil-insert-state-map "q)" 'evil-digit-argument-or-evil-beginning-of-line)
-(key-chord-define evil-insert-state-map "()" "[")
+(key-chord-define evil-insert-state-map "90" "[")
 (key-chord-define evil-insert-state-map "jn" 'newline-and-indent)
+(key-chord-define-global "j1" "!")
+(key-chord-define-global "j2" "@")
+(key-chord-define-global "j3" "#")
+(key-chord-define-global "j4" "$")
+(key-chord-define-global "j5" "5")
+(key-chord-define-global "j6" "^")
+(key-chord-define-global "j7" "&")
+(key-chord-define-global "j8" "*")
+(key-chord-define-global "j9" "(")
+(key-chord-define-global "j0" ")")
+(key-chord-define-global "j-" "_")
+
 (setq-default evil-escape-key-sequence "jk")
 
 ;; Magit rules!
@@ -230,7 +242,7 @@
          Delete: !:other )_:curr
           Split: _wh_:left _wj_:down _wk_:up _wl_:right
   Switch Window: _h_:left  _j_:down  _k_:up  _l_:right
-        Buffers: _p_revious  _n_ext  _*_:helm-mini  _i_buffer _f_ind-file  _F_projectile _8_:select _K_ill-this-buffer _B_ury-uffer
+        Buffers: _p_revious  _n_ext  _8_:helm-mini  _i_buffer _f_ind-file  _F_projectile _*_:select _K_ill-this-buffer _B_ury-uffer
     Buffer Move: _M-h_:buf-move-left _M-j_:buf-move-down _M-k_:buf-move-up _M-l_:buf-move-right
          Winner: _u_ndo  _r_edo
          Resize: _H_:splitter left  _J_:splitter down  _K_:splitter up  _L_:splitter right
@@ -261,11 +273,11 @@
 
   ("p" previous-buffer)
   ("n" next-buffer)
-  ("*" helm-mini)
+  ("8" helm-mini)
   ("i" ibuffer)
   ("f" ido-find-file)
   ("F" projectile-find-file)
-  ("8" ido-switch-buffer)
+  ("*" ido-switch-buffer)
   ("K" kill-this-buffer)
   ("B" bury-buffer)
 
@@ -287,7 +299,7 @@
   ("g" nil)
   ("q" nil))
 
-(global-set-key (kbd "H-*")     'hydra-windows/body)
+(global-set-key (kbd "H-8")     'hydra-windows/body)
 
 (defhydra hydra-hide-show (:hint nil)
   "

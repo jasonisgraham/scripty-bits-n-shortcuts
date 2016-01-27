@@ -442,6 +442,7 @@
  '(desktop-save t)
  '(desktop-save-mode t))
 
+(setq global-diff-hl-mode t)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
