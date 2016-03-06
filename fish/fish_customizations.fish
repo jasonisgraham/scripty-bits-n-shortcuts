@@ -51,12 +51,13 @@ function fish_prompt
   else
     set arrow "$red➜ "
   end
+
   # set -l cwd $cyan(basename (prompt_pwd))
   set -l cwd $blue(prompt_pwd)
 
   if [ (_git_branch_name) ]
     set -l git_branch $red(_git_branch_name)
-    set git_info "$blue git:($git_branch$blue)"
+    set git_info " $yellow{$git_branch$yellow}"
 
     if [ (_is_git_dirty) ]
       set -l dirty "$yellow ✗"
@@ -64,8 +65,10 @@ function fish_prompt
     end
   end
 
-  ##echo -n -s $arrow ' ' $green(whoami) $time $cwd $git_info $normal ' '
-  echo -n -s {$arrow} $green(whoami) ' ' (date +%H:%M:%S) ' ' {$cwd} {$white}'> '
+  set -l git_branch (git branch ^/dev/null | sed -n '/\* /s///p')
+
+  echo -n -s {$arrow} ' ' $green(whoami) ' ' (date +%H:%M:%S) ' ' {$cwd} {$yellow}'' $git_info ''{$white} "> "
+  echo
 end
 
 #####################

@@ -308,7 +308,7 @@
  '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
  '(buffer-stack-untracked
    (quote
-    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
+    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*")))
  '(column-number-mode t)
  '(compilation-message-face (quote default))
  '(completion-ignored-extensions
@@ -332,12 +332,11 @@
  ;; '(fci-rule-character-color "#202020")
  ;; '(fci-rule-color "#49483E")
  ;; '(foreground-color "#cccccc")
- ;; '(fringe-mode 0 nil (fringe))
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
  '(global-undo-tree-mode t)
- '(global-vi-tilde-fringe-mode t)
+ ;; '(global-vi-tilde-fringe-mode t)
  ;; '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
  '(golden-ratio-mode nil)
  '(grep-command "grep -n -e ")
@@ -943,7 +942,7 @@ Including indent-buffer, which should not be called automatically on save."
           (->> (projectile-find-implementation-or-test bfn)
                find-file-other-window))
 
-        (cider-test-run-tests 't))
+        (cider-test-run-ns-tests 't))
 
     (cider-test-rerun-tests)))
 
@@ -1001,3 +1000,7 @@ regular expression."
 (defun print-major-mode ()
   (interactive)
   (message "%s" major-mode))
+
+;; (require 'git-gutter-fringe+)
+;; (global-git-gutter+-mode)
+;; (setq git-gutter-fr+-side 'right-fringe)

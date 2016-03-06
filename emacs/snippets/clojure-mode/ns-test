@@ -1,6 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: ns-test
-# key: ns-test
+# name: nstest
+# key: nstest
 # mode: clojure-mode
 # --
 (ns `(clojure-expected-ns)`

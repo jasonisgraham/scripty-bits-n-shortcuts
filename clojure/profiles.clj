@@ -1,17 +1,17 @@
 {:user {:plugins [[refactor-nrepl "2.0.0-SNAPSHOT"]
                   [cider/cider-nrepl "0.11.0-SNAPSHOT"]
                   [lein-auto "0.1.2"]
-                  [com.jakemccrary/lein-test-refresh "0.12.0"]
+                  [com.jakemccrary/lein-test-refresh "0.14.0"]
                   [lein-localrepo "0.5.3"]
                   [lein-ancient "0.6.8"]]
 
-        :dependencies [[clj-http "2.0.0"] ; here b/c lein uses 0.9 which causes problems
+        :dependencies [[clj-http "2.1.0"] ; here b/c lein uses 0.9 which causes problems
                        [org.clojure/tools.nrepl "0.2.12"]
                        [im.chit/vinyasa "0.4.2"] ; pull
                        [org.clojure/tools.namespace "0.2.10"] ; refresh
                        [spyscope "0.1.5"]
-                       [leiningen "2.5.3"]
-                       [io.aviso/pretty "0.1.21"]
+                       [leiningen "2.6.1"]
+                       [io.aviso/pretty "0.1.24"]
                        [org.clojure/tools.reader "0.10.0"]
                        [pjstadig/humane-test-output "0.7.1"]
                        [org.clojure/tools.trace "0.7.9"]

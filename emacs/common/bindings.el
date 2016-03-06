@@ -31,7 +31,7 @@
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 
-(global-set-key (kbd "H-$ f")   'ido-find-file-other-window)
+(global-set-key (kbd "H-4 f")   'ido-find-file-other-window)
 
 (global-set-key (kbd "H-M--")   'bury-buffer)
 (global-set-key (kbd "H-M-h")   'buffer-stack-down)
@@ -56,8 +56,8 @@
 (global-set-key (kbd "C-c M-;")	'comment-box)
 (global-set-key (kbd "C-c r")   'revert-buffer-no-confirm)
 (global-set-key (kbd "C-r")     'isearch-backward)
-(global-set-key (kbd "M-5")     'query-replace)
-(global-set-key (kbd "M-%")     'digit-argument)
+;; (global-set-key (kbd "M-5")     'query-replace)
+;; (global-set-key (kbd "M-%")     'digit-argument)
 
 (global-set-key (kbd "<H-f7>") 'desktop-change-dir)
 
@@ -115,6 +115,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evil stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define-key evil-normal-state-map (kbd "C-d") 'evil-scroll-down)
 (define-key evil-normal-state-map (kbd "C-u") nil)
 (define-key evil-normal-state-map (kbd "q") nil)
 (define-key evil-normal-state-map (kbd "gw") nil)
@@ -131,6 +132,13 @@
 (define-key evil-normal-state-map (kbd "g-") 'hs-hide-block)
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
 (define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
+
+;; "C-c p t" == "SPC p a" for some reason, while "SPC p t" is neotree but "SPC p n" is undefined.  wha??
+(define-key evil-normal-state-map (kbd "SPC p t")  'projectile-toggle-between-implementation-and-test)
+
+(define-key evil-normal-state-map (kbd "SPC p a")  nil)
+(define-key evil-normal-state-map (kbd "SPC p n")  'neotree-find-project-root)
+(define-key evil-normal-state-map (kbd "C-c p n")  'neotree-find-project-root)
 
 ;; SPC-w-c
 ;; (define-key evil-normal-state-map (kbd "qw0") 'delete-window)
@@ -165,7 +173,7 @@
 (key-chord-define-global "j2" "@")
 (key-chord-define-global "j3" "#")
 (key-chord-define-global "j4" "$")
-(key-chord-define-global "j5" "5")
+(key-chord-define-global "j5" "%")
 (key-chord-define-global "j6" "^")
 (key-chord-define-global "j7" "&")
 (key-chord-define-global "j8" "*")

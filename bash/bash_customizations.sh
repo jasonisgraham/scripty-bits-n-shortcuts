@@ -18,7 +18,7 @@ function find-files-greater-than {
 
 ## some common stuff
 function useful-stuff {
-echo "find ~ -size +1G"
+    echo "find ~ -size +1G"
 }
 
 ## if capslock key is toggled in a bad way
@@ -49,8 +49,7 @@ Cyan='\e[0;36m'         # Cyan
 White='\e[0;37m'        # White
 
 # Bold
-BBlack='\e[1;30m'       # Black
-BRed='\e[1;31m'         # Red
+BBlack='\e[1;30m'       # Black BRed='\e[1;31m'         # Red
 BGreen='\e[1;32m'       # Green
 BYellow='\e[1;33m'      # Yellow
 BBlue='\e[1;34m'        # Blue
@@ -79,39 +78,62 @@ On_Cyan='\e[46m'        # Cyan
 On_White='\e[47m'       # White
 
 export IGNOREEOF=1
+function join { local IFS="$1"; shift; echo "$*"; }
+
+function _git_branch_name {
+    git symbolic-ref HEAD 2>/dev/null | sed -e 's|^refs/heads/||'
+}
+function _is_git_dirty {
+    local show_untracked=$(git config --bool bash.showUntrackedFiles)
+    local untracked=''
+    if [ "$theme_display_git_untracked" = 'no' -o "$show_untracked" = 'false' ]; then
+        local untracked='--untracked-files=no'
+    fi
+    git status -s --ignore-submodules=dirty $untracked 2>/dev/null
+}
+
+function bash_prompt {
+    local smaller_ps1=
+    local path_to_pwd=$(pwd | sed "s@$HOME@~@g" | sed -r 's@[^/~]+$@@')
+    if [[ "~" == "$path_to_pwd" ]]; then
+        smaller_ps1=~
+    else
+        local pwd_only=${PWD##*/}
+        local shortened_path_to_pwd=$(echo $path_to_pwd | sed -r "s@(/[^/]{2})[^/]+@\1@g")
+        smaller_ps1=${shortened_path_to_pwd}${pwd_only}
+    fi
+
+    if [[ "$(_git_branch_name)" ]]; then
+        local git_branch=${RED}$(_git_branch_name)
+        local git_info=" ${BYellow}${git_branch}${BYellow}"
+
+        if [[ "$(_is_git_dirty)" ]]; then
+            local dirty="\[$BGreen\] ✗"
+            local git_info="${git_info}${dirty}"
+        fi
+    fi
+
+    export PS1="\[$BGreen\]\u \t \[$BBlue\]${smaller_ps1}\[$Color_Off\]${git_info}\n\[$Color_Off\]↪ "
+}
+
 function ps1-use-fullpath {
     export PS1="\[$BGreen\]\u \[$BBlue\]\w\[$Color_Off\]> "
 }
 function ps1-use-cwd-basename {
     export PS1="\[$BGreen\]\u \[$BBlue\]\W\[$Color_Off\]> "
 }
-function join { local IFS="$1"; shift; echo "$*"; }
 
-function smaller-ps1 {
-    local path_to_pwd=$(pwd | sed "s@$HOME@~@g" | sed -r 's@[^/~]+$@@')
-    if [[ "~" == "$path_to_pwd" ]]; then
-        echo "~"
-    else
-        local pwd_only=${PWD##*/}
-        local shortened_path_to_pwd=$(echo $path_to_pwd | sed -r "s@(/[^/]{2})[^/]+@\1@g")
-        echo ${shortened_path_to_pwd}${pwd_only}
-    fi
-}
-
-function ps1-use-smaller-fullpath {
-    PS1="\[$BGreen\]\u \t \[$BBlue\]$(smaller-ps1)\[$Color_Off\]> "
-}
-
-PROMPT_COMMAND=ps1-use-smaller-fullpath
+PROMPT_COMMAND=bash_prompt
 # ps1-use-cwd-basename
 # ps1-use-cwd-basename
 
-# export PS1="\u \w> "
 export EDITOR="vim"
 #export EDITOR="emacs"
 
 alias e="emacsclient"
 # export EDITOR="emacsclient"
+
+alias whomami="whoami"
 
 alias find-file="find . -iname "
 alias psg="ps aux | grep "
@@ -125,6 +147,7 @@ export TERM=xterm-256color
 alias grep-iHrn='grep -irHn '
 # with "set -o vi", \ev opens emacs for some reason
 # this is a way to unbind
+set -o vi
 bind '"\ev"':self-insert
 # # aliases
 # #  human readable, all files minus . and .., append indicator, ignore backups
@@ -150,8 +173,8 @@ bind '"\ej"':"\"\C-m\""
 bind '"\e<"':"\"\C-u__move-up-directory\C-m\""
 bind '"\eL"':"\"\C-u__ls-type\C-m\""
 bind '"\el"':"\"\C-ul\C-m\""
-bind '"\e!"':"\"\C-a\C-kla\C-j\""
-bind '"\e@"':"\"\C-a\C-klt\C-j\""
+bind '"\e1"':"\"\C-a\C-kla\C-j\""
+bind '"\e2"':"\"\C-a\C-klt\C-j\""
 
 # alt-> Move down the directory.
 bind '"\e>"':"\"\C-u__move-down-directory\C-m\""
@@ -260,21 +283,21 @@ function __ls-type {
 
     local _args="$*"
     case $_type in
-	t) # sort by modification time
-	    lt $_args
-	    ;;
-	s) # sort by file size
-	    l -s $_args
-	    ;;
-	[aA])
-	    l -A $_args
-	    ;;
-	[Xx])
-	    l -X $_args
-	    ;;
-	*)
-	    l $_args
-	    ;;
+	      t) # sort by modification time
+	          lt $_args
+	          ;;
+	      s) # sort by file size
+	          l -s $_args
+	          ;;
+	      [aA])
+	          l -A $_args
+	          ;;
+	      [Xx])
+	          l -X $_args
+	          ;;
+	      *)
+	          l $_args
+	          ;;
     esac
 }
 
@@ -282,50 +305,50 @@ function apply-to-resource {
     local resources=$(find-resource $1 $2)
 
     if [[ ! "$resources" ]]; then
-	echo "Couldn't find resource matching $1 in haystack $2"
-	return 0
+	      echo "Couldn't find resource matching $1 in haystack $2"
+	      return 0
     fi
     local command_to_apply="$3"
     local args_line=""
 
     if [[ $(echo $resources | wc -w) -ge 2 ]]; then
-	count=0;
-	for r in $resources
-	do
-	    r_arr[$count]=$r
-	    count=$(($count+1))
-	done
-	for key in ${!r_arr[@]}
-	do
-	    echo -n "$key "
-	    echo ${r_arr[$key]}
-	done
-	echo -e "\nSelect files to run command \"$command_to_apply\" on by number(s).  If multiple, separate by space. If all, enter nothing or enter *.\n Which files(s): "
-	read _file_numbers
+	      count=0;
+	      for r in $resources
+	      do
+	          r_arr[$count]=$r
+	          count=$(($count+1))
+	      done
+	      for key in ${!r_arr[@]}
+	      do
+	          echo -n "$key "
+	          echo ${r_arr[$key]}
+	      done
+	      echo -e "\nSelect files to run command \"$command_to_apply\" on by number(s).  If multiple, separate by space. If all, enter nothing or enter *.\n Which files(s): "
+	      read _file_numbers
 
-	if [[ -z "$_file_numbers" ]]; then
-	    _file_numbers="*"
-	fi
-	if [[ "$_file_numbers" = "*" ]]; then
-	    args_line=$resources
-	else
-	    for _file_number in $_file_numbers
-	    do
-		args_line="${args_line} ${r_arr[$_file_number]}"
-	    done
-	fi
+	      if [[ -z "$_file_numbers" ]]; then
+	          _file_numbers="*"
+	      fi
+	      if [[ "$_file_numbers" = "*" ]]; then
+	          args_line=$resources
+	      else
+	          for _file_number in $_file_numbers
+	          do
+		            args_line="${args_line} ${r_arr[$_file_number]}"
+	          done
+	      fi
     else
-	echo $resources
-	args_line=$resources
+	      echo $resources
+	      args_line=$resources
     fi
 
     if [[ ! "$command_to_apply" ]]; then
-	echo -e "\n Enter command to apply to found resource(s): "
-	read command_to_apply
-	if [[ ! "$command_to_apply" ]]; then
-	    echo -e "\n Unknown command. exiting"
-	    return 1
-	fi
+	      echo -e "\n Enter command to apply to found resource(s): "
+	      read command_to_apply
+	      if [[ ! "$command_to_apply" ]]; then
+	          echo -e "\n Unknown command. exiting"
+	          return 1
+	      fi
     fi
 
     $command_to_apply $args_line
@@ -347,7 +370,7 @@ function find-resource {
 function _wildcard-camelcase-file-search-string {
     local _begins_with_wildcard=
     if [[ $(echo $1 | grep ^*) ]]; then
-	_begins_with_wildcard="*"
+	      _begins_with_wildcard="*"
     fi
     echo $_begins_with_wildcard$(echo $1 | sed -E 's/([A-Z])/*\1/g' | sed 's/^\**//g' | sed 's/\*{2}/*/g')*
 }
@@ -359,7 +382,7 @@ function cdu {
     local dir="$1"
     local op=$(cd $dir 2>&1 > /dev/null)
     if [[ "$op" && $op =~ 'Not a directory' ]]; then
-	dir=$(echo $dir | sed -E 's@/[^/]+$@@g')
+	      dir=$(echo $dir | sed -E 's@/[^/]+$@@g')
     fi
     cd $dir
 }
@@ -385,7 +408,7 @@ function get-path-to-dir {
     local l=""
     for element in "${array[@]}"
     do
-	l=$element
+	      l=$element
     done
     unset IFS
     echo $1 | sed "s@$l@@g"
@@ -393,44 +416,44 @@ function get-path-to-dir {
 
 function cd-above {
     if [ ! "$1" ]; then
-	## if no arg, go home
-	cd ~
+	      ## if no arg, go home
+	      cd ~
     elif [ -d "$1" -o "$1" == "-" ]; then
-	## if it's already a directory that exits
-	## or we're trying to just toggle to previous dir, do that
-	cd "$1"
+	      ## if it's already a directory that exits
+	      ## or we're trying to just toggle to previous dir, do that
+	      cd "$1"
     else
-	local _dir=$(get-path-to-dir $1)
-	if [ -d "$_dir" ]; then
-	    cd $_dir
-	else
-	    ## else, autojump to what $1 is
-	    j $1
-	fi
+	      local _dir=$(get-path-to-dir $1)
+	      if [ -d "$_dir" ]; then
+	          cd $_dir
+	      else
+	          ## else, autojump to what $1 is
+	          j $1
+	      fi
     fi
 }
 
 function grep-includes {
     local _args=$1
     if [[ "$2" ]]; then
-	local _includes="$2"
+	      local _includes="$2"
     else
-	local _includes=""
+	      local _includes=""
     fi
     if [[ $(str-contains $_args j) ]]; then
-	_includes="${_includes} --include=\"*.java\""
+	      _includes="${_includes} --include=\"*.java\""
     fi
     if [[ $(str-contains $_args g) ]]; then
-	_includes="${_includes} --include=\"*.groovy\""
+	      _includes="${_includes} --include=\"*.groovy\""
     fi
     if [[ $(str-contains $_args x) ]]; then
-	_includes="${_includes} --include=\"*.xml\""
+	      _includes="${_includes} --include=\"*.xml\""
     fi
     if [[ $(str-contains $_args s) ]]; then
-	_includes="${_includes} --include=\"*.sql\""
+	      _includes="${_includes} --include=\"*.sql\""
     fi
     if [[ $(str-contains $_args p) ]]; then
-	_includes="${_includes} --include=\"*.properties\""
+	      _includes="${_includes} --include=\"*.properties\""
     fi
     echo $_includes
 }
@@ -443,24 +466,24 @@ function __find-in-files {
     local grep_arguments=${3}
 
     if [ -z ${needle} ]; then
-	echo "needle is not populated"
-	echo -e $usage
-	return 1;
+	      echo "needle is not populated"
+	      echo -e $usage
+	      return 1;
     fi
     if [ -n "${4}" ]; then
-	echo "there is an extra parameter at position 4: '${4}'"
-	echo -e $usage
-	return 1;
+	      echo "there is an extra parameter at position 4: '${4}'"
+	      echo -e $usage
+	      return 1;
     fi
     if [ -z ${haystack_dir} ]; then
-	haystack_dir="."
+	      haystack_dir="."
     elif ! [ -e ${haystack_dir} ]; then
-	echo -e "haystack_dir: '${haystack_dir}' DNE"
-	echo -e $usage
-	return 1
+	      echo -e "haystack_dir: '${haystack_dir}' DNE"
+	      echo -e $usage
+	      return 1
     fi
     if [ -z ${grep_arguments} ]; then
-	grep_arguments=rni
+	      grep_arguments=rni
     fi
 
     local command="grep -${grep_arguments} --color ${needle}${haystack_dir}"
@@ -478,8 +501,8 @@ function copy-files-matching-pattern-to {
     mkdir -p ${destination_dir}
 
     for file in $files; do
-	echo "copying file $PWD/${file} to ${destination_dir}/${file}"
-	cp ${file} ${destination_dir}/.
+	      echo "copying file $PWD/${file} to ${destination_dir}/${file}"
+	      cp ${file} ${destination_dir}/.
     done
 }
 
@@ -494,9 +517,9 @@ function copy-files-matching-pattern-contains-string-pattern-to {
     mkdir -p ${destination_dir}
 
     for filepath in $filepaths; do
-	local file=$(echo ${filepath} | grep -oP ".*(?=:${string})")
-	echo "copying file $PWD/${file} to ${destination_dir}/${file}"
-	cp ${file} ${destination_dir}/.
+	      local file=$(echo ${filepath} | grep -oP ".*(?=:${string})")
+	      echo "copying file $PWD/${file} to ${destination_dir}/${file}"
+	      cp ${file} ${destination_dir}/.
     done
 }
 
@@ -522,3 +545,5 @@ function update-upgrade-dist-upgrade {
 #xbacklight -set 50
 export LEIN_FAST_TRAMPOLINE=y
 export TOMCAT_HOME=~/bin/apache-tomcat
+
+# nohup xscreensaver -no-splash > /dev/null 2>&1

@@ -102,7 +102,7 @@ values."
    ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
    ;; unchanged. (default 'vim)
    dotspacemacs-editing-style 'vim
-   ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
+   ;; If non nil output loading progress in `*Mevil-projessages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -259,7 +259,7 @@ layers configuration. You are free to put any user code."
  '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
  '(buffer-stack-untracked
    (quote
-    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
+    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*")))
  '(column-number-mode t)
  '(compilation-message-face (quote default))
  '(completion-ignored-extensions

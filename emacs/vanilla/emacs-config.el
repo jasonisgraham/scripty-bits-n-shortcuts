@@ -39,7 +39,7 @@
  '(buffer-stack-ignore-pattern-exceptions (quote ("*ielm*" "*shell*")))
  '(buffer-stack-untracked
    (quote
-    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*" "*Messages*")))
+    ("KILL" "*Compile-Log*" "*Compile-Log-Show*" "*Group*" "*Completions*")))
  '(column-number-mode t)
  '(compilation-message-face (quote default))
  '(completion-ignored-extensions
@@ -184,3 +184,10 @@
 (set-face-background hl-line-face "gray15")
 
 (which-key-mode 1)
+
+;; (global-git-gutter+-mode)
+;; (require 'git-gutter-fringe+)
+;; (setq git-gutter-fr+-side 'right-fringe)
+;; (setq git-gutter+-mode 't)
+;; (global-git-gutter-mode +1)
+;; (set-fringe-mode +10)
