@@ -786,7 +786,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 (defun buffer-stack-filter-regexp (buffer)
   "Non-nil if buffer is in buffer-stack-tracked."
-  (not (or (string-match "Help\\|html\\|helm\\|temp\\|Minibuf\\|Messages\\|Customize\\|Custom-Work\\|scratch\\|tram\\|Buffer\\|Echo\\|code-conversion-work\\|nrepl\\|WoMan-Log\\|cider-" (buffer-name buffer))
+  (not (or (string-match "Help\\|html\\|helm\\|temp\\|Minibuf\\|Customize\\|Custom-Work\\|scratch\\|tram\\|Buffer\\|Echo\\|code-conversion-work\\|nrepl\\|WoMan-Log\\|cider-" (buffer-name buffer))
            (member buffer buffer-stack-untracked))))
 
 (setq jdk-directory "~/jdk/src/")
@@ -881,6 +881,9 @@ Including indent-buffer, which should not be called automatically on save."
 
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(setq org-todo-keywords
+      '((sequence "TODO" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED")))
 
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
@@ -1004,3 +1007,15 @@ regular expression."
 ;; (require 'git-gutter-fringe+)
 ;; (global-git-gutter+-mode)
 ;; (setq git-gutter-fr+-side 'right-fringe)
+
+
+;;;###autoload
+(defun ag-project-files-current-current-file-extension (string)
+  "like ag-project-files, but assumes the file pattern should match that of active buffer.
+   Hacked ag/search to make this work.  will break if ag.el gets updated"
+  (interactive (list (ag/read-from-minibuffer "Search string")))
+
+  (if-let ((extension (and (buffer-file-name)
+                           (file-name-extension (buffer-file-name)))))
+      (ag/search string (ag/project-root default-directory) :file-ext extension)
+    (ag-project-files)))

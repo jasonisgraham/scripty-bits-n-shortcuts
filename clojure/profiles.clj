@@ -1,5 +1,5 @@
-{:user {:plugins [[refactor-nrepl "2.0.0-SNAPSHOT"]
-                  [cider/cider-nrepl "0.11.0-SNAPSHOT"]
+{:user {:plugins [[refactor-nrepl "2.2.0-SNAPSHOT"]
+                  [cider/cider-nrepl "0.12.0-SNAPSHOT"]
                   [lein-auto "0.1.2"]
                   [com.jakemccrary/lein-test-refresh "0.14.0"]
                   [lein-localrepo "0.5.3"]

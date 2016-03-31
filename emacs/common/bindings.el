@@ -135,6 +135,11 @@
 
 ;; "C-c p t" == "SPC p a" for some reason, while "SPC p t" is neotree but "SPC p n" is undefined.  wha??
 (define-key evil-normal-state-map (kbd "SPC p t")  'projectile-toggle-between-implementation-and-test)
+(define-key evil-normal-state-map (kbd "C-c p s f")  'ag-project-files)
+(define-key evil-normal-state-map (kbd "SPC p s f")  'ag-project-files)
+
+(define-key evil-normal-state-map (kbd "SPC p s F")  'ag-project-files-current-current-file-extension)
+(define-key evil-normal-state-map (kbd "C-c p s F")  'ag-project-files-current-current-file-extension)
 
 (define-key evil-normal-state-map (kbd "SPC p a")  nil)
 (define-key evil-normal-state-map (kbd "SPC p n")  'neotree-find-project-root)

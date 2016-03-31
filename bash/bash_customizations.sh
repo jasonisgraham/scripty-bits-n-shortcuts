@@ -93,15 +93,15 @@ function _is_git_dirty {
 }
 
 function bash_prompt {
-    local smaller_ps1=
-    local path_to_pwd=$(pwd | sed "s@$HOME@~@g" | sed -r 's@[^/~]+$@@')
-    if [[ "~" == "$path_to_pwd" ]]; then
-        smaller_ps1=~
-    else
-        local pwd_only=${PWD##*/}
-        local shortened_path_to_pwd=$(echo $path_to_pwd | sed -r "s@(/[^/]{2})[^/]+@\1@g")
-        smaller_ps1=${shortened_path_to_pwd}${pwd_only}
-    fi
+    local _pwd_display="\w"
+    # local path_to_pwd=$(pwd | sed "s@$HOME@~@g" | sed -r 's@[^/~]+$@@')
+    # if [[ "~" == "$path_to_pwd" ]]; then
+    #     _pwd_display=~
+    # else
+    #     local pwd_only=${PWD##*/}
+    #     local shortened_path_to_pwd=$(echo $path_to_pwd | sed -r "s@(/[^/]{2})[^/]+@\1@g")
+    #     _pwd_display=${shortened_path_to_pwd}${pwd_only}
+    # fi
 
     if [[ "$(_git_branch_name)" ]]; then
         local git_branch=${RED}$(_git_branch_name)
@@ -113,7 +113,7 @@ function bash_prompt {
         fi
     fi
 
-    export PS1="\[$BGreen\]\u \t \[$BBlue\]${smaller_ps1}\[$Color_Off\]${git_info}\n\[$Color_Off\]↪ "
+    export PS1="\[$BGreen\]\u \t \[$BBlue\]${_pwd_display}\[$Color_Off\]${git_info}\n\[$Color_Off\]↪ "
 }
 
 function ps1-use-fullpath {
