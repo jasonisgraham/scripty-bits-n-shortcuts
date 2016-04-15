@@ -1,15 +1,15 @@
 #!/bin/bash
 
 #################################################
-# Binds "do-git" to Alt+Shift+g then awaits 
+# Binds "do-git" to Alt+Shift+g then awaits
 #  single keystroke for what to do next.
 #  See usage what does what
 #################################################
-bind '"\eG"':"\"\C-udo-git\C-m\""       
+bind '"\eG"':"\"\C-udo-git\C-m\""
 
 do-git-usage()
 {
-    cat <<EOF    
+    cat <<EOF
     OPTIONS:
     d           git diff
     c           git commit
@@ -32,7 +32,7 @@ function do-git {
 
     local dir='.'
     if [[ "$1" ]]; then
-	dir=$1
+	      dir=$1
     fi
     local _type
     read -n 1 -s _type
@@ -42,20 +42,39 @@ function do-git {
         d ) CMD="diff" ;;
         c ) CMD="commit" ;;
         "<" )
-          CMD="pull origin master"
-          dir=''
-          ;;
+            CMD="pull origin master"
+            dir=''
+            ;;
         ">" )
-          CMD="push origin master"
-          dir=''
-          ;;
+            CMD="push origin master"
+            dir=''
+            ;;
         s ) CMD="status" ;;
         h|* )
-            do-git-usage        
+            do-git-usage
             ;;
-    esac    
+    esac
     local git_cmd="$GIT_BIN $CMD $dir"
     echo ""
     echo $git_cmd
     $git_cmd
+}
+
+
+##########################################################
+# taken from https://gist.github.com/michaelkirk/2596181 #
+##########################################################
+function git-show-remote-branch-info {
+    for k in $(git branch -r|awk '{print $1}'); do
+        echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr\\t%Cred%cn %Creset" $k|head -n 1)\\t$k
+    done | sort -r
+}
+
+##########################################################
+# taken from https://gist.github.com/michaelkirk/2596181 #
+##########################################################
+function git-show-local-branch-info {
+    for k in $(git branch -a|awk '{print $1}'); do
+        echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr\\t%Cred%cn %Creset" $k|head -n 1)\\t$k
+    done|sort -r
 }

@@ -40,10 +40,14 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(;workgroups2
+   dotspacemacs-additional-packages '(
+                                      workgroups2
                                       elisp-slime-nav
-                                      perspective
-                                      persp-projectile
+                                      ;; perspective
+                                      ;; persp-projectile
+
+                                      workgroups2
+                                      projectile
 
                                       zencoding-mode yasnippet auto-complete
                                       vimish-fold
@@ -81,7 +85,9 @@ values."
                                       ag)
 
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(persp-mode
+                                    perspective
+                                    persp-projectile)
 
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of

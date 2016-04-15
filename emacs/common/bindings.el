@@ -21,13 +21,13 @@
 (global-set-key (kbd "<f5>")	  'evil-normal-state-and-save-buffer)
 
 ;; workspaces n stuff
-;; (global-set-key (kbd "H-(")     'wg-switch-to-workgroup-left)
-;; (global-set-key (kbd "H-)")     'wg-switch-to-workgroup-right)
-;; (global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
+(global-set-key (kbd "H-9")     'wg-switch-to-workgroup-left)
+(global-set-key (kbd "H-0")     'wg-switch-to-workgroup-right)
+(global-set-key (kbd "H-'")     'wg-switch-to-workgroup)
 
-(global-set-key (kbd "H-9")     'persp-prev)
-(global-set-key (kbd "H-0")     'persp-next)
-(global-set-key (kbd "H-'")     'persp-switch)
+;; (global-set-key (kbd "H-9")     'persp-prev)
+;; (global-set-key (kbd "H-0")     'persp-next)
+;; (global-set-key (kbd "H-'")     'persp-switch)
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 
@@ -332,6 +332,8 @@
 (global-set-key (kbd "M-S-%") 'query-replace-regexp)
 
 (global-set-key (kbd "H-c") 'reset-my-colors)
+
+(global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
 
 (provide 'bindings)
 ;;; bindings.el ends here

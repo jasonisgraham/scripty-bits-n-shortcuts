@@ -972,7 +972,6 @@ regular expression."
         (funcall ag-command search-term (projectile-project-root)))
     (error "Package 'ag' is not available")))
 
-(global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
 
 ;; (global-set-key (kbd "C-c p ^") (lambda ()
 ;;                                   (interactive)
@@ -991,14 +990,14 @@ regular expression."
 (add-hook 'prog-mode-hook 'highlight-indentation-current-column-mode)
 
 ;; workspaces, tabs, perspective, stuff like that
-(persp-mode)
-(require 'persp-projectile)
-(persp-turn-on-modestring)
+;; (persp-mode)
+;; (require 'persp-projectile)
+;; (persp-turn-on-modestring)
 
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
+(require 'workgroups2)
+(workgroups-mode 1)
 
 (global-flycheck-mode)
-
 
 (defun print-major-mode ()
   (interactive)
@@ -1019,3 +1018,14 @@ regular expression."
                            (file-name-extension (buffer-file-name)))))
       (ag/search string (ag/project-root default-directory) :file-ext extension)
     (ag-project-files)))
+
+(reset-my-colors)
+
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
+
+;; persp-mode         20151209.... installed             "perspectives" shared among frames + save/load - bugs.
+;; persp-projectile   20151220.430 installed             Perspective integration with Projectile
+;; perspective        20160219.... installed             switch between named "perspectives" of the editor
+
+(provide 'emacs-config)
+;;; emacs-config.el ends here
