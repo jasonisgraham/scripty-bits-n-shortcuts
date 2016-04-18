@@ -113,6 +113,10 @@
 
 (add-hook 'prog-mode-hook 'linum-mode)
 
+(add-hook 'cider-mode-hook #'eldoc-mode)
+(add-hook 'cider-repl-mode-hook #'eldoc-mode)
+(add-hook 'cider-repl-mode-hook #'cider-mode)
+
 (dolist (hook '(clojure-mode-hook
                 cider-repl-mode
                 cider-repl-mode-hook))
@@ -147,6 +151,7 @@
                 cider-repl-mode-hook))
 
   (add-hook hook 'lisp-hooks)
+  (add-hook hook 'clojure-mode-hooks)
   ;; (add-hook 'nrepl-mode-hook 'paredit-mode)
   ;; (define-key clojure-mode-map "{" 'paredit-open-curly)
   )
