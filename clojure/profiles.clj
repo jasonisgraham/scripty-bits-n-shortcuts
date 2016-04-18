@@ -17,6 +17,7 @@
                        [org.clojure/tools.trace "0.7.9"]
                        [alembic "0.3.2"]
                        [difform "1.1.2"]
+                       [lein-cloverage "1.0.2"]
                        #_[clj-ns-browser "1.3.1"]]
 
         :test-refresh {:notify-command ["terminal-notifier" "-title" "Tests" "-message"]}

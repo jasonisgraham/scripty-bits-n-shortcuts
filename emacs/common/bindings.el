@@ -137,6 +137,8 @@
 (define-key evil-normal-state-map (kbd "SPC p t")  'projectile-toggle-between-implementation-and-test)
 (define-key evil-normal-state-map (kbd "C-c p s f")  'ag-project-files)
 (define-key evil-normal-state-map (kbd "SPC p s f")  'ag-project-files)
+(define-key evil-normal-state-map (kbd "SPC p s r")  'projectile-ag-regex)
+(define-key evil-normal-state-map (kbd "SPC p s s")  'projectile-ag)
 
 (define-key evil-normal-state-map (kbd "SPC p s F")  'ag-project-files-current-current-file-extension)
 (define-key evil-normal-state-map (kbd "C-c p s F")  'ag-project-files-current-current-file-extension)

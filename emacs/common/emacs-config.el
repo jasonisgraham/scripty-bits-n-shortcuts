@@ -995,10 +995,7 @@ regular expression."
 (require 'persp-projectile)
 (persp-turn-on-modestring)
 
-(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
-
 (global-flycheck-mode)
-
 
 (defun print-major-mode ()
   (interactive)
@@ -1019,3 +1016,10 @@ regular expression."
                            (file-name-extension (buffer-file-name)))))
       (ag/search string (ag/project-root default-directory) :file-ext extension)
     (ag-project-files)))
+
+(reset-my-colors)
+
+(load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
+
+(provide 'emacs-config)
+;;; emacs-config.el ends here
