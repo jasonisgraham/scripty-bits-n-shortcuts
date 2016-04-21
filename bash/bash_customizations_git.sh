@@ -64,14 +64,14 @@ function do-git {
 ###############################################
 # https://gist.github.com/michaelkirk/2596181 #
 ###############################################
-function git-show-remove-branches {
+function git-show-remote-branches {
     for k in $(git branch -r | awk '{print $1}'); do
-        echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr %Cred%cn %Creset" $k | head -n 1)\\t$k
+        echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr\\t%Cred%cn %Creset" $k | head -n 1)\\t$k
     done | sort -r
 }
 
 function git-show-local-branches {
     for k in $(git branch -a | awk '{print $1}'); do
-        echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr %Cred%cn %Creset" $k | head -n 1)\\t$k
+        echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr\\t %Cred%cn %Creset" $k | head -n 1)\\t$k
     done | sort -r
 }
