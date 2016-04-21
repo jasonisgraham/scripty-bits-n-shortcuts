@@ -977,7 +977,6 @@ regular expression."
         (funcall ag-command search-term (projectile-project-root)))
     (error "Package 'ag' is not available")))
 
-(global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
 
 ;; (global-set-key (kbd "C-c p ^") (lambda ()
 ;;                                   (interactive)
@@ -996,9 +995,9 @@ regular expression."
 (add-hook 'prog-mode-hook 'highlight-indentation-current-column-mode)
 
 ;; workspaces, tabs, perspective, stuff like that
-(persp-mode)
-(require 'persp-projectile)
-(persp-turn-on-modestring)
+;; (persp-mode)
+;; (require 'persp-projectile)
+;; (persp-turn-on-modestring)
 
 (global-flycheck-mode)
 

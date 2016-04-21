@@ -3,7 +3,8 @@
                   [lein-auto "0.1.2"]
                   [com.jakemccrary/lein-test-refresh "0.14.0"]
                   [lein-localrepo "0.5.3"]
-                  [lein-ancient "0.6.8"]]
+                  [lein-ancient "0.6.8"]
+                  [lein-git-deps "0.0.1-SNAPSHOT"]]
 
         :dependencies [[clj-http "2.1.0"] ; here b/c lein uses 0.9 which causes problems
                        [org.clojure/tools.nrepl "0.2.12"]
