@@ -8,7 +8,9 @@ function docker-get-ipaddress {
 }
 
 alias docker-env="env | grep DOCKER_"
+alias d=docker
 alias dm=docker-machine
+alias dc=docker-compose
 
 # docker-machine create --driver virtualbox guestbook-dev
 complete -W "${__docker_machines_autocomplete}" docker-env-set
@@ -44,3 +46,4 @@ function docker-rm-containers-by-image-name {
 function docker-rm-untagged-images {
     docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
 }
+

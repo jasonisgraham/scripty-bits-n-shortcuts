@@ -1025,5 +1025,7 @@ regular expression."
 
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
 
+(load-file "~/.emacs.d/embrace.el/embrace.el")
+
 (provide 'emacs-config)
 ;;; emacs-config.el ends here

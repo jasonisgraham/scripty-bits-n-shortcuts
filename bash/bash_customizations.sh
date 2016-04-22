@@ -549,3 +549,7 @@ export TOMCAT_HOME=~/bin/apache-tomcat
 # nohup xscreensaver -no-splash > /dev/null 2>&1
 
 alias public-ip="wget http://ipinfo.io/ip -qO -"
+
+function date-current {
+    date +"%Y-%m-%d"
+}
