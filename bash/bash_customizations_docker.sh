@@ -7,17 +7,24 @@ function docker-get-ipaddress {
     docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${container_id}
 }
 
-alias docker-env="env | grep DOCKER_"
+alias denv="env | grep DOCKER_"
 alias d=docker
 alias dm=docker-machine
 alias dc=docker-compose
 
+
 # docker-machine create --driver virtualbox guestbook-dev
-complete -W "${__docker_machines_autocomplete}" docker-env-set
-function docker-env-set {
+complete -W "${__docker_machines_autocomplete}" dm-set
+function dm-set {
     local __env="$1"
-    eval "$(docker-machine env ${__env})"
-    docker-env
+    local e
+    e="$(docker-machine env ${__env})"
+
+    local retval="$?"
+    if [[ "$retval" == 0 ]]; then
+        eval "$e"
+        denv
+    fi
 }
 
 __docker_image_names="$(docker ps -a | awk '{ print $2 }'  | tail -n +2 | sort -u)"
@@ -46,4 +53,3 @@ function docker-rm-containers-by-image-name {
 function docker-rm-untagged-images {
     docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
 }
-

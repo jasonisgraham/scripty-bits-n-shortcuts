@@ -995,9 +995,9 @@ regular expression."
 (add-hook 'prog-mode-hook 'highlight-indentation-current-column-mode)
 
 ;; workspaces, tabs, perspective, stuff like that
-;; (persp-mode)
-;; (require 'persp-projectile)
-;; (persp-turn-on-modestring)
+(persp-mode)
+(require 'persp-projectile)
+(persp-turn-on-modestring)
 
 (global-flycheck-mode)
 
@@ -1026,6 +1026,8 @@ regular expression."
 (load-file (concat (file-name-as-directory version-controlled-stuff-dir) "/common/bindings.el"))
 
 (load-file "~/.emacs.d/embrace.el/embrace.el")
+
+(load-file "~/.emacs.d/./elpa/darkroom-0.1/darkroom.el")
 
 (provide 'emacs-config)
 ;;; emacs-config.el ends here

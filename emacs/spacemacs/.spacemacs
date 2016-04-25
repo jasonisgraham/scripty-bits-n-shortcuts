@@ -43,11 +43,11 @@ values."
    dotspacemacs-additional-packages '(
                                       workgroups2
                                       elisp-slime-nav
-                                      ;; perspective
-                                      ;; persp-projectile
-
-                                      workgroups2
+                                      perspective
+                                      persp-projectile
                                       projectile
+
+                                      ;; workgroups2
 
                                       zencoding-mode yasnippet auto-complete
                                       vimish-fold
@@ -85,9 +85,7 @@ values."
                                       ag)
 
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '(persp-mode
-                                    perspective
-                                    persp-projectile)
+   dotspacemacs-excluded-packages '()
 
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of

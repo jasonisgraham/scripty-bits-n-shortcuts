@@ -139,7 +139,6 @@ alias find-file="find . -iname "
 alias psg="ps aux | grep "
 alias psgi="ps aux | grep -i"
 
-
 # tell SCREEN to back off when setting TERM to "screen"
 # export TERM=xterm
 export TERM=xterm-256color
@@ -147,7 +146,8 @@ export TERM=xterm-256color
 alias grep-iHrn='grep -irHn '
 # with "set -o vi", \ev opens emacs for some reason
 # this is a way to unbind
-set -o vi
+# set -o vi
+set -o emacs
 bind '"\ev"':self-insert
 # # aliases
 # #  human readable, all files minus . and .., append indicator, ignore backups
@@ -194,7 +194,8 @@ bind '"\en"':'"\C-n"'
 
 
 # echo "someStuff" | to-clipboard -> Ctrl+Shift+V outputs "someStuff"
-# alias to-clipboard='xclip -selection clipboard'
+alias to-clipboard="xclip -selection c"
+
 alias irb='irb --simple-prompt'
 alias rm='rm -i'
 alias mv='mv -i'

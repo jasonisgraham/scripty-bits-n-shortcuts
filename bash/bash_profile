@@ -11,13 +11,8 @@ export CLASSPATH=".:/usr/share/java/junit4.jar:/usr/share/groovy/lib/spock.jar:$
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-export PATH=${PATH}:/opt/cisco/anyconnect/bin/
-
 export PATH
 
 case $- in *i*) . ~/.bashrc;; esac
-
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "~/.gvm/bin/gvm-init.sh" ]] && source "~/.gvm/bin/gvm-init.sh"
 
 #syndaemon -i 1 -K -d
