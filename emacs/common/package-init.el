@@ -1,6 +1,7 @@
 (setq package-list '(elisp-slime-nav
 
-                     zencoding-mode yasnippet auto-complete
+                     ;; zencoding-mode
+                     yasnippet auto-complete
                      vimish-fold
                      ;; clojure/lisps
                      clj-refactor clojure-mode rainbow-delimiters

@@ -41,6 +41,7 @@ values."
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages '(
+                                      zencoding-mode
                                       workgroups2
                                       elisp-slime-nav
                                       perspective
@@ -49,7 +50,10 @@ values."
 
                                       ;; workgroups2
 
-                                      zencoding-mode yasnippet auto-complete
+
+                                      yasnippet
+                                      auto-complete
+
                                       vimish-fold
                                       ;; clojure/lisps
                                       clj-refactor clojure-mode rainbow-delimiters
@@ -257,6 +261,7 @@ layers configuration. You are free to put any user code."
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ansi-color-names-vector
    ["grey8" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
+ '(blink-cursor-mode nil)
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
  '(browse-url-browser-function (quote browse-url-chromium))
  '(buffer-stack-filter (quote buffer-stack-filter-regexp))
@@ -319,6 +324,9 @@ layers configuration. You are free to put any user code."
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(main-line-separator-style (quote chamfer))
+ '(mediawiki-site-alist
+   (quote
+    (("LegalSifter" "http://wiki.legalsifter.com/" "jason" "jB%G5k2#P3Eu*Bf*2Q!&3acfZqw&&#SGdKPjtxU5" "Main Page"))))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
  '(org-startup-truncated nil)
  '(pos-tip-background-color "#A6E22E")
@@ -336,6 +344,7 @@ layers configuration. You are free to put any user code."
  '(recentf-max-saved-items 50)
  '(recentf-mode t)
  '(safe-local-variable-values (quote ((require-final-newline))))
+ '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(vc-annotate-background nil)
  '(vc-annotate-color-map

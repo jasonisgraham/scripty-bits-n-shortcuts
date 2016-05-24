@@ -1,16 +1,25 @@
 #!/bin/bash
 
-__docker_machines_autocomplete=$(docker-machine ls -q)
-
-function docker-get-ipaddress {
-    local container_id="$1"
-    docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${container_id}
-}
-
 alias denv="env | grep DOCKER_"
 alias d=docker
 alias dm=docker-machine
 alias dc=docker-compose
+alias swarm='docker run swarm'
+
+# export MACHINE_STORAGE_PATH=/media/jason/x-dogman-x/docker/machine
+
+alias docker-volumes='docker inspect  -f "{{.Name}} {{.Config.Volumes}}" $(docker ps -a -q)'
+# docker inspect  -f "{{.Name}} {{.Config.Volumes}} {{.HostConfig}}" name
+alias dc-logs='docker-compose logs -t --tail="all" -f'
+alias dm-unset='eval $(docker-machine env --shell /bin/bash -u)'
+
+__docker_machines_autocomplete=$(docker-machine ls -q)
+
+complete -W "$(docker ps | tail -n +2 | awk '{print $NF}')" docker-ip
+function docker-ip {
+    local container_id="$1"
+    docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${container_id}
+}
 
 
 # docker-machine create --driver virtualbox guestbook-dev

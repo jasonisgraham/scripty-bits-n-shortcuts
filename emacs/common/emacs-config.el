@@ -300,13 +300,6 @@
  '(ag-highlight-search t)
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
- ;; '(ansi-color-faces-vector
- ;;   [default default default italic underline success warning error])
- ;; '(ansi-color-names-vector
- ;;   ["#c0c0c0" "#336c6c" "#806080" "#0f2050" "#732f2c" "#23733c" "#6c1f1c" "#232333"])
- ;; '(ansi-term-color-vector
- ;;   [unspecified "#081724" "#ff694d" "#68f6cb" "#fffe4e" "#bad6e2" "#afc0fd" "#d2f1ff" "#d3f9ee"] t)
- ;; '(background-mode dark)
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
  '(browse-url-browser-function (quote browse-url-chromium))
  '(buffer-stack-filter (quote buffer-stack-filter-regexp))
@@ -319,11 +312,6 @@
  '(completion-ignored-extensions
    (quote
     (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
- ;; '(cursor-color "#cccccc")
- ;; '(custom-enabled-themes (quote (monokai)))
- ;; '(custom-safe-themes
- ;;   (quote
- ;;    ("19352d62ea0395879be564fc36bc0b4780d9768a964d26dfae8aad218062858d" "ad9fc392386f4859d28fe4ef3803585b51557838dbc072762117adad37e83585" "1c57936ffb459ad3de4f2abbc39ef29bfb109eade28405fa72734df1bc252c13" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "4e262566c3d57706c70e403d440146a5440de056dfaeb3062f004da1711d83fc" default)))
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-listing-switches
    "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
@@ -334,15 +322,11 @@
  '(electric-indent-mode t)
  ;; '(electric-pair-mode t)
  '(evil-default-cursor (quote (hbar)))
- ;; '(fci-rule-character-color "#202020")
- ;; '(fci-rule-color "#49483E")
- ;; '(foreground-color "#cccccc")
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
  '(global-evil-search-highlight-persist t)
  '(global-undo-tree-mode t)
  ;; '(global-vi-tilde-fringe-mode t)
- ;; '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
  '(golden-ratio-mode nil)
  '(grep-command "grep -n -e ")
  '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
@@ -353,35 +337,9 @@
  '(grep-highlight-matches (quote auto))
  '(grep-template "grep <X> <C> -n -e <R> <F>")
  '(grep-use-null-device t)
- ;; '(helm-recentf-fuzzy-match t)
- ;; '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- ;; '(highlight-symbol-colors
- ;;   (--map
- ;;    (solarized-color-blend it "#002b36" 0.25)
- ;;    (quote
- ;;     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
- ;; '(highlight-symbol-foreground-color "#93a1a1")
- ;; '(highlight-tail-colors
- ;;   (quote
- ;;    (("#073642" . 0)
- ;;     ("#546E00" . 20)
- ;;     ("#00736F" . 30)
- ;;     ("#00629D" . 50)
- ;;     ("#7B6000" . 60)
- ;;     ("#8B2C02" . 70)
- ;;     ("#93115C" . 85)
- ;;     ("#073642" . 100))))
- ;; '(hl-bg-colors
- ;;   (quote
- ;;    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
- ;; '(hl-fg-colors
- ;;   (quote
- ;;    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(ispell-highlight-face (quote flyspell-incorrect))
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
- ;; '(main-line-color1 "#1E1E1E")
- ;; '(main-line-color2 "#111111")
  '(main-line-separator-style (quote chamfer))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
  '(org-startup-truncated nil)
@@ -397,52 +355,7 @@
  '(recentf-max-saved-items 50)
  '(recentf-mode t)
  '(safe-local-variable-values (quote ((require-final-newline))))
- ;; '(show-paren-mode t)
- ;; '(syslog-debug-face
- ;;   (quote
- ;;    ((t :background unspecified :foreground "#A1EFE4" :weight bold))))
- ;; '(syslog-error-face
- ;;   (quote
- ;;    ((t :background unspecified :foreground "#F92672" :weight bold))))
- ;; '(syslog-hour-face (quote ((t :background unspecified :foreground "#A6E22E"))))
- ;; '(syslog-info-face
- ;;   (quote
- ;;    ((t :background unspecified :foreground "#66D9EF" :weight bold))))
- ;; '(syslog-ip-face (quote ((t :background unspecified :foreground "#E6DB74"))))
- ;; '(syslog-su-face (quote ((t :background unspecified :foreground "#FD5FF0"))))
- ;; '(syslog-warn-face
- ;;   (quote
- ;;    ((t :background unspecified :foreground "#FD971F" :weight bold))))
- ;; '(term-default-bg-color "#002b36")
- ;; '(term-default-fg-color "#839496")
  '(tool-bar-mode nil)
- ;; '(vc-annotate-background "#202020")
- ;; '(vc-annotate-color-map
- ;;   (quote
- ;;    ((20 . "#C99090")
- ;;     (40 . "#D9A0A0")
- ;;     (60 . "#ECBC9C")
- ;;     (80 . "#DDCC9C")
- ;;     (100 . "#EDDCAC")
- ;;     (120 . "#FDECBC")
- ;;     (140 . "#6C8C6C")
- ;;     (160 . "#8CAC8C")
- ;;     (180 . "#9CBF9C")
- ;;     (200 . "#ACD2AC")
- ;;     (220 . "#BCE5BC")
- ;;     (240 . "#CCF8CC")
- ;;     (260 . "#A0EDF0")
- ;;     (280 . "#79ADB0")
- ;;     (300 . "#89C5C8")
- ;;     (320 . "#99DDE0")
- ;;     (340 . "#9CC7FB")
- ;;     (360 . "#E090C7"))))
- ;; '(vc-annotate-very-old-color "#E090C7")
- ;; '(view-highlight-face (quote highlight))
- ;; '(yas-snippet-dirs
- ;;   (quote
- ;;    (yas-installed-snippets-dir)) nil (yasnippet))
- ;; '(fringe ((t (:background "grey8" :foreground "#F8F8F2"))))
  '(desktop-save t)
  '(desktop-save-mode t))
 
@@ -472,15 +385,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; make sure to run (run-python) https://github.com/bbatsov/prelude/issues/530
-(autoload 'jedi:setup "jedi" nil t)
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:setup-keys t)
-(setq jedi:complete-on-dot t)
+;; (autoload 'jedi:setup "jedi" nil t)
+;; (add-hook 'python-mode-hook 'jedi:setup)
+;; (setq jedi:setup-keys t)
+;; (setq jedi:complete-on-dot t)
 
 ;; eval-in-repl
-(require 'eval-in-repl)
-(require 'eval-in-repl-python)
-(define-key python-mode-map (kbd "H-e") 'eir-eval-in-python)
+;; (require 'eval-in-repl)
+;; (require 'eval-in-repl-python)
+;; (define-key python-mode-map (kbd "H-e") 'eir-eval-in-python)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

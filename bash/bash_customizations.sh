@@ -94,14 +94,6 @@ function _is_git_dirty {
 
 function bash_prompt {
     local _pwd_display="\w"
-    # local path_to_pwd=$(pwd | sed "s@$HOME@~@g" | sed -r 's@[^/~]+$@@')
-    # if [[ "~" == "$path_to_pwd" ]]; then
-    #     _pwd_display=~
-    # else
-    #     local pwd_only=${PWD##*/}
-    #     local shortened_path_to_pwd=$(echo $path_to_pwd | sed -r "s@(/[^/]{2})[^/]+@\1@g")
-    #     _pwd_display=${shortened_path_to_pwd}${pwd_only}
-    # fi
 
     if [[ "$(_git_branch_name)" ]]; then
         local git_branch=${RED}$(_git_branch_name)
@@ -113,7 +105,12 @@ function bash_prompt {
         fi
     fi
 
-    export PS1="\[$BGreen\]\u \t \[$BBlue\]${_pwd_display}\[$Color_Off\]${git_info}\n\[$Color_Off\]↪ "
+    local _docker_host_display=
+    if [[ "$DOCKER_HOST" ]]; then
+        _docker_host_display=" \[$Color_Off\]\[$Cyan\]$DOCKER_HOST\[$Color_Off\]"
+    fi
+
+    export PS1="\[$BGreen\]\u \t \[$BBlue\]${_pwd_display}${_docker_host_display}\[$Color_Off\]${git_info}\n\[$Color_Off\]↪ "
 }
 
 function ps1-use-fullpath {
@@ -172,7 +169,7 @@ bind '"\ej"':"\"\C-m\""
 # alt-< Move up the directory. same as cd ../
 bind '"\e<"':"\"\C-u__move-up-directory\C-m\""
 bind '"\eL"':"\"\C-u__ls-type\C-m\""
-bind '"\el"':"\"\C-ul\C-m\""
+bind '"\el"':"\"\C-ull\C-m\""
 bind '"\e1"':"\"\C-a\C-kla\C-j\""
 bind '"\e2"':"\"\C-a\C-klt\C-j\""
 
