@@ -109,7 +109,26 @@
 
   ;; (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests)
   (define-key clojure-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test)
-  (define-key cider-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test))
+  (define-key cider-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test)
+
+  (define-clojure-indent
+    ;; compojure
+    (defroutes 'defun)
+    (GET 2)
+    (POST 2)
+    (PUT 2)
+    (DELETE 2)
+    (HEAD 2)
+    (ANY 2)
+    (context 2)
+
+    ;; om
+    (defui 1)
+    (render 1)
+    (query 1)
+    (componentDidMount 1)
+    (componentDidUpdate 1)
+    (did-mount 1)))
 
 (add-hook 'prog-mode-hook 'linum-mode)
 
@@ -285,6 +304,7 @@
 (require 'company-emacs-eclim)
 (company-emacs-eclim-setup)
 (global-company-mode t)
+(setq company-idle-delay 1)
 
 (add-hook 'eclim-mode-hook (lambda ()
                              (global-set-key (kbd "M-C k") 'eclim-problems-correct)))
@@ -572,7 +592,7 @@
 
 (setq-default c-basic-offset 2)
 (setq-default indent-tabs-mode nil)
-(setq js-indent-level 2)
+(setq js-indent-level 4)
 
 (require 'paren)
 (show-paren-mode t)
@@ -824,8 +844,8 @@ Including indent-buffer, which should not be called automatically on save."
 ;;                           (setq indent-tabs-mode t)
 ;;                           (setq tab-width 4)))
 
-(set-frame-font "Monaco 9" nil t)
-(set-face-attribute 'default nil :font "Monaco 9")
+(set-frame-font "inconsolata 10" nil t)
+(set-face-attribute 'default nil :font "inconsolata 10")
 (set-face-attribute 'fringe nil :background my-background-color)
 (set-face-attribute 'linum nil :background my-background-color)
 

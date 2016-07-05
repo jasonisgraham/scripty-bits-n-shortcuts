@@ -337,5 +337,34 @@
 
 (global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
 
+;; (when (require 'multi-term nil t)
+;;   (global-set-key (kbd "<f5>") 'multi-term)
+;;   (global-set-key (kbd "<C-next>") 'multi-term-next)
+;;   (global-set-key (kbd "<C-prior>") 'multi-term-prev)
+;;   (setq multi-term-buffer-name "ansi-term"
+;;         multi-term-program "/bin/bash"))
+
+
+;; (defun term-move-window-then-open-term (motion-func)
+;;   (interactive)
+;;   (funcall motion-func 1)
+;;   (ansi-term "/bin/bash"))
+
+;; (let ((f (lambda (motion) (eval motion) (ansi-term "/bin/bash"))))
+;;   (define-key term-raw-map (kbd "<f7> j") '(funcall f '(evil-window-up 1))))
+
+(global-set-key (kbd "<f7> <f7>") '(lambda () (interactive) (ansi-term "/bin/bash")))
+
+(eval-after-load "term"
+  '(progn
+     (define-key term-raw-map (kbd "C-c C-y") 'term-paste)
+     (define-key term-raw-map (kbd "M-J") 'evil-window-down)
+     (define-key term-raw-map (kbd "M-K") 'evil-window-up)
+     (define-key term-raw-map (kbd "M-L") 'evil-window-right)
+     (define-key term-raw-map (kbd "M-H") 'evil-window-left)
+
+
+     (define-key term-raw-map (kbd "<f7> <f7>") '(ansi-term "/bin/bash"))))
+
 (provide 'bindings)
 ;;; bindings.el ends here

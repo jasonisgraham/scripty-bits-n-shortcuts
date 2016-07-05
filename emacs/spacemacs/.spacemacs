@@ -14,6 +14,7 @@ values."
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
+
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
@@ -24,32 +25,24 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     ;; better-defaults
      emacs-lisp
-     ;; git
-     ;; markdown
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
      syntax-checking
-     ;; version-control
+     ;; yaml
+     ;; clojure
+     ;; markdown
      )
+
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(
-                                      zencoding-mode
+   dotspacemacs-additional-packages '(zencoding-mode
                                       workgroups2
                                       elisp-slime-nav
                                       perspective
                                       persp-projectile
                                       projectile
-
-                                      ;; workgroups2
-
 
                                       yasnippet
                                       auto-complete
@@ -247,7 +240,10 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el"))
+  (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el")
+
+  ;; soft-wrap at proper indent level
+  (add-hook 'prog-mode-hook #'adaptive-wrap-prefix-mode))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

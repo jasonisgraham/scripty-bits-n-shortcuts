@@ -36,6 +36,13 @@ function dm-set {
     fi
 }
 
+__docker_containers=$(docker ps | tail -n +2 | awk '{print $NF}')
+complete -W "${__docker_containers}" d-bash
+function d-bash {
+    local _c="$1"
+    docker exec -it $_c bash
+}
+
 __docker_image_names="$(docker ps -a | awk '{ print $2 }'  | tail -n +2 | sort -u)"
 
 complete -W "${__docker_image_names}" docker-containers-by-image-name
@@ -62,3 +69,12 @@ function docker-rm-containers-by-image-name {
 function docker-rm-untagged-images {
     docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
 }
+
+function docker-rm-exited-containers {
+    docker rm $(docker ps -a | grep Exited | awk '{print $1}')
+}
+
+
+# docker run  -e "LS_PIPELINE_PRODUCTION_MODELS_AND_INDEXES=/usr/src/app/data/production_models_and_indexes/09_models" -v /aws:/aws -v /nlp:/nlp  ls-pipeline:latest  runModels /nlp/data/bnym/01_preprocessing/02_output/supply2013-01-16.html.ocr-txt.xmi bnym
+# docker cp target/ls-ie-pipeline-0.0.1-SNAPSHOT-jar-with-dependencies.jar pensive_shirley:/usr/src/app/target/.
+# docker  run -v /nlp:/nlp -it --entrypoint=bash ls-pipeline:latest -i

@@ -10,6 +10,8 @@
 # exclude a string regex
 # echo "select sjiofjeifoej from DOG jfidofjdfoidjf select fjdisofjoidfj from CAT " | grep -oiP 'select(.(?!from))*\s+from\s+\w+' ; prints DOG, CAT
 
+# source ~/scripty-bits-n-shortcuts/bash/reset-input-preferences.sh
+
 function find-files-greater-than {
     local dir="${1}"
     local size="${2}"
@@ -108,6 +110,10 @@ function bash_prompt {
     local _docker_host_display=
     if [[ "$DOCKER_HOST" ]]; then
         _docker_host_display=" \[$Color_Off\]\[$Cyan\]$DOCKER_HOST\[$Color_Off\]"
+    fi
+
+    if [[ "$DOCKER_MACHINE_NAME" ]]; then
+        _docker_host_display="${_docker_host_display}:\[$Blue\]$DOCKER_MACHINE_NAME\[$Color_Off\]"
     fi
 
     export PS1="\[$BGreen\]\u \t \[$BBlue\]${_pwd_display}${_docker_host_display}\[$Color_Off\]${git_info}\n\[$Color_Off\]↪ "
@@ -228,6 +234,7 @@ fi
 HISTCONTROL=ignoredups:ignorespace:erasedups # don't put duplicate lines in the history.
 HISTIGNORE="__move-down-directory:__move-up-directory:__ls-type:pwd:ls:cd:fg:top:source *:"
 shopt -s histappend # append to the history file, don't overwrite it
+# shopt -s dotglob nullglob # http://unix.stackexchange.com/questions/6393/how-do-you-move-all-files-including-hidden-from-one-directory-to-another
 HISTSIZE=50000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTFILESIZE=20000
 # export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
@@ -550,4 +557,12 @@ alias public-ip="wget http://ipinfo.io/ip -qO -"
 
 function date-current {
     date +"%Y-%m-%d"
+}
+
+function random-words {
+    local num_wanted="$1"
+    local words=$(cat /usr/share/dict/words | grep -Pv '[^\w]' | tr '[:upper:]' '[:lower:]' | awk 'length($0) > 3 && length($0) < 10')
+    local num=$(echo $words | tr ' ' '\n' | wc -l)
+    local sed_args=$(python -c "import random; print ' '.join(['-e '+str(random.randint(0,$num))+'p ' for i in range(0,4)])")
+    echo $words | tr ' ' '\n' | sed -n $sed_args | tr '\n' ' ' | sed -e 's/\s//g'
 }
