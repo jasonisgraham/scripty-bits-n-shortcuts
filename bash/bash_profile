@@ -18,3 +18,4 @@ case $- in *i*) . ~/.bashrc;; esac
 #syndaemon -i 1 -K -d
 export LC_ALL="en_US.UTF-8"
 source ~/scripty-bits-n-shortcuts/bash/reset-input-preferences.sh
+

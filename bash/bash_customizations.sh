@@ -207,7 +207,7 @@ alias df='df -h'
 alias du='du -sh'
 alias h='history | tail'
 alias sr='screen -r'
-alias c='cd-above'
+alias c='cd-plus'
 alias run-junit="java -cp .:/usr/share/java/junit4.jar org.junit.runner.JUnitCore"
 
 # sources
@@ -232,13 +232,13 @@ fi
 #HISTORY_CUSTOMIZATIONS
 ##################################
 HISTCONTROL=ignoredups:ignorespace:erasedups # don't put duplicate lines in the history.
-HISTIGNORE="__move-down-directory:__move-up-directory:__ls-type:pwd:ls:cd:fg:top:source *:"
+HISTIGNORE="__move-down-directory:git shorty .:__move-up-directory:__ls-type:pwd:ls:cd:fg:top:source *:"
 shopt -s histappend # append to the history file, don't overwrite it
 # shopt -s dotglob nullglob # http://unix.stackexchange.com/questions/6393/how-do-you-move-all-files-including-hidden-from-one-directory-to-another
 HISTSIZE=50000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTFILESIZE=20000
 # export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
-export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}"
+export PROMPT_COMMAND="history -a; ${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}"
 
 ####################################################################
 # "useful" functions that are called with the binds from above
@@ -419,7 +419,7 @@ function get-path-to-dir {
     echo $1 | sed "s@$l@@g"
 }
 
-function cd-above {
+function cd-plus {
     if [ ! "$1" ]; then
 	      ## if no arg, go home
 	      cd ~
@@ -566,3 +566,16 @@ function random-words {
     local sed_args=$(python -c "import random; print ' '.join(['-e '+str(random.randint(0,$num))+'p ' for i in range(0,4)])")
     echo $words | tr ' ' '\n' | sed -n $sed_args | tr '\n' ' ' | sed -e 's/\s//g'
 }
+
+export GROOVY_HOME=~/bin/groovy/groovy
+export PATH="${PATH}:${GROOVY_HOME}/bin"
+
+
+alias urlencode='python -c "import sys, urllib as ul; \
+    print ul.quote_plus(sys.argv[1])"'
+
+alias urldecode='python -c "import sys, urllib as ul; \
+    print ul.unquote_plus(sys.argv[1])"'
+
+alias fn="find . -name "
+alias fin="find . -iname "

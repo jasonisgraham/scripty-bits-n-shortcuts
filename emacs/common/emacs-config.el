@@ -141,6 +141,21 @@
                 cider-repl-mode-hook))
   (add-hook hook 'clojure-mode-hooks))
 
+(defun cider-system-reset ()
+  (interactive)
+  (cider-interactive-eval
+   "(reloaded.repl/reset)"
+   ;; "(require 'user)
+   ;;   (user/reset)"
+   ))
+
+;; hotloader
+(add-hook 'cider-mode-hook
+          '(lambda () (add-hook 'after-save-hook
+                                '(lambda ()
+                                   (if (and (boundp 'cider-mode) cider-mode)
+                                       (cider-system-reset))))))
+
 ;; clojure/lispy stuff
 (defun lisp-hooks ()
   (interactive)
@@ -287,27 +302,27 @@
 ;; eclim                                ;;
 ;; https://github.com/senny/emacs-eclim ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'eclim)
-(global-eclim-mode)
-(require 'eclimd)
+;; (require 'eclim)
+;; (global-eclim-mode)
+;; (require 'eclimd)
 
 ;; regular auto-complete initialization
 (require 'auto-complete-config)
 (ac-config-default)
 
 ;; add the emacs-eclim source
-(require 'ac-emacs-eclim-source)
-(ac-emacs-eclim-config)
+;; (require 'ac-emacs-eclim-source)
+;; (ac-emacs-eclim-config)
 
 ;; configuring company-mode
 (require 'company)
-(require 'company-emacs-eclim)
-(company-emacs-eclim-setup)
+;; (require 'company-emacs-eclim)
+;; (company-emacs-eclim-setup)
 (global-company-mode t)
 (setq company-idle-delay 1)
 
-(add-hook 'eclim-mode-hook (lambda ()
-                             (global-set-key (kbd "M-C k") 'eclim-problems-correct)))
+;; (add-hook 'eclim-mode-hook (lambda ()
+;;                              (global-set-key (kbd "M-C k") 'eclim-problems-correct)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -335,8 +350,8 @@
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-listing-switches
    "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
- '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
- '(eclim-executable "~/bin/eclipse/eclim")
+ ;;  '(eclim-eclipse-dirs (quote ("~/bin/eclipse")))
+ ;; '(eclim-executable "~/bin/eclipse/eclim")
  '(ediff-split-window-function (quote split-window-horizontally) t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(electric-indent-mode t)
@@ -742,6 +757,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 (projectile-global-mode)
 (setq projectile-enable-caching t)
+(setq projectile-indexing-method 'native)
 
 ;; http://emacswiki.org/emacs/FullScreen
 (defun toggle-fullscreen ()
@@ -797,15 +813,23 @@ Including indent-buffer, which should not be called automatically on save."
    "(require 'clojure.tools.namespace.repl)
   (clojure.tools.namespace.repl/refresh)"))
 
+(defun cider-save-and-rerun-test ()
+  (interactive)
+  (evil-normal-state-and-save-buffer)
+  (cider-test-rerun-test))
+
 (add-hook 'clojure-mode-hook
           (lambda ()
             (define-key clojure-mode-map (kbd "C-c C-r") 'cider-namespace-refresh)
+            (define-key evil-normal-state-map (kbd "qe") 'cider-eval-last-sexp)
             (define-key clojure-mode-map (kbd "H-r") 'cider-eval-region)
             (define-key clojure-mode-map (kbd "H-e") 'cider-eval-last-sexp)
+            (define-key clojure-mode-map (kbd "<f8>") 'cider-eval-last-sexp)
             (define-key clojure-mode-map (kbd "<H-f1>") 'clojure-cheatsheet)
             (define-key clojure-mode-map (kbd "C-c d") 'cider-debug-defun-at-point)
             (define-key clojure-mode-map (kbd "C-c .") "->> ")
             (define-key clojure-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
+            (define-key clojure-mode-map (kbd "C-S-<f11>" 'cider-save-and-rerun-test))
             (auto-highlight-symbol-mode t)))
 
 ;; (setq nrepl-hide-special-buffers t
@@ -960,7 +984,9 @@ regular expression."
 
 (load-file "~/.emacs.d/embrace.el/embrace.el")
 
-(load-file "~/.emacs.d/./elpa/darkroom-0.1/darkroom.el")
+;; (load-file "~/.emacs.d/./elpa/darkroom-0.1/darkroom.el")
+
+(add-to-list 'company-backends 'company-elm)
 
 (provide 'emacs-config)
 ;;; emacs-config.el ends here

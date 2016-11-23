@@ -32,7 +32,7 @@
                      highlight-parentheses hl-anything
                      highlight-numbers
                      f
-                     emacs-eclim
+                   ;;  emacs-eclim
                      company
                      ag))
 

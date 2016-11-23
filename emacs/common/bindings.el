@@ -127,9 +127,9 @@
 (define-key evil-normal-state-map (kbd "gwr") 'winner-redo)
 (define-key evil-normal-state-map (kbd "gr") 'repeat)
 (define-key evil-normal-state-map (kbd "C-a") nil)
+(define-key evil-normal-state-map (kbd "qe") 'eval-last-sexp)
 
 (define-key evil-normal-state-map (kbd "qq") 'quit-window)
-(define-key evil-normal-state-map (kbd "g-") 'hs-hide-block)
 (define-key evil-normal-state-map (kbd "g+") 'hs-show-block)
 (define-key evil-normal-state-map (kbd "gf")  'ido-find-file)
 
@@ -366,5 +366,6 @@
 
      (define-key term-raw-map (kbd "<f7> <f7>") '(ansi-term "/bin/bash"))))
 
+(global-set-key (kbd "C-S-<f11>") 'cider-save-and-rerun-test)
 (provide 'bindings)
 ;;; bindings.el ends here

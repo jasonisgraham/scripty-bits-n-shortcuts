@@ -2,7 +2,7 @@
 
 (load-file "~/scripty-bits-n-shortcuts/emacs/common/emacs-config.el")
 
-(setq my-background-color "grey8")
+(setq my-background-color "grey4")
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -64,7 +64,7 @@
  '(fci-rule-character-color "#202020")
  '(fci-rule-color "#49483E")
  '(foreground-color "#cccccc")
- '(fringe ((t (:background "grey8" :foreground "#F8F8F2"))))
+ '(fringe ((t (:background "grey4" :foreground "#F8F8F2"))))
  '(fringe-mode 0 nil (fringe))
  '(global-anzu-mode t)
  '(global-auto-highlight-symbol-mode t)
@@ -124,6 +124,7 @@
  '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
  '(projectile-enable-caching t)
  '(projectile-global-mode t)
+ '(projectile-indexing-method 'native)
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*" ".metadata" "*.metadata*")))

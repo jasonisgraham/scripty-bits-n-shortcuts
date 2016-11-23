@@ -1,6 +1,16 @@
 #!/bin/bash
 
-bind '"\eG"':"\"\C-ugit status .\C-m\""
+bind '"\eG"':"\"\C-ugit shorty .\C-m\""
+
+alias g=git
+# --format=format:%an
+alias gl="git log --oneline --abbrev-commit --all --graph --decorate --color"
+alias gg="git grog"
+alias gs="git status"
+alias gb="git branch"
+alias gc="git commit"
+alias gd="git diff"
+alias gds="git diff --staged"
 
 ###############################################
 # https://gist.github.com/michaelkirk/2596181 #
