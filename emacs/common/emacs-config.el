@@ -141,21 +141,6 @@
                 cider-repl-mode-hook))
   (add-hook hook 'clojure-mode-hooks))
 
-(defun cider-system-reset ()
-  (interactive)
-  (cider-interactive-eval
-   "(reloaded.repl/reset)"
-   ;; "(require 'user)
-   ;;   (user/reset)"
-   ))
-
-;; hotloader
-(add-hook 'cider-mode-hook
-          '(lambda () (add-hook 'after-save-hook
-                                '(lambda ()
-                                   (if (and (boundp 'cider-mode) cider-mode)
-                                       (cider-system-reset))))))
-
 ;; clojure/lispy stuff
 (defun lisp-hooks ()
   (interactive)
@@ -346,7 +331,7 @@
  '(compilation-message-face (quote default))
  '(completion-ignored-extensions
    (quote
-    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo")))
+    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".log")))
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-listing-switches
    "-lahBF --ignore=#* --ignore=.svn --ignore=.git --group-directories-first")
@@ -367,7 +352,7 @@
  '(grep-find-command (quote ("find . -type f -exec grep -nHir -e  {} +" . 34)))
  '(grep-find-ignored-files
    (quote
-    (".#*" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
+    (".#*" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo" "*.log")))
  '(grep-find-template "find . <X> -type f <F> -exec grep <C> -nH -e <R> {} +")
  '(grep-highlight-matches (quote auto))
  '(grep-template "grep <X> <C> -n -e <R> <F>")
@@ -757,7 +742,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 (projectile-global-mode)
 (setq projectile-enable-caching t)
-(setq projectile-indexing-method 'native)
+(setq projectile-indexing-method 'alien)
+;; (setq projectile-indexing-method 'native)
 
 ;; http://emacswiki.org/emacs/FullScreen
 (defun toggle-fullscreen ()
@@ -805,31 +791,74 @@ Including indent-buffer, which should not be called automatically on save."
           '(lambda () (add-hook 'after-save-hook
                                 '(lambda ()
                                    (if (and (boundp 'cider-mode) cider-mode)
-                                       (cider-namespace-refresh))))))
+                                       nil ;; (cider-namespace-refresh)
+                                       )))))
+(defun cider-system-reset ()
+  (interactive)
+  (cider-interactive-eval
+   "
+(do
+(require 'clojure.tools.namespace.repl)
+(clojure.tools.namespace.repl/refresh)
+(use 'clojure.repl)
+(require '[reloaded.repl :refer [reset]])
+)
+"
+))
 
 (defun cider-namespace-refresh ()
   (interactive)
   (cider-interactive-eval
-   "(require 'clojure.tools.namespace.repl)
-  (clojure.tools.namespace.repl/refresh)"))
+   "
+(do (require 'clojure.tools.namespace.repl)
+  (clojure.tools.namespace.repl/refresh)
+(use 'clojure.repl)
+(require '[reloaded.repl :refer [reset]])
+ (use 'reloaded.repl)
+ (reloaded.repl/reset)
+ (require 'user)
+ (reset)
+)
+"))
 
 (defun cider-save-and-rerun-test ()
   (interactive)
   (evil-normal-state-and-save-buffer)
+  (cider-refresh)
   (cider-test-rerun-test))
 
 (add-hook 'clojure-mode-hook
           (lambda ()
-            (define-key clojure-mode-map (kbd "C-c C-r") 'cider-namespace-refresh)
+            (define-key clojure-mode-map (kbd "<f5>") 'cider-namespace-refresh)
             (define-key evil-normal-state-map (kbd "qe") 'cider-eval-last-sexp)
             (define-key clojure-mode-map (kbd "H-r") 'cider-eval-region)
             (define-key clojure-mode-map (kbd "H-e") 'cider-eval-last-sexp)
             (define-key clojure-mode-map (kbd "<f8>") 'cider-eval-last-sexp)
             (define-key clojure-mode-map (kbd "<H-f1>") 'clojure-cheatsheet)
             (define-key clojure-mode-map (kbd "C-c d") 'cider-debug-defun-at-point)
-            (define-key clojure-mode-map (kbd "C-c .") "->> ")
+            ;; (define-key clojure-mode-map (kbd "C-c .") "->> ")
             (define-key clojure-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
-            (define-key clojure-mode-map (kbd "C-S-<f11>" 'cider-save-and-rerun-test))
+            (define-key clojure-mode-map (kbd "C-c C-p") 'cider-repl-previous-prompt)
+            (auto-highlight-symbol-mode t)))
+
+;; hotloader
+(add-hook 'cider-mode-hook
+          '(lambda () (add-hook 'after-save-hook
+                                '(lambda ()
+                                   (if (and (boundp 'cider-mode) cider-mode)
+                                       (cider-system-reset))))))
+
+(add-hook 'cider-mode-hook
+          (lambda ()
+            (define-key evil-normal-state-map (kbd "qe") 'cider-eval-last-sexp)
+            (define-key clojure-mode-map (kbd "H-r") 'cider-eval-region)
+            (define-key clojure-mode-map (kbd "H-e") 'cider-eval-last-sexp)
+            (define-key clojure-mode-map (kbd "<f8>") 'cider-eval-last-sexp)
+            (define-key clojure-mode-map (kbd "<H-f1>") 'clojure-cheatsheet)
+            (define-key clojure-mode-map (kbd "C-c d") 'cider-debug-defun-at-point)
+            ;; (define-key clojure-mode-map (kbd "C-c .") "->> ")
+            (define-key clojure-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
+            (define-key clojure-mode-map (kbd "C-c C-p") 'cider-repl-previous-prompt)
             (auto-highlight-symbol-mode t)))
 
 ;; (setq nrepl-hide-special-buffers t
@@ -925,10 +954,7 @@ regular expression."
          current-prefix-arg))
   (if (require 'ag nil 'noerror)
       (let ((ag-command 'ag-regexp)
-            (ag-ignore-list (-union ag-ignore-list
-                                    (append
-                                     (projectile-ignored-files-rel) (projectile-ignored-directories-rel)
-                                     grep-find-ignored-files grep-find-ignored-directories)))
+
             ;; reset the prefix arg, otherwise it will affect the ag-command
             (current-prefix-arg nil))
         (funcall ag-command search-term (projectile-project-root)))
@@ -962,9 +988,9 @@ regular expression."
   (interactive)
   (message "%s" major-mode))
 
-;; (require 'git-gutter-fringe+)
-;; (global-git-gutter+-mode)
-;; (setq git-gutter-fr+-side 'right-fringe)
+(require 'git-gutter-fringe+)
+(global-git-gutter+-mode)
+(setq git-gutter-fr+-side 'right-fringe)
 
 
 ;;;###autoload
@@ -987,6 +1013,33 @@ regular expression."
 ;; (load-file "~/.emacs.d/./elpa/darkroom-0.1/darkroom.el")
 
 (add-to-list 'company-backends 'company-elm)
+
+
+;; typescript
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; ;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; ;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+;; ;; format options
+(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+
+(setq global-command-log-mode 't)
 
 (provide 'emacs-config)
 ;;; emacs-config.el ends here

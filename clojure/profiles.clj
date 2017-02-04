@@ -1,6 +1,7 @@
-{:user {:plugins [[cider/cider-nrepl "0.15.0-SNAPSHOT"]
+{:user {:plugins [[venantius/yagni "0.1.4"]
+                  [cider/cider-nrepl "0.15.0-SNAPSHOT"]
                   [refactor-nrepl "2.3.0-SNAPSHOT"]
-                  [lein-ancient "0.6.8"]
+                  [lein-ancient "0.6.8" :exclusions [org.clojure/clojure]]
                   ;; [venantius/ultra "0.3.4"] ; repl colors ; 0.4.0 fails, try later
                   [jonase/eastwood "0.2.3"]
                   ;; [jonase/eastwood "0.2.1"] ; linting
@@ -13,13 +14,13 @@
                        [org.clojure/tools.namespace "0.3.0-alpha3"]
                        [im.chit/vinyasa "0.3.4"] ; pull ; 0.4.2 fails, try later
                        [spyscope "0.1.5"] ; fancy println
-                       ;; [alembic "0.3.2"] ; deps loading
-                       ;; [io.aviso/pretty "0.1.18"] ; stacktrace
+                       [alembic "0.3.2"] ; deps loading
+                       [io.aviso/pretty "0.1.18"] ; stacktrace
                        ;; [pjstadig/humane-test-output "0.7.0"] ; better test out
                        ;; [slamhound "1.5.5"] ; ns form cleaner
                        ;; [clj-ns-browser "1.3.1"]
                        ;; [aprint "0.1.3"] ; another pprint
-                       ;; [org.clojure/tools.trace "0.7.8"] ; trace
+                       [org.clojure/tools.trace "0.7.8"] ; trace
                        ;; [datomic-schema-grapher "0.0.1"]
                        ]
 
@@ -36,7 +37,7 @@
            [clojure.tools.namespace.repl refresh]
            [clojure.repl doc source]
            [clojure.test run-tests]
-           ;; [alembic.still distill load-project]
+           [alembic.still distill load-project]
 
            #_[clojure.tools.trace trace]
            #_[aprint.core aprint]

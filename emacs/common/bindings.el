@@ -5,6 +5,7 @@
 ;;; Code:
 ;; Hyper & control duplicates while i get used to swapping Ctrl + Hyper
 (global-set-key (kbd "H-z")     'repeat)
+(global-set-key (kbd "<f9>")     'repeat)
 (global-set-key (kbd "C-M-8")   'buffer-menu)
 ;; (global-set-key (kbd "H-*")     'ido-switch-buffer)
 (global-set-key (kbd "C-8")     'helm-mini)
@@ -18,7 +19,7 @@
 (global-set-key (kbd "H-o k")   'evil-previous-line-first-non-blank)
 (global-set-key (kbd "H-<f6>")  'load-file)
 (global-set-key (kbd "C-;")     'evil-normal-state-and-save-buffer)
-(global-set-key (kbd "<f5>")	  'evil-normal-state-and-save-buffer)
+;; (global-set-key (kbd "<f12>")	  'evil-normal-state-and-save-buffer)
 
 ;; workspaces n stuff
 ;; (global-set-key (kbd "H-9")     'wg-switch-to-workgroup-left)
@@ -146,6 +147,10 @@
 (define-key evil-normal-state-map (kbd "SPC p a")  nil)
 (define-key evil-normal-state-map (kbd "SPC p n")  'neotree-find-project-root)
 (define-key evil-normal-state-map (kbd "C-c p n")  'neotree-find-project-root)
+
+(define-key evil-normal-state-map (kbd "C-c p n")  'neotree-find-project-root)
+
+(define-key evil-normal-state-map (kbd "q4")  'evil-end-of-line)
 
 ;; SPC-w-c
 ;; (define-key evil-normal-state-map (kbd "qw0") 'delete-window)

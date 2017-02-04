@@ -4,7 +4,7 @@ bind '"\eG"':"\"\C-ugit shorty .\C-m\""
 
 alias g=git
 # --format=format:%an
-alias gl="git log --oneline --abbrev-commit --all --graph --decorate --color"
+alias gl="git log --oneline --abbrev-commit  --graph --decorate --color"
 alias gg="git grog"
 alias gs="git status"
 alias gb="git branch"

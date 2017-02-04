@@ -101,6 +101,21 @@ function bash_prompt {
         local git_branch=${RED}$(_git_branch_name)
         local git_info=" ${BYellow}${git_branch}${BYellow}"
 
+        local ahead_behind="$(git status -sb  | head -n 1 | grep -oP '(?<=\[).*(?=\])')"
+        if [[ "${ahead_behind}" ]]; then
+            local ahead="$(echo $ahead_behind | grep -oP 'ahead[\s\d]*' | sed  's/ahead/↑/' | sed 's/\s//')"
+            local behind="$(echo $ahead_behind | grep -oP 'behind[\s\d]*' | sed  's/behind/↓/' | sed 's/\s//')"
+
+            if [[ "$ahead" ]]; then
+                git_info="${git_info} \[$Green\]${ahead}\[$ColorOff\]"
+            fi
+
+            if [[ "$behind" ]]; then
+                git_info="${git_info} \[$Red\]${behind}\[$ColorOff\]"
+            fi
+        fi
+
+
         if [[ "$(_is_git_dirty)" ]]; then
             local dirty="\[$BGreen\] ✗"
             local git_info="${git_info}${dirty}"
@@ -579,3 +594,8 @@ alias urldecode='python -c "import sys, urllib as ul; \
 
 alias fn="find . -name "
 alias fin="find . -iname "
+
+function stopwatch {
+	echo $(date)
+	while true; do echo -ne "$(date)\r"; done
+}
