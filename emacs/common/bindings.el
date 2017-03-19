@@ -29,6 +29,7 @@
 (global-set-key (kbd "H-9")     'persp-prev)
 (global-set-key (kbd "H-0")     'persp-next)
 (global-set-key (kbd "H-'")     'persp-switch)
+(global-set-key (kbd "H-P")     'persp-switch-last)
 
 (global-set-key (kbd "H-e")     'eval-last-sexp)
 

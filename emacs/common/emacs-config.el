@@ -1,4 +1,5 @@
-(setq debug-on-error t)
+;; (setq debug-on-error t)
+(setq debug-on-error nil)
 
 (setq my-background-color "grey8")
 
@@ -42,7 +43,7 @@
 
 (defun reset-my-colors ()
   (interactive)
-  (set-frame-parameter (selected-frame) 'alpha '(97 90))
+  (set-frame-parameter (selected-frame) 'alpha '(98 90))
   (set-background-color my-background-color))
 
 (reset-my-colors)
@@ -99,6 +100,10 @@
 ;; lisp stuff
 (require 'clj-refactor)
 
+(require 'cider)
+(add-hook 'clojure-mode-hook 'cider-mode)
+(add-hook 'cider-interaction-mode-hook 'eldoc-mode)
+
 (defun clojure-mode-hooks ()
   (interactive)
   (clj-refactor-mode 1)
@@ -153,6 +158,7 @@
 (eval-after-load 'clojurescript-mode '(require 'clojure-mode-extra-font-locking))
 
 (setq clojure-defun-style-default-indent nil)
+(setq cljr-favor-prefix-notation nil)
 ;; (setq clojure-defun-style-default-indent t)
 
 ;; (defvar endless/clojure-prettify-alist '())
@@ -177,6 +183,8 @@
 
 ;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
 ;; (add-hook 'after-init-hook #'global-flycheck-mode)
+;; (eval-after-load 'flycheck
+;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 ;; (eval-after-load 'flycheck
 ;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
@@ -405,15 +413,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; make sure to run (run-python) https://github.com/bbatsov/prelude/issues/530
-;; (autoload 'jedi:setup "jedi" nil t)
-;; (add-hook 'python-mode-hook 'jedi:setup)
-;; (setq jedi:setup-keys t)
-;; (setq jedi:complete-on-dot t)
+(autoload 'jedi:setup "jedi" nil t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:setup-keys t)
+(setq jedi:complete-on-dot t)
 
 ;; eval-in-repl
-;; (require 'eval-in-repl)
-;; (require 'eval-in-repl-python)
-;; (define-key python-mode-map (kbd "H-e") 'eir-eval-in-python)
+(require 'eval-in-repl)
+(require 'eval-in-repl-python)
+(define-key python-mode-map (kbd "H-e") 'eir-eval-in-python)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -741,6 +749,8 @@ Including indent-buffer, which should not be called automatically on save."
   (save-and-format-buffer))
 
 (projectile-global-mode)
+;; https://github.com/bbatsov/projectile/issues/496
+(setq projectile-projects-cache (make-hash-table))
 (setq projectile-enable-caching t)
 (setq projectile-indexing-method 'alien)
 ;; (setq projectile-indexing-method 'native)
@@ -808,6 +818,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 (defun cider-namespace-refresh ()
   (interactive)
+  (evil-normal-state-and-save-buffer)
+
   (cider-interactive-eval
    "
 (do (require 'clojure.tools.namespace.repl)
@@ -827,6 +839,10 @@ Including indent-buffer, which should not be called automatically on save."
   (cider-refresh)
   (cider-test-rerun-test))
 
+;; (defun clojure-on-save ()
+;;   (interactive)
+;;   (cljr-clean-ns))
+
 (add-hook 'clojure-mode-hook
           (lambda ()
             (define-key clojure-mode-map (kbd "<f5>") 'cider-namespace-refresh)
@@ -841,6 +857,11 @@ Including indent-buffer, which should not be called automatically on save."
             (define-key clojure-mode-map (kbd "C-c C-p") 'cider-repl-previous-prompt)
             (auto-highlight-symbol-mode t)))
 
+(add-hook 'clojure-mode-hook
+          '(lambda () (add-hook 'after-save-hook
+                                (lambda ()
+                                  (if (and (boundp 'clojure-mode) clojure-mode)
+                                      (cljr-clean-ns))))))
 ;; hotloader
 (add-hook 'cider-mode-hook
           '(lambda () (add-hook 'after-save-hook

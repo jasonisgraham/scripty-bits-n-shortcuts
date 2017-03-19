@@ -5,6 +5,7 @@ alias d=docker
 alias dm=docker-machine
 alias dc=docker-compose
 alias swarm='docker run swarm'
+alias drun-bash='docker run -it --rm --entrypoint=bash '
 
 function refresh-stuff {
     __docker_machines_autocomplete=$(docker-machine ls -q)

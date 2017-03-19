@@ -1,14 +1,27 @@
 {:user {:plugins [[venantius/yagni "0.1.4"]
-                  [cider/cider-nrepl "0.15.0-SNAPSHOT"]
+                  ;; [cider/cider-nrepl "0.15.0-SNAPSHOT"]
+                  [cider/cider-nrepl "0.14.0"]
                   [refactor-nrepl "2.3.0-SNAPSHOT"]
                   [lein-ancient "0.6.8" :exclusions [org.clojure/clojure]]
+                  [lein-clean-m2 "0.1.2"]
                   ;; [venantius/ultra "0.3.4"] ; repl colors ; 0.4.0 fails, try later
-                  [jonase/eastwood "0.2.3"]
                   ;; [jonase/eastwood "0.2.1"] ; linting
                   ;; [lein-kibit "0.0.8"] ; idiomatic code
                   ;; [lein-bikeshed "0.2.0"] ; more linting
                   ;; [datomic-schema-grapher "0.0.1"] ; make pictures of schema
                   ;; [lein-autoreload "0.1.0"] ; sync file -> repl
+                  [jonase/eastwood "0.2.3"
+                   :exclusions [org.clojure/clojure]]
+                  [lein-bikeshed "0.3.0"
+                   :exclusions [org.clojure/clojure]]
+                  [lein-cloverage "1.0.6"
+                   :exclusions [org.clojure/clojure]]
+                  [lein-exec "0.3.6"
+                   :exclusions [org.clojure/clojure]]
+                  [lein-kibit "0.1.2"
+                   :exclusions [org.clojure/clojure]]
+                  [lein-shell "0.4.1"
+                   :exclusions [org.clojure/clojure]]
                   ]
         :dependencies [[org.clojure/tools.nrepl "0.2.12"]
                        [org.clojure/tools.namespace "0.3.0-alpha3"]

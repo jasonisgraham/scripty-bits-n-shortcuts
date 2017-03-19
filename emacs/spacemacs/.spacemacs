@@ -325,6 +325,9 @@ layers configuration. You are free to put any user code."
     (("LegalSifter" "http://wiki.legalsifter.com/" "jason" "jB%G5k2#P3Eu*Bf*2Q!&3acfZqw&&#SGdKPjtxU5" "Main Page"))))
  '(open-resource-ignore-patterns (quote ("/target/" "~$" ".old$" ".svn" "/bin/" ".class$")))
  '(org-startup-truncated nil)
+ '(package-selected-packages
+   (quote
+    (quelpa nrepl-eval-sexp-fu vimish-fold rainbow-delimiters package-build monokai-theme elisp-slime-nav clojure-snippets clojure-quick-repls clojure-mode-extra-font-locking clj-refactor auto-complete)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "grey8")
  '(projectile-enable-caching t)
