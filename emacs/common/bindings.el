@@ -343,6 +343,20 @@
 
 (global-set-key (kbd "C-c p s r") 'projectile-ag-regex)
 
+(defhydra hydra-git-gutter (:hint nil)
+  "
+           Hunk: _p_:previous _n_:next _s_:show _P_:popup _r_:revert
+           Misc: "
+
+  ("p" git-gutter+-previous-hunk)
+  ("n" git-gutter+-next-hunk)
+  ("s" git-gutter+-show-hunk-inline-at-point)
+  ("P" git-gutter+-popup-hunk)
+  ("r" git-gutter+-revert-hunk)
+  ("q" nil))
+
+(global-set-key (kbd "H-g") 	'hydra-git-gutter/body)
+
 ;; (when (require 'multi-term nil t)
 ;;   (global-set-key (kbd "<f5>") 'multi-term)
 ;;   (global-set-key (kbd "<C-next>") 'multi-term-next)

@@ -132,6 +132,7 @@ function bash_prompt {
     fi
 
     export PS1="\[$BGreen\]\u \t \[$BBlue\]${_pwd_display}${_docker_host_display}\[$Color_Off\]${git_info}\n\[$Color_Off\]↪ "
+    # export PS1="\[$BGreen\]\u \t \[$BBlue\]${_pwd_display}${_docker_host_display}\[$Color_Off\]${git_info}↪ "
 }
 
 function ps1-use-fullpath {
@@ -249,8 +250,10 @@ fi
 HISTCONTROL=ignoredups:ignorespace:erasedups # don't put duplicate lines in the history.
 HISTIGNORE="__move-down-directory:git shorty .:__move-up-directory:__ls-type:pwd:ls:cd:fg:top:source *:"
 shopt -s histappend # append to the history file, don't overwrite it
+# https://superuser.com/questions/479726/how-to-get-infinite-command-history-in-bash
+export HISTSIZE=""
 # shopt -s dotglob nullglob # http://unix.stackexchange.com/questions/6393/how-do-you-move-all-files-including-hidden-from-one-directory-to-another
-HISTSIZE=50000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+# HISTSIZE=50000 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTFILESIZE=20000
 # export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 export PROMPT_COMMAND="history -a; ${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}"
@@ -569,6 +572,7 @@ export TOMCAT_HOME=~/bin/apache-tomcat
 # nohup xscreensaver -no-splash > /dev/null 2>&1
 
 alias public-ip="wget http://ipinfo.io/ip -qO -"
+alias my-ip="public-ip"
 
 function date-current {
     date +"%Y-%m-%d"
@@ -596,6 +600,17 @@ alias fn="find . -name "
 alias fin="find . -iname "
 
 function stopwatch {
-	echo $(date)
-	while true; do echo -ne "$(date)\r"; done
+	  echo $(date)
+	  while true; do echo -ne "$(date)\r"; done
+}
+
+
+function toggle-microphone-mute {
+    msg=
+    if [ "$(amixer set Capture toggle | grep '\[on\]')" ]; then
+        msg="microphone is HOT"
+    else
+        msg="microphone is OFF"
+    fi
+    notify-send "$msg"
 }

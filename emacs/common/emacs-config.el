@@ -313,7 +313,13 @@
 ;; (company-emacs-eclim-setup)
 (global-company-mode t)
 (setq company-idle-delay 1)
+;; (company-quickhelp-mode 1)
 
+;; (defun my/python-mode-hook ()
+;;   (add-to-list 'company-backends 'company-jedi))
+
+;; (add-hook 'python-mode-hook 'my/python-mode-hook)
+;; (add-hook 'python-mode-hook 'run-python-internal)
 ;; (add-hook 'eclim-mode-hook (lambda ()
 ;;                              (global-set-key (kbd "M-C k") 'eclim-problems-correct)))
 
@@ -417,11 +423,16 @@
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
+(elpy-enable)
 
 ;; eval-in-repl
 (require 'eval-in-repl)
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "H-e") 'eir-eval-in-python)
+
+;; (when (require 'flycheck nil t)
+;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1004,6 +1015,9 @@ regular expression."
 (persp-turn-on-modestring)
 
 (global-flycheck-mode)
+;; https://github.com/flycheck/flycheck-pos-tip
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
 
 (defun print-major-mode ()
   (interactive)
