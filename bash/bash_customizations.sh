@@ -12,11 +12,17 @@
 
 # source ~/scripty-bits-n-shortcuts/bash/reset-input-preferences.sh
 
-function find-files-greater-than {
-    local dir="${1}"
-    local size="${2}"
-    find "${dir}" -size +${size} -printf "%k\t%p\n"
-}
+# function convert-all-files-to-pdf {
+#     find . -type f -name '*.*' -print0  | while IFS= read -r -d '' f; do
+#         abiword --to=pdf --verbose=2 --to-name="${f%.*}.pdf" "$f"
+#     done
+# }
+
+# function find-files-greater-than {
+#     local dir="${1}"
+#     local size="${2}"
+#     find "${dir}" -size +${size} -printf "%k\t%p\n"
+# }
 
 ## some common stuff
 function useful-stuff {
@@ -171,7 +177,7 @@ bind '"\ev"':self-insert
 # # aliases
 # #  human readable, all files minus . and .., append indicator, ignore backups
 alias ls="ls -h --color=always"
-__BASE_LS_COMMAND='ls -hBF --ignore=#* --color=always --group-directories-first'
+__BASE_LS_COMMAND='ls -hBF --ignore=#* --ignore=*pyc --ignore=__init__.py --color=always --group-directories-first'
 alias l=$__BASE_LS_COMMAND
 alias la="${__BASE_LS_COMMAND} -A"
 alias lah="${__BASE_LS_COMMAND} -Ahg"
@@ -248,7 +254,7 @@ fi
 #HISTORY_CUSTOMIZATIONS
 ##################################
 HISTCONTROL=ignoredups:ignorespace:erasedups # don't put duplicate lines in the history.
-HISTIGNORE="__move-down-directory:git shorty .:__move-up-directory:__ls-type:pwd:ls:cd:fg:top:source *:"
+HISTIGNORE="__move-down-directory:git shorty .:__move-up-directory:__ls-type:pwd:ls:cd:fg:top:source *:git status ."
 shopt -s histappend # append to the history file, don't overwrite it
 # https://superuser.com/questions/479726/how-to-get-infinite-command-history-in-bash
 export HISTSIZE=""
@@ -613,4 +619,13 @@ function toggle-microphone-mute {
         msg="microphone is OFF"
     fi
     notify-send "$msg"
+}
+
+
+# AWS security-groups route53 healthchecks
+function route53-health-checks-by-region {
+    # target-group
+    # add these ips for port 80
+    curl https://ip-ranges.amazonaws.com/ip-ranges.json 2> /dev/null | jq -r '.prefixes |.[] | select(.service | contains("ROUTE53_HEALTHCHECKS")) | select(.region | contains("us-east-1")) | .ip_prefix'
+    # 54.243.31.192/26, 107.23.255.0/26
 }

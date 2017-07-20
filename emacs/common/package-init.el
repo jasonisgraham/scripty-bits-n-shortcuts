@@ -1,5 +1,7 @@
 (setq package-list '(elisp-slime-nav
 
+		      linum-relative
+
                      ;; zencoding-mode
                      yasnippet auto-complete
                      vimish-fold
@@ -24,6 +26,7 @@
                      yaml-mode
                      markdown-mode
                      groovy-mode
+                     projectile
 
                      ;; display stuff
                      volatile-highlights
@@ -32,7 +35,7 @@
                      highlight-parentheses hl-anything
                      highlight-numbers
                      f
-                   ;;  emacs-eclim
+                     ;;  emacs-eclim
                      company
                      ag))
 

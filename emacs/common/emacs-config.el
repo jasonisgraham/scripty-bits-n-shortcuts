@@ -1,5 +1,6 @@
-;; (setq debug-on-error t)
+ ;; (setq debug-on-error t)
 (setq debug-on-error nil)
+
 
 (setq my-background-color "grey8")
 
@@ -44,6 +45,7 @@
 (defun reset-my-colors ()
   (interactive)
   (set-frame-parameter (selected-frame) 'alpha '(98 90))
+  ;; (set-frame-parameter (selected-frame) 'alpha '(100 100))
   (set-background-color my-background-color))
 
 (reset-my-colors)
@@ -114,6 +116,7 @@
 
   ;; (define-key clojure-mode-map (kbd "H-,") 'cider-test-run-tests)
   (define-key clojure-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test)
+  ;; (define-key clojure-mode-map (kbd "<f8>") 'cider-change-namespace-and-load-file)
   (define-key cider-mode-map (kbd "H-,") 'cider-projectile-run-clojure-test)
 
   (define-clojure-indent
@@ -181,13 +184,6 @@
   ;; (define-key clojure-mode-map "{" 'paredit-open-curly)
   )
 
-;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
-;; (eval-after-load 'flycheck
-;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-;; (eval-after-load 'flycheck
-;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-
 (setq cider-test-show-report-on-success nil)
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (setq nrepl-log-messages t)
@@ -196,7 +192,7 @@
 (setq cider-repl-result-prefix ";;=> ")
 (setq cider-prompt-save-file-on-load nil)
 (setq cider-repl-use-pretty-printing t)
-(setq cider-show-error-buffer nil)
+(setq cider-show-error-buffer t)
 ;; (setq cider-lein-parameters "with-profile +1.6 repl :headless")
 ;; add the pretty lambda symbols
 (setq global-prettify-symbols-mode t)
@@ -424,6 +420,13 @@
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
 (elpy-enable)
+
+;; Python Hook
+(add-hook 'python-mode-hook
+          (function (lambda ()
+                      (setq indent-tabs-mode nil
+                            tab-width 2))))
+(setq python-indent 2)
 
 ;; eval-in-repl
 (require 'eval-in-repl)
@@ -780,9 +783,6 @@ Including indent-buffer, which should not be called automatically on save."
 
 
 
-(global-visual-line-mode 1)
-(global-hl-line-mode +1)
-(set-face-background hl-line-face "gray15")
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (require 'hl-anything)
@@ -953,6 +953,10 @@ Including indent-buffer, which should not be called automatically on save."
                 (font-lock-mode 1))))
 
 
+(setq transient-mark-mode nil)
+(defun cider-change-namespace-and-load-file ()
+  )
+
 (defun cider-projectile-run-clojure-test ()
   "If active buffer is test file, run tests.  If not test file, find that buffer and run test.  If not a file, re-run last test"
   (interactive)
@@ -1023,9 +1027,11 @@ regular expression."
   (interactive)
   (message "%s" major-mode))
 
-(require 'git-gutter-fringe+)
-(global-git-gutter+-mode)
-(setq git-gutter-fr+-side 'right-fringe)
+;; (require 'git-gutter-fringe+)
+;; (global-git-gutter+-mode)
+;; (setq git-gutter-fr+-side 'left-fringe)
+
+
 
 
 ;;;###autoload
@@ -1075,6 +1081,46 @@ regular expression."
 (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 
 (setq global-command-log-mode 't)
+
+
+
+;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; (eval-after-load 'flycheck
+;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+;; (eval-after-load 'flycheck
+;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+
+;; https://wiki.sagemath.org/devel/nonASCII
+(defun non-ascii-char ()
+  "Find the first non-ASCII character from point onwards."
+  (interactive)
+  (let (point)
+    (save-excursion
+      (setq point
+            (catch 'non-ascii
+              (while (not (eobp))
+                (or (eq (char-charset (following-char))
+                        'ascii)
+                    (throw 'non-ascii (point)))
+                (forward-char 1)))))
+    (if point
+        (goto-char point)
+      (message "No non-ASCII characters."))))
+
+;; (global-git-gutter+-mode)
+
+;; (require 'git-gutter-fringe+)
+;; (setq git-gutter-fr+-side 'right-fringe)
+;; (setq git-gutter+-mode 't)
+;; (global-git-gutter-mode+ +1)
+;; (set-fringe-mode +10)
+
+(global-visual-line-mode 1)
+(global-hl-line-mode +1)
+(set-face-background hl-line-face "gray15")
+
 
 (provide 'emacs-config)
 ;;; emacs-config.el ends here

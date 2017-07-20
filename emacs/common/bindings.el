@@ -166,6 +166,7 @@
 
 ;; (define-key evil-normal-state-map (kbd "SPC SPC") nil)
 (define-key evil-insert-state-map (kbd "C-a") nil)
+(define-key evil-normal-state-map (kbd "SPC s m") '(lambda () (interactive) (push-mark nil nil t)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; do with H-j, M-j what you could do with <return> but less pink moving
@@ -345,8 +346,8 @@
 
 (defhydra hydra-git-gutter (:hint nil)
   "
-           Hunk: _p_:previous _n_:next _s_:show _P_:popup _r_:revert
-           Misc: "
+            Hunk: _p_:previous _n_:next _s_:show _P_:popup _r_:revert
+            Misc: "
 
   ("p" git-gutter+-previous-hunk)
   ("n" git-gutter+-next-hunk)
@@ -387,5 +388,6 @@
      (define-key term-raw-map (kbd "<f7> <f7>") '(ansi-term "/bin/bash"))))
 
 (global-set-key (kbd "C-S-<f11>") 'cider-save-and-rerun-test)
+
 (provide 'bindings)
 ;;; bindings.el ends here

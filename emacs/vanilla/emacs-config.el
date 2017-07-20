@@ -190,5 +190,5 @@
 ;; (require 'git-gutter-fringe+)
 ;; (setq git-gutter-fr+-side 'right-fringe)
 ;; (setq git-gutter+-mode 't)
-;; (global-git-gutter-mode +1)
+;; (global-git-gutter-mode+ +1)
 ;; (set-fringe-mode +10)

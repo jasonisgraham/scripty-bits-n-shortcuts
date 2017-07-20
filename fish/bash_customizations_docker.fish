@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/fish
 
 alias denv="env | grep DOCKER_"
 alias d=docker
@@ -72,7 +72,7 @@ function docker-containers-by-image-name {
     echo ${_container_ids}
 }
 
-function docker-rm-containers-by-image-name {
+function docker-rm-containers-by-image-name
     local _image_name="$1"
     if [[ "${_image_name}" ]]; then
         local _container_ids=$(docker-containers-by-image-name "${_image_name}")
@@ -81,20 +81,26 @@ function docker-rm-containers-by-image-name {
     else
         echo $__docker_image_names
     fi
-}
+end
 
 # remove docker images
-function docker-rm-untagged-images {
+function docker-rm-untagged-images
     docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
-}
+end
 
-function docker-rm-exited-containers {
+function docker-rm-exited-containers
     docker rm $(docker ps -a | grep Exited | awk '{print $1}')
-}
+end
 
-alias dm-ssh="docker-machine ssh $DOCKER_MACHINE_NAME"
-alias d-cmds='docker inspect -f "{{.Name}} {{.Config.Cmd}}" $(docker ps -q)'
-alias d-ps="docker ps --no-trunc"
+function dm-ssh
+    cmd="docker-machine ssh $DOCKER_MACHINE_NAME"
+    echo $cmd
+    $cmd
+end
+
+## to list names + untruncated commands
+alias d-cmds=docker inspect -f "{{.Name}} {{.Config.Cmd}}" $(docker ps -q)
+alias d-ps=docker ps --no-trunc
 
 # docker run  -e "LS_PIPELINE_PRODUCTION_MODELS_AND_INDEXES=/usr/src/app/data/production_models_and_indexes/09_models" -v /aws:/aws -v /nlp:/nlp  ls-pipeline:latest  runModels /nlp/data/bnym/01_preprocessing/02_output/supply2013-01-16.html.ocr-txt.xmi bnym
 # docker cp target/ls-ie-pipeline-0.0.1-SNAPSHOT-jar-with-dependencies.jar pensive_shirley:/usr/src/app/target/.

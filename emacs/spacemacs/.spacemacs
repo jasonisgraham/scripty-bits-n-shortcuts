@@ -29,7 +29,7 @@ values."
      org
      syntax-checking
      ;; yaml
-     ;; clojure
+     clojure
      ;; markdown
      )
 
