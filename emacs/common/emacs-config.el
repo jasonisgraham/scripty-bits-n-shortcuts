@@ -139,10 +139,15 @@
     (did-mount 1)))
 
 (add-hook 'prog-mode-hook 'linum-mode)
-
 (add-hook 'cider-mode-hook #'eldoc-mode)
+
+(defun cider-repl-mode-hooks ()
+  (interactive)
+  (setq auto-highlight-symbol-mode nil))
+
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
 (add-hook 'cider-repl-mode-hook #'cider-mode)
+(add-hook 'cider-repl-mode-hook #'cider-repl-mode-hooks)
 
 (dolist (hook '(clojure-mode-hook
                 cider-repl-mode
@@ -378,7 +383,8 @@
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".repl" "target" "*compiled*" "*goog*" ".metadata" "*.metadata*")))
- '(projectile-globally-ignored-files (quote ("TAGS" ".gitignore" ".emacs.desktop" "*#*#")))
+ '(projectile-globally-ignored-files (quote ("TAGS" ".gitignore" ".emacs.desktop" "*#*#" "*.xmi" "figwheel_server.log")))
+ '(projectile-globally-ignored-file-suffixes (quote ("xmi")))
  '(read-buffer-completion-ignore-case t)
  '(recentf-exclude (quote (".*ido\\.last" "/elpa/" ".*~$" ".*gz$")))
  '(recentf-keep (quote (recentf-keep-default-predicate)))
@@ -1022,6 +1028,9 @@ regular expression."
 ;; https://github.com/flycheck/flycheck-pos-tip
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
+
+;; https://emacs.stackexchange.com/questions/34337/flycheck-gives-errors-when-i-use-shellcheck-as-linter-for-bash-scripts
+(setq flycheck-shellcheck-follow-sources nil)
 
 (defun print-major-mode ()
   (interactive)

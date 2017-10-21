@@ -155,6 +155,8 @@ PROMPT_COMMAND=bash_prompt
 export EDITOR="vim"
 #export EDITOR="emacs"
 
+alias mvr="rsync --recursive --remove-source-files --progress"
+
 alias e="emacsclient"
 # export EDITOR="emacsclient"
 

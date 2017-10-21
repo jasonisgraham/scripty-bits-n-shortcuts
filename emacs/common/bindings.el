@@ -105,13 +105,21 @@
   '(progn
      (define-key undo-tree-map (kbd "C-r") nil)))
 
+;;
+(require 'org)
 (add-hook 'org-mode-hook
           (lambda ()
             (interactive)
             ;; (setq flyspell-mode t)
             (setq auto-highlight-symbol-mode nil)
             (define-key org-mode-map (kbd "M-S-<return>") 'org-insert-subheading)
-            (define-key org-mode-map (kbd "C-<return>")   'org-insert-heading-after-current)))
+            (define-key org-mode-map (kbd "C-<return>")   'org-insert-heading-after-current)
+
+            ;; stop taking my window shit org-mode!
+            (define-key org-mode-map (kbd "M-J") 'evil-window-down)
+            (define-key org-mode-map (kbd "M-K") 'evil-window-up)
+            (define-key org-mode-map (kbd "M-L") 'evil-window-right)
+            (define-key org-mode-map (kbd "M-H") 'evil-window-left)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -198,7 +206,7 @@
 (setq-default evil-escape-key-sequence "jk")
 
 ;; Magit rules!
-(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "H-g") 'magit-status)
 
 ;; c1,c2 -> will put these each on own line
 (fset 'sql-one-select-column-per-line
@@ -356,7 +364,7 @@
   ("r" git-gutter+-revert-hunk)
   ("q" nil))
 
-(global-set-key (kbd "H-g") 	'hydra-git-gutter/body)
+(global-set-key (kbd "C-x g") 'hydra-git-gutter/body)
 
 ;; (when (require 'multi-term nil t)
 ;;   (global-set-key (kbd "<f5>") 'multi-term)

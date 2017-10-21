@@ -31,6 +31,7 @@ values."
      ;; yaml
      clojure
      ;; markdown
+     python
      )
 
    ;; List of additional packages that will be installed without being

@@ -27,6 +27,8 @@
                 [org.clojure/tools.namespace "0.3.0-alpha3"]
                 [jonase/eastwood "0.2.4" :exclusions [org.clojure/clojure]]
                 [im.chit/vinyasa "0.3.4"] ; pull ; 0.4.2 fails, try later
+                [lein-pjotest "0.1.2-SNAPSHOT"]
+                [[junit/junit "4.11"]]
                 [spyscope "0.1.5"] ; fancy println
                 [alembic "0.3.2"] ; deps loading
                 [io.aviso/pretty "0.1.18"] ; stacktrace
